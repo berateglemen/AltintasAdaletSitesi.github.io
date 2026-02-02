@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Müşteri Ödeme Paneli</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <style>
+        body { background: #f1f1f1; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .login-card { max-width: 450px; margin: 100px auto; border-radius: 10px; overflow: hidden; }
+        .data-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #eee; }
+        .loader { display: none; }
+    </style>
+</head>
+<body>
+
+<div class="w3-container">
+    <div class="w3-card-4 w3-white login-card w3-animate-top">
+        <header class="w3-container w3-indigo w3-center w3-padding-16">
+            <h3><i class="fa fa-university"></i> Ödeme Takip Sistemi</h3>
+        </header>
+
+        <div id="loginArea" class="w3-container w3-padding-24">
+            <p class="w3-text-grey">Bilgilerinizi görmek için adınızı yazın:</p>
+            <div class="w3-row w3-section">
+                <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-user w3-text-indigo"></i></div>
+                <div class="w3-rest">
+                    <input class="w3-input w3-border w3-round" id="userName" type="text" placeholder="Ad Soyad">
+                </div>
+            </div>
+            <button onclick="verileriGetir()" class="w3-button w3-block w3-indigo w3-round-large w3-padding-large">
+                <i class="fa fa-search"></i> SORGULA
+            </button>
+            <div id="loader" class="w3-center w3-padding-16 loader">
+                <i class="fa fa-spinner w3-spin" style="font-size:32px"></i>
+            </div>
+        </div>
+
+        <div id="resultArea" class="w3-container w3-padding-24 w3-animate-bottom" style="display:none">
+            <div class="w3-center">
+                <div class="w3-circle w3-light-grey" style="width:80px; height:80px; line-height:80px; margin:0 auto">
+                    <i class="fa fa-id-card w3-xxlarge w3-text-indigo"></i>
+                </div>
+                <h4 id="resName" class="w3-bold"></h4>
+                <hr>
+            </div>
+
+            <div class="data-row">
+                <span><b>Ödenen Toplam:</b></span>
+                <span id="resOdenen" class="w3-text-green w3-bold"></span>
+            </div>
+            <div class="data-row">
+                <span><b>Güncel Borç:</b></span>
+                <span id="resBorc" class="w3-text-red w3-bold"></span>
+            </div>
+
+            <button onclick="location.reload()" class="w3-button w3-block w3-light-grey w3-margin-top w3-round">
+                <i class="fa fa-arrow-left"></i> Geri Dön
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+    function verileriGetir() {
+        const input = document.getElementById('userName').value.trim().toLowerCase();
+        if(!input) { alert("Lütfen bir isim girin!"); return; }
+
+        document.getElementById('loader').style.display = 'block';
+
+        // GitHub/Netlify üzerinde 'veriler.csv' dosyasını çeker
+        fetch('veriler.csv?v=' + new Date().getTime()) // v= parametresi önbelleği temizler
+        .then(response => response.text())
+        .then(csvText => {
+            // PapaParse hem virgül hem noktalı virgülü otomatik ayırır
+            const results = Papa.parse(csvText, {
+                header: true,
+                skipEmptyLines: true,
+                dynamicTyping: true
+            });
+
+            const data = results.data;
+            const kisi = data.find(row => 
+                (row.Isim && row.Isim.toString().toLowerCase() === input) ||
+                (row.Ad && row.Ad.toString().toLowerCase() === input)
+            );
+
+            setTimeout(() => {
+                document.getElementById('loader').style.display = 'none';
+                if(kisi) {
+                    document.getElementById('loginArea').style.display = 'none';
+                    document.getElementById('resultArea').style.display = 'block';
+                    
+                    document.getElementById('resName').innerText = (kisi.Isim || kisi.Ad).toUpperCase();
+                    document.getElementById('resOdenen').innerText = (kisi.Odenen || 0) + " TL";
+                    document.getElementById('resBorc').innerText = (kisi.Borc || 0) + " TL";
+                } else {
+                    alert("Kayıt bulunamadı. Lütfen isminizi kontrol edin.");
+                }
+            }, 500);
+        })
+        .catch(err => {
+            alert("Veri dosyasına ulaşılamadı!");
+            console.error(err);
+        });
+    }
+</script>
+
+</body>
+</html>
