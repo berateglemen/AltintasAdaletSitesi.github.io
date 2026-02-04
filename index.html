@@ -8,132 +8,84 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
     <style>
-        :root { 
-            --ana-turuncu: #f39c12; 
-            --koyu-turuncu: #d35400; 
-            --metin-gri: #2c3e50;
-            --arka-plan: #f8fafc;
-        }
+        :root { --ana-turuncu: #f39c12; --koyu-turuncu: #d35400; --metin-gri: #2c3e50; }
+        body { background: #f8fafc; font-family: 'Segoe UI', sans-serif; margin: 0; padding-top: 80px; }
 
-        body { 
-            background: var(--arka-plan); 
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            color: var(--metin-gri);
-            margin: 0; padding-top: 70px;
-        }
-
-        /* MODERN NAVBAR */
+        /* NAVBAR - BUTONLARIN ÜST ÜSTE BİNMESİ ENGELLENDİ */
         .navbar {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            height: 65px; width: 100%; position: fixed; top: 0; left: 0;
+            background: #fff; height: 70px; width: 100%; position: fixed; top: 0; left: 0;
             display: flex; align-items: center; justify-content: space-between;
-            padding: 0 20px; z-index: 1000;
-            border-bottom: 2px solid var(--ana-turuncu);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+            padding: 0 15px; z-index: 1000; border-bottom: 3px solid var(--ana-turuncu);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
-
-        .navbar-brand { 
-            font-weight: 800; font-size: 17px; letter-spacing: 0.5px;
-            text-transform: uppercase; color: var(--metin-gri);
-        }
+        .navbar-brand { font-weight: 800; font-size: 15px; text-transform: uppercase; color: var(--metin-gri); flex-shrink: 0; }
         .navbar-brand span { color: var(--ana-turuncu); }
 
+        .nav-buttons { display: flex; gap: 8px; flex-shrink: 0; }
         .nav-btn {
-            background: #fff; border: 1px solid #e2e8f0; padding: 7px 15px;
-            border-radius: 10px; font-size: 12px; font-weight: 700;
-            color: var(--metin-gri); text-decoration: none; transition: all 0.2s;
-            display: flex; align-items: center; gap: 6px;
+            background: #f8fafc; border: 1px solid #e2e8f0; padding: 6px 10px;
+            border-radius: 8px; font-size: 11px; font-weight: 700; color: var(--metin-gri);
+            text-decoration: none; display: flex; align-items: center; gap: 4px; transition: 0.2s;
         }
-        .nav-btn:hover { border-color: var(--ana-turuncu); transform: translateY(-1px); }
-        .nav-btn:active { transform: scale(0.95); }
+        .nav-btn:hover { border-color: var(--ana-turuncu); background: #fff; }
 
-        /* KART TASARIMI */
+        /* KART VE İÇERİK MERKEZLEME */
+        .main-container { display: flex; justify-content: center; align-items: center; min-height: calc(100vh - 100px); padding: 20px; }
         .resmi-kart {
-            background: #ffffff; border-radius: 24px; padding: 35px;
-            width: 95%; max-width: 400px; margin: 20px auto;
-            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.05), 0 10px 10px -5px rgba(0,0,0,0.02);
-            border: 1px solid rgba(0,0,0,0.03);
+            background: #fff; border-radius: 24px; padding: 30px;
+            width: 100%; max-width: 400px; box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+            text-align: center; border: 1px solid #f0f0f0;
         }
 
-        .kalan-borc-baslik {
-            font-size: 26px; font-weight: 900; text-align: center;
-            letter-spacing: 1px; margin-bottom: 25px;
-        }
-
-        /* INPUT GRUBU */
-        .input-alan {
-            width: 100%; padding: 14px 18px; margin-bottom: 15px;
-            border: 2px solid #f1f5f9; border-radius: 14px;
-            background: #f8fafc; font-size: 15px; font-weight: 500;
-            transition: all 0.3s; outline: none;
-        }
-        .input-alan:focus { border-color: var(--ana-turuncu); background: #fff; box-shadow: 0 0 0 4px rgba(243, 156, 18, 0.1); }
+        .kalan-borc-baslik { font-size: 24px; font-weight: 900; margin-bottom: 25px; letter-spacing: 1px; }
+        .input-alan { width: 100%; padding: 14px; margin-bottom: 12px; border: 2px solid #f1f5f9; border-radius: 12px; outline: none; transition: 0.3s; font-size: 15px; }
+        .input-alan:focus { border-color: var(--ana-turuncu); }
 
         .btn-giris {
-            width: 100%; padding: 16px; border: none; border-radius: 14px;
+            width: 100%; padding: 15px; border: none; border-radius: 12px;
             background: linear-gradient(135deg, var(--ana-turuncu), var(--koyu-turuncu));
-            color: white; font-weight: 700; font-size: 16px; cursor: pointer;
-            transition: all 0.3s; box-shadow: 0 10px 15px -3px rgba(243, 156, 18, 0.3);
+            color: white; font-weight: 700; font-size: 16px; cursor: pointer; transition: 0.3s;
         }
-        .btn-giris:hover { transform: translateY(-2px); box-shadow: 0 12px 20px -3px rgba(243, 156, 18, 0.4); }
-        .btn-giris:active { transform: scale(0.98); }
+        .btn-giris:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(243, 156, 18, 0.3); }
 
-        /* SONUÇ EKRANI DETAYLARI */
-        .borc-kutusu {
-            background: #fffcf0; border: 1px solid #fef3c7;
-            border-radius: 20px; padding: 25px; margin: 20px 0;
-        }
-        .borc-rakam { font-size: 42px; font-weight: 900; color: var(--koyu-turuncu); line-height: 1; }
-        
-        .iban-container {
-            background: #fff; border: 1.5px dashed #e2e8f0; border-radius: 16px;
-            padding: 15px; margin-top: 20px; position: relative;
-        }
-        .iban-text { font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 600; color: #475569; }
-        .copy-btn {
-            background: var(--ana-turuncu); border: none; color: white;
-            padding: 10px 14px; border-radius: 10px; cursor: pointer; transition: 0.2s;
-        }
-        .copy-btn:hover { background: var(--koyu-turuncu); }
-
-        .error-note { color: #94a3b8; font-size: 11px; text-align: center; margin-top: 20px; font-weight: 500; }
+        /* SONUÇ EKRANI */
+        .borc-kutusu { background: #fffcf0; border-radius: 18px; padding: 20px; margin: 20px 0; border: 1px solid #fef3c7; }
+        .borc-rakam { font-size: 38px; font-weight: 900; color: var(--koyu-turuncu); }
+        .iban-container { background: #fff; border: 1px dashed #ddd; border-radius: 12px; padding: 12px; margin-top: 15px; }
+        .iban-text { font-family: monospace; font-size: 13px; font-weight: bold; word-break: break-all; display: block; margin-bottom: 10px; }
+        .copy-btn { background: var(--ana-turuncu); border: none; color: white; padding: 8px 15px; border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold; }
     </style>
 </head>
 <body>
 
 <div class="navbar">
-    <div class="navbar-brand">ALTINTAŞ <span>ADALET SİTESİ</span></div>
+    <div class="navbar-brand">ALTINTAŞ <span>ADALET</span></div>
     <div class="nav-buttons">
-        <a href="anamenu.html" class="nav-btn"><i class="fa fa-th-large"></i> MENÜ</a>
+        <a href="anamenu.html" class="nav-btn"><i class="fa fa-home"></i> MENÜ</a>
         <button class="nav-btn" onclick="location.reload()"><i class="fa fa-refresh"></i> YENİLE</button>
     </div>
 </div>
 
-<div class="w3-container w3-animate-opacity">
-    <div class="resmi-kart">
+<div class="main-container">
+    <div class="resmi-kart w3-animate-zoom">
         <div id="girisEkrani">
             <h2 class="kalan-borc-baslik">KALAN BORÇ</h2>
             <input class="input-alan" type="text" id="blokDaire" placeholder="Blok - Daire (A-1)">
             <input class="input-alan" type="password" id="sifre" placeholder="Şifre">
             <button onclick="sorgula()" class="btn-giris">SORGULA</button>
-            <p class="error-note">Giriş başarısız olursa sayfayı yenileyin.</p>
         </div>
 
         <div id="sonucEkrani" style="display:none">
-            <h3 id="daireBaslik" style="font-weight: 800; text-align: center; color: var(--metin-gri);"></h3>
-            <div class="borc-kutusu w3-center">
-                <p style="font-size: 12px; font-weight: 700; color: #94a3b8; margin-bottom: 5px;">TOPLAM BORCUNUZ</p>
+            <h3 id="daireBaslik" style="font-weight: 800; color: var(--metin-gri); margin-bottom: 10px;"></h3>
+            <div class="borc-kutusu">
+                <span style="font-size: 11px; font-weight: 800; color: #94a3b8;">TOPLAM BORÇ</span>
                 <div id="borcMiktari" class="borc-rakam"></div>
                 <div class="iban-container">
-                    <p style="font-size: 10px; font-weight: 800; color: var(--ana-turuncu); margin-bottom: 8px;">RESMİ IBAN ADRESİ</p>
-                    <div style="display: flex; align-items: center; justify-content: space-between;">
-                        <span class="iban-text" id="ibanNum">TR430014300000000026762952</span>
-                        <button class="copy-btn" onclick="copyIban()"><i class="fa fa-clone"></i></button>
-                    </div>
+                    <span class="iban-text" id="ibanNum">TR430014300000000026762952</span>
+                    <button class="copy-btn" onclick="copyIban()">KOPYALA</button>
                 </div>
             </div>
-            <button onclick="location.reload()" style="width:100%; background:none; border:none; color:#94a3b8; font-weight:700; cursor:pointer; font-size:12px;">GÜVENLİ ÇIKIŞ</button>
+            <button onclick="location.reload()" style="background:none; border:none; color:#aaa; cursor:pointer; font-weight:bold; font-size:12px;">GERİ DÖN</button>
         </div>
     </div>
 </div>
@@ -146,6 +98,7 @@
     function sorgula() {
         const bd = document.getElementById('blokDaire').value.trim().toUpperCase();
         const sifre = document.getElementById('sifre').value.trim();
+        if(!bd || !sifre) { alert("Lütfen alanları doldurun"); return; }
         fetch('yonetim_data_982x_p7.csv?t=' + Date.now())
         .then(res => res.text())
         .then(csvText => {
