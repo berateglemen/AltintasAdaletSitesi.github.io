@@ -3,47 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Altıntaş Adalet Sitesi</title>
+    <title>Altıntaş Adalet - Sorgulama</title>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
     <style>
-        :root { --ana-turuncu: #f39c12; --koyu-turuncu: #e67e22; --metin-gri: #34495e; }
-        body, html { height: 100%; margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-        body { background: #f4f7f6; padding-top: 70px; }
+        :root { 
+            --ana-turuncu: #f39c12; 
+            --koyu-turuncu: #d35400; 
+            --metin-gri: #2c3e50;
+            --arka-plan: #f8fafc;
+        }
+
+        body { 
+            background: var(--arka-plan); 
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            color: var(--metin-gri);
+            margin: 0; padding-top: 70px;
+        }
 
         /* MODERN NAVBAR */
         .navbar {
-            background: #ffffff; height: 60px; width: 100%; position: fixed; top: 0; left: 0;
-            display: flex; align-items: center; justify-content: space-between; padding: 0 20px;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.05); z-index: 1000; border-bottom: 2px solid var(--ana-turuncu);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            height: 65px; width: 100%; position: fixed; top: 0; left: 0;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 20px; z-index: 1000;
+            border-bottom: 2px solid var(--ana-turuncu);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
         }
+
         .navbar-brand { 
-            font-weight: 700; color: var(--metin-gri); font-size: 17px; 
-            letter-spacing: 0.8px; text-transform: uppercase;
+            font-weight: 800; font-size: 17px; letter-spacing: 0.5px;
+            text-transform: uppercase; color: var(--metin-gri);
         }
-        .navbar-brand span { color: var(--ana-turuncu); font-weight: 800; }
+        .navbar-brand span { color: var(--ana-turuncu); }
 
-        .nav-buttons { display: flex; gap: 10px; }
         .nav-btn {
-            background: #fff; border: 1.5px solid #eee; padding: 6px 14px; border-radius: 8px;
-            cursor: pointer; font-size: 12px; color: var(--metin-gri); text-decoration: none;
-            font-weight: 600; transition: 0.3s ease;
+            background: #fff; border: 1px solid #e2e8f0; padding: 7px 15px;
+            border-radius: 10px; font-size: 12px; font-weight: 700;
+            color: var(--metin-gri); text-decoration: none; transition: all 0.2s;
+            display: flex; align-items: center; gap: 6px;
         }
-        .nav-btn:hover { border-color: var(--ana-turuncu); color: var(--ana-turuncu); }
+        .nav-btn:hover { border-color: var(--ana-turuncu); transform: translateY(-1px); }
+        .nav-btn:active { transform: scale(0.95); }
 
-        .container-center { display: flex; align-items: center; justify-content: center; min-height: calc(100vh - 70px); }
-        .resmi-kart { background: #ffffff; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.04); width: 95%; max-width: 380px; padding: 30px; border: 1px solid #f0f0f0; }
-        .kalan-borc-baslik { font-size: 24px; font-weight: 800; color: var(--metin-gri); letter-spacing: 1px; text-align: center; margin-bottom: 20px; }
-        .input-alan { border: 1.5px solid #eee !important; border-radius: 10px !important; padding: 12px !important; width: 100%; font-size: 15px; margin-bottom: 12px; outline: none; transition: 0.3s; }
-        .input-alan:focus { border-color: var(--ana-turuncu) !important; }
-        .btn-giris { background: var(--ana-turuncu); color: white !important; border-radius: 10px; font-weight: 700; padding: 14px !important; border: none; width: 100%; cursor: pointer; font-size: 15px; transition: 0.3s; }
-        .btn-giris:hover { background: var(--koyu-turuncu); }
-        .borc-ekrani { background: #fffcf7; padding: 20px; border-radius: 15px; border: 1px solid #fff3e0; margin-top: 15px; }
-        .borc-rakam { font-size: 38px; font-weight: 800; color: var(--koyu-turuncu); }
-        .iban-container { background: #fff; border: 1px dashed #ddd; border-radius: 12px; padding: 12px; margin-top: 15px; }
-        .iban-text { font-family: 'Courier New', monospace; font-size: 13px; font-weight: bold; }
-        .copy-btn { background: var(--ana-turuncu); border: none; color: white; padding: 8px 12px; border-radius: 8px; cursor: pointer; }
+        /* KART TASARIMI */
+        .resmi-kart {
+            background: #ffffff; border-radius: 24px; padding: 35px;
+            width: 95%; max-width: 400px; margin: 20px auto;
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.05), 0 10px 10px -5px rgba(0,0,0,0.02);
+            border: 1px solid rgba(0,0,0,0.03);
+        }
+
+        .kalan-borc-baslik {
+            font-size: 26px; font-weight: 900; text-align: center;
+            letter-spacing: 1px; margin-bottom: 25px;
+        }
+
+        /* INPUT GRUBU */
+        .input-alan {
+            width: 100%; padding: 14px 18px; margin-bottom: 15px;
+            border: 2px solid #f1f5f9; border-radius: 14px;
+            background: #f8fafc; font-size: 15px; font-weight: 500;
+            transition: all 0.3s; outline: none;
+        }
+        .input-alan:focus { border-color: var(--ana-turuncu); background: #fff; box-shadow: 0 0 0 4px rgba(243, 156, 18, 0.1); }
+
+        .btn-giris {
+            width: 100%; padding: 16px; border: none; border-radius: 14px;
+            background: linear-gradient(135deg, var(--ana-turuncu), var(--koyu-turuncu));
+            color: white; font-weight: 700; font-size: 16px; cursor: pointer;
+            transition: all 0.3s; box-shadow: 0 10px 15px -3px rgba(243, 156, 18, 0.3);
+        }
+        .btn-giris:hover { transform: translateY(-2px); box-shadow: 0 12px 20px -3px rgba(243, 156, 18, 0.4); }
+        .btn-giris:active { transform: scale(0.98); }
+
+        /* SONUÇ EKRANI DETAYLARI */
+        .borc-kutusu {
+            background: #fffcf0; border: 1px solid #fef3c7;
+            border-radius: 20px; padding: 25px; margin: 20px 0;
+        }
+        .borc-rakam { font-size: 42px; font-weight: 900; color: var(--koyu-turuncu); line-height: 1; }
+        
+        .iban-container {
+            background: #fff; border: 1.5px dashed #e2e8f0; border-radius: 16px;
+            padding: 15px; margin-top: 20px; position: relative;
+        }
+        .iban-text { font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 600; color: #475569; }
+        .copy-btn {
+            background: var(--ana-turuncu); border: none; color: white;
+            padding: 10px 14px; border-radius: 10px; cursor: pointer; transition: 0.2s;
+        }
+        .copy-btn:hover { background: var(--koyu-turuncu); }
+
+        .error-note { color: #94a3b8; font-size: 11px; text-align: center; margin-top: 20px; font-weight: 500; }
     </style>
 </head>
 <body>
@@ -51,42 +105,43 @@
 <div class="navbar">
     <div class="navbar-brand">ALTINTAŞ <span>ADALET SİTESİ</span></div>
     <div class="nav-buttons">
-        <a href="anamenu.html" class="nav-btn">MENÜ</a>
-        <button class="nav-btn" onclick="location.reload()">YENİLE</button>
+        <a href="anamenu.html" class="nav-btn"><i class="fa fa-th-large"></i> MENÜ</a>
+        <button class="nav-btn" onclick="location.reload()"><i class="fa fa-refresh"></i> YENİLE</button>
     </div>
 </div>
 
-<div class="container-center">
-    <div class="resmi-kart w3-animate-opacity">
+<div class="w3-container w3-animate-opacity">
+    <div class="resmi-kart">
         <div id="girisEkrani">
             <h2 class="kalan-borc-baslik">KALAN BORÇ</h2>
-            <div class="w3-section">
-                <input class="input-alan" type="text" id="blokDaire" placeholder="Blok - Daire (Örn: A-1)">
-                <input class="input-alan" type="password" id="sifre" placeholder="Şifre">
-            </div>
+            <input class="input-alan" type="text" id="blokDaire" placeholder="Blok - Daire (A-1)">
+            <input class="input-alan" type="password" id="sifre" placeholder="Şifre">
             <button onclick="sorgula()" class="btn-giris">SORGULA</button>
-            <p style="color: #999; font-size: 11px; text-align: center; margin-top: 15px;">Bilgiler hatalıysa sayfayı yenileyiniz.</p>
+            <p class="error-note">Giriş başarısız olursa sayfayı yenileyin.</p>
         </div>
 
         <div id="sonucEkrani" style="display:none">
-            <h3 id="daireBaslik" style="color: var(--ana-turuncu); font-weight: 800; text-align: center;"></h3>
-            <div class="borc-ekrani w3-center">
+            <h3 id="daireBaslik" style="font-weight: 800; text-align: center; color: var(--metin-gri);"></h3>
+            <div class="borc-kutusu w3-center">
+                <p style="font-size: 12px; font-weight: 700; color: #94a3b8; margin-bottom: 5px;">TOPLAM BORCUNUZ</p>
                 <div id="borcMiktari" class="borc-rakam"></div>
                 <div class="iban-container">
-                    <span class="iban-text" id="ibanNum">TR430014300000000026762952</span>
-                    <button class="copy-btn" onclick="copyIban()"><i class="fa fa-clone"></i></button>
+                    <p style="font-size: 10px; font-weight: 800; color: var(--ana-turuncu); margin-bottom: 8px;">RESMİ IBAN ADRESİ</p>
+                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                        <span class="iban-text" id="ibanNum">TR430014300000000026762952</span>
+                        <button class="copy-btn" onclick="copyIban()"><i class="fa fa-clone"></i></button>
+                    </div>
                 </div>
             </div>
-            <button onclick="location.reload()" style="width:100%; background:none; border:none; color:#aaa; margin-top:15px; cursor:pointer; font-size:12px;">ÇIKIŞ YAP</button>
+            <button onclick="location.reload()" style="width:100%; background:none; border:none; color:#94a3b8; font-weight:700; cursor:pointer; font-size:12px;">GÜVENLİ ÇIKIŞ</button>
         </div>
     </div>
 </div>
 
 <script>
     function copyIban() {
-        const iban = document.getElementById('ibanNum').innerText;
-        navigator.clipboard.writeText(iban);
-        alert("IBAN Kopyalandı");
+        navigator.clipboard.writeText(document.getElementById('ibanNum').innerText);
+        alert("IBAN Kopyalandı!");
     }
     function sorgula() {
         const bd = document.getElementById('blokDaire').value.trim().toUpperCase();
@@ -101,7 +156,7 @@
                 document.getElementById('sonucEkrani').style.display = "block";
                 document.getElementById('daireBaslik').innerText = daire.BlokDaire + " NOLU DAİRE";
                 document.getElementById('borcMiktari').innerText = daire.Borc + " TL";
-            } else { alert("Giriş başarısız!"); }
+            } else { alert("Bilgiler hatalı!"); }
         });
     }
 </script>
