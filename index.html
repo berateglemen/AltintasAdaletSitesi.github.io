@@ -3,123 +3,137 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Borç Sorgulama Sistemi</title>
+    <title>Yönetim Bilgi Sistemi</title>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
     <style>
         :root {
             --ana-kirmizi: #e30a17;
-            --koyu-gri: #333333;
-            --acik-gri: #f8f8f8;
+            --koyu-gri: #2d3436;
         }
 
-        body { 
-            background-color: var(--acik-gri);
-            height: 100vh;
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Türk Bayrağı Arka Planı */
+        body {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+                        url('https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Flag_of_Turkey.svg/1200px-Flag_of_Turkey.svg.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-family: 'Segoe UI', Arial, sans-serif;
-            margin: 0;
         }
 
+        /* Cihaza Göre Genişlik Ayarı (Responsive) */
         .resmi-kart {
-            background: #ffffff;
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-            width: 90%;
-            max-width: 380px;
-            border-top: 5px solid var(--ana-kirmizi);
-            overflow: hidden;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            border-top: 8px solid var(--ana-kirmizi);
+            width: 95%; /* Mobil varsayılan */
+            transition: all 0.3s ease;
         }
+
+        /* Tablet ve Bilgisayar Ayarı */
+        @media (min-width: 600px) { .resmi-kart { width: 70%; max-width: 450px; } }
+        @media (min-width: 1000px) { .resmi-kart { width: 400px; } }
 
         .input-alan {
-            border: 1px solid #ddd !important;
-            border-radius: 8px !important;
-            padding: 14px !important;
+            border: 2px solid #ddd !important;
+            border-radius: 10px !important;
+            padding: 15px !important;
             margin-top: 5px;
-            background: #fdfdfd;
+            font-size: 16px;
         }
 
-        .btn-kirmizi {
+        .input-alan:focus {
+            border-color: var(--ana-kirmizi) !important;
+            background: #fff;
+        }
+
+        .btn-giris {
             background-color: var(--ana-kirmizi) !important;
             color: white !important;
-            border-radius: 8px;
-            font-weight: 600;
-            padding: 14px !important;
+            border-radius: 10px;
+            font-weight: bold;
+            padding: 16px !important;
             margin-top: 25px;
+            font-size: 18px;
             border: none;
-            cursor: pointer;
             width: 100%;
+            cursor: pointer;
         }
 
-        .borc-kutusu {
-            background: #fff5f5;
-            padding: 25px;
-            border-radius: 12px;
+        .borc-ekrani {
+            background: #fdf2f2;
+            padding: 30px;
+            border-radius: 15px;
             margin-top: 20px;
-            border: 1px solid #ffe3e3;
-            text-align: center;
+            border: 2px solid #fee2e2;
         }
 
-        .borc-miktar {
-            font-size: 32px;
-            font-weight: 800;
+        .borc-rakam {
+            font-size: 42px;
+            font-weight: 900;
             color: var(--ana-kirmizi);
-            margin: 10px 0;
+            margin: 15px 0;
         }
 
-        .yukleniyor {
+        .spinner {
             display: none;
-            margin: 15px auto;
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid var(--ana-kirmizi);
+            margin: 20px auto;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--ana-kirmizi);
             border-radius: 50%;
-            width: 28px;
-            height: 28px;
+            width: 35px; height: 35px;
             animation: spin 1s linear infinite;
         }
-
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
-<div class="w3-card resmi-kart w3-animate-opacity">
+<div class="w3-card resmi-kart w3-animate-zoom">
     <div id="girisEkrani" class="w3-container w3-padding-32">
-        <div class="w3-center">
-            <h4 style="font-weight: 800; color: var(--koyu-gri); letter-spacing: 1px;">BORÇ SORGULAMA</h4>
-            <p class="w3-small w3-text-grey">Bilgilerinize erişmek için giriş yapın</p>
+        <div class="w3-center w3-margin-bottom">
+            <h2 style="font-weight: 900; color: var(--koyu-gri);">YÖNETİM SİSTEMİ</h2>
+            <div style="width: 50px; height: 3px; background: var(--ana-kirmizi); margin: 10px auto;"></div>
         </div>
 
         <div class="w3-section">
-            <label class="w3-tiny w3-bold w3-text-grey">AD SOYAD</label>
-            <input class="w3-input input-alan" type="text" id="adSoyad" placeholder="Örn: Ahmet Yılmaz">
+            <label class="w3-small w3-bold">BLOK - DAİRE NO</label>
+            <input class="w3-input input-alan" type="text" id="blokDaire" placeholder="Örn: A-12">
         </div>
 
         <div class="w3-section">
-            <label class="w3-tiny w3-bold w3-text-grey">GİRİŞ KODU</label>
-            <input class="w3-input input-alan" type="password" id="girisKodu" placeholder="****">
+            <label class="w3-small w3-bold">ŞİFRE</label>
+            <input class="w3-input input-alan" type="password" id="sifre" placeholder="****">
         </div>
 
-        <button onclick="sorgula()" class="btn-kirmizi">GİRİŞ</button>
-        <div id="spinner" class="yukleniyor"></div>
+        <button onclick="sorgula()" class="btn-giris">GİRİŞ</button>
+        <div id="loader" class="spinner"></div>
     </div>
 
     <div id="sonucEkrani" class="w3-container w3-padding-32" style="display:none">
         <div class="w3-center">
-            <h5 id="kullaniciAdi" style="font-weight: 700; color: var(--koyu-gri);"></h5>
-            <p class="w3-small w3-text-grey">Güncel Borç Durumunuz</p>
+            <h3 id="daireBaslik" style="font-weight: 800; color: var(--koyu-gri);"></h3>
+            <p class="w3-text-grey">Güncel Borç Bilgisi</p>
         </div>
 
-        <div class="borc-kutusu">
-            <span class="w3-small w3-text-grey w3-uppercase">Toplam Borç</span>
-            <div id="borcTutari" class="borc-miktar"></div>
-            <span class="w3-tiny w3-text-grey">Son Güncelleme: <span id="tarih"></span></span>
+        <div class="borc-ekrani w3-center">
+            <span class="w3-small w3-text-grey w3-uppercase">Ödenmesi Gereken</span>
+            <div id="borcMiktari" class="borc-rakam"></div>
+            <p class="w3-tiny w3-text-grey">Sistem saati: <span id="saat"></span></p>
         </div>
 
-        <button onclick="location.reload()" class="w3-button w3-block w3-light-grey w3-round-large w3-margin-top w3-small">
+        <button onclick="location.reload()" class="w3-button w3-block w3-light-grey w3-round-large w3-margin-top">
             ÇIKIŞ
         </button>
     </div>
@@ -127,29 +141,29 @@
 
 <script>
     function sorgula() {
-        const ad = document.getElementById('adSoyad').value.trim().toLowerCase();
-        const kod = document.getElementById('girisKodu').value.trim();
+        const bd = document.getElementById('blokDaire').value.trim().toUpperCase();
+        const sifre = document.getElementById('sifre').value.trim();
 
-        if(!ad || !kod) { alert("Lütfen tüm alanları doldurun."); return; }
+        if(!bd || !sifre) { alert("Lütfen giriş bilgilerini doldurun."); return; }
 
-        document.getElementById('spinner').style.display = "block";
+        document.getElementById('loader').style.display = "block";
 
         fetch('veriler.csv?t=' + Date.now())
         .then(res => res.text())
-        .then(csv => {
-            const data = Papa.parse(csv, {header:true, skipEmptyLines: true}).data;
-            const kisi = data.find(u => u.Isim && u.Isim.toLowerCase() === ad && u.Kod == kod);
+        .then(csvText => {
+            const results = Papa.parse(csvText, {header:true, skipEmptyLines: true}).data;
+            const daire = results.find(u => u.BlokDaire && u.BlokDaire.toUpperCase() === bd && u.Sifre == sifre);
 
             setTimeout(() => {
-                document.getElementById('spinner').style.display = "none";
-                if(kisi) {
+                document.getElementById('loader').style.display = "none";
+                if(daire) {
                     document.getElementById('girisEkrani').style.display = "none";
                     document.getElementById('sonucEkrani').style.display = "block";
-                    document.getElementById('kullaniciAdi').innerText = kisi.Isim.toUpperCase();
-                    document.getElementById('borcTutari').innerText = (kisi.Borc || "0") + " TL";
-                    document.getElementById('tarih').innerText = new Date().toLocaleDateString('tr-TR');
+                    document.getElementById('daireBaslik').innerText = daire.BlokDaire + " NOLU DAİRE";
+                    document.getElementById('borcMiktari').innerText = daire.Borc + " TL";
+                    document.getElementById('saat').innerText = new Date().toLocaleString('tr-TR');
                 } else {
-                    alert("Bilgiler uyuşmuyor!");
+                    alert("Blok/Daire veya Şifre hatalı!");
                 }
             }, 600);
         });
@@ -157,5 +171,5 @@
 </script>
 
 </body>
-                                                                   </html>
-        
+    </html>
+    
