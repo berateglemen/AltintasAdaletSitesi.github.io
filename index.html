@@ -8,81 +8,157 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
     <style>
-        :root { --ana-turuncu: #fe8e2d; --hayalet-beyazı: #F8F8FF; }
-        body, html { height: 100%; margin: 0; font-family: 'Segoe UI', sans-serif; }
-    <body style="background-color:#FF0000;">
-    </body>
-        .resmi-kart {
-            background: rgba(255, 255, 255, 0.98); border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4); border-top: 8px solid var(--ana-kirmizi);
-            width: 95%; transition: all 0.3s ease;
+        /* Modern Turuncu & Beyaz Tema */
+        :root { 
+            --ana-turuncu: #f39c12; 
+            --koyu-turuncu: #e67e22;
+            --soft-beyaz: #f9f9f9;
+            --metin-gri: #2d3436; 
         }
+
+        body, html { height: 100%; margin: 0; font-family: 'Segoe UI', Tahoma, sans-serif; }
+        
+        body {
+            background: radial-gradient(circle, #ffffff 0%, #dfe6e9 100%);
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+        }
+
+        .resmi-kart {
+            background: #ffffff; 
+            border-radius: 24px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1); 
+            border-top: 10px solid var(--ana-turuncu);
+            width: 95%; 
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
         @media (min-width: 600px) { .resmi-kart { width: 400px; } }
 
-        .input-alan { border: 2px solid #ddd !important; border-radius: 10px !important; padding: 12px !important; }
-        .btn-giris { background-color: var(--ana-kirmizi) !important; color: white !important; border-radius: 10px; font-weight: bold; padding: 15px !important; border: none; width: 100%; cursor: pointer; }
-        
-        .borc-ekrani { background: #fff5f5; padding: 20px; border-radius: 15px; border: 1px solid #fee2e2; }
-        .borc-rakam { font-size: 38px; font-weight: 900; color: var(--ana-kirmizi); margin: 5px 0; }
+        .input-alan { 
+            border: 2px solid #eee !important; 
+            border-radius: 12px !important; 
+            padding: 14px !important;
+            background: var(--soft-beyaz);
+        }
 
-        /* IBAN Kutusu ve Animasyonlar */
+        .input-alan:focus {
+            border-color: var(--ana-turuncu) !important;
+            background: #fff;
+        }
+
+        .btn-giris { 
+            background: linear-gradient(to right, var(--ana-turuncu), var(--koyu-turuncu)) !important; 
+            color: white !important; 
+            border-radius: 12px; 
+            font-weight: bold; 
+            padding: 16px !important; 
+            border: none; 
+            width: 100%; 
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(243, 156, 18, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-giris:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(243, 156, 18, 0.4); }
+        
+        .borc-ekrani { 
+            background: #fff9f1; 
+            padding: 25px; 
+            border-radius: 18px; 
+            border: 1px solid #feeaa0; 
+        }
+
+        .borc-rakam { 
+            font-size: 42px; 
+            font-weight: 900; 
+            color: var(--koyu-turuncu); 
+            margin: 10px 0; 
+        }
+
         .iban-container {
-            background: #f8f9fa; border: 1px dashed #ccc; border-radius: 12px;
-            padding: 15px; margin-top: 15px; position: relative; transition: all 0.3s;
+            background: #ffffff; 
+            border: 1.5px dashed var(--ana-turuncu); 
+            border-radius: 15px;
+            padding: 15px; 
+            margin-top: 15px; 
+            position: relative;
         }
-        .iban-text { font-family: monospace; font-size: 13px; color: #444; display: block; margin-bottom: 5px; }
+
+        .iban-text { 
+            font-family: 'Courier New', monospace; 
+            font-size: 13px; 
+            color: var(--metin-gri); 
+            font-weight: bold;
+        }
+
         .copy-btn { 
-            background: none; border: none; color: var(--ana-kirmizi); cursor: pointer; 
-            padding: 5px; transition: transform 0.2s; 
+            background: var(--ana-turuncu); 
+            border: none; 
+            color: white; 
+            cursor: pointer; 
+            padding: 8px 12px; 
+            border-radius: 8px;
+            transition: all 0.2s; 
         }
-        .copy-btn:active { transform: scale(1.3); }
+
+        .copy-btn:hover { background: var(--koyu-turuncu); }
+        .copy-btn:active { transform: scale(0.9); }
         
         .toast {
-            position: absolute; top: -30px; left: 50%; transform: translateX(-50%);
-            background: var(--koyu-gri); color: white; padding: 4px 10px;
-            border-radius: 5px; font-size: 11px; display: none; animation: fadeInUp 0.3s;
+            position: absolute; top: -35px; left: 50%; transform: translateX(-50%);
+            background: #2d3436; color: white; padding: 5px 12px;
+            border-radius: 20px; font-size: 11px; display: none; 
+            animation: fadeInUp 0.3s;
         }
+
         @keyframes fadeInUp { from { opacity: 0; transform: translate(-50%, 10px); } to { opacity: 1; transform: translate(-50%, 0); } }
+
+        .daire-no { color: var(--ana-turuncu); font-weight: 900; }
     </style>
 </head>
 <body>
 
-<div class="w3-card resmi-kart w3-animate-zoom">
+<div class="w3-card resmi-kart w3-animate-bottom">
     <div id="girisEkrani" class="w3-container w3-padding-32">
         <div class="w3-center w3-margin-bottom">
-            <h2 style="font-weight: 900; color: var(--koyu-gri);">ALTINTAŞ ADALET SİTESİ</h2>
-            <div style="width: 50px; height: 3px; background: var(--ana-kirmizi); margin: 10px auto;"></div>
+            <h2 style="font-weight: 900; color: var(--metin-gri); margin:0;">YÖNETİM SİSTEMİ</h2>
+            <div style="width: 60px; height: 4px; background: var(--ana-turuncu); margin: 12px auto; border-radius:2px;"></div>
+            <p class="w3-text-grey w3-small">Blok ve Daire bilgilerinizle giriş yapın</p>
         </div>
         <div class="w3-section">
-            <label class="w3-small w3-bold">BLOK - DAİRE NO</label>
+            <label class="w3-small w3-bold w3-text-grey">BLOK - DAİRE NO</label>
             <input class="w3-input input-alan" type="text" id="blokDaire" placeholder="Örn: A-12">
         </div>
         <div class="w3-section">
-            <label class="w3-small w3-bold">ŞİFRE</label>
+            <label class="w3-small w3-bold w3-text-grey">ŞİFRE</label>
             <input class="w3-input input-alan" type="password" id="sifre" placeholder="****">
         </div>
-        <button onclick="sorgula()" class="btn-giris">GİRİŞ</button>
+        <button onclick="sorgula()" class="btn-giris">SİSTEME GİRİŞ</button>
     </div>
 
     <div id="sonucEkrani" class="w3-container w3-padding-24" style="display:none">
         <div class="w3-center">
-            <h3 id="daireBaslik" style="font-weight: 800; color: var(--koyu-gri); margin: 0;"></h3>
-            <p class="w3-text-grey w3-small">Güncel Borç Bilgisi</p>
+            <h3 id="daireBaslik" class="daire-no" style="margin: 0;"></h3>
+            <p class="w3-text-grey w3-small w3-margin-bottom">Güncel Aidat / Borç Durumu</p>
         </div>
 
         <div class="borc-ekrani w3-center">
-            <span class="w3-small w3-text-grey w3-uppercase">Ödenmesi Gereken</span>
+            <span class="w3-small w3-text-grey w3-uppercase w3-bold" style="letter-spacing:1px;">Ödenmesi Gereken</span>
             <div id="borcMiktari" class="borc-rakam"></div>
-            <p class="w3-tiny w3-text-grey" style="margin:0">Sistem saati: <span id="saat"></span></p>
+            <p class="w3-tiny w3-text-grey" style="margin-top:0">Güncelleme: <span id="saat"></span></p>
             
             <div class="iban-container">
-                <div id="toast" class="toast">Kopyalandı!</div>
-                <strong class="w3-small" style="color: #d63031;">ALTINTAŞ ADALET SİTESİ</strong>
-                <div class="w3-row w3-margin-top">
-                    <div class="w3-col s10">
+                <div id="toast" class="toast">Başarıyla Kopyalandı!</div>
+                <strong class="w3-small" style="color: var(--koyu-turuncu);">ALTINTAŞ ADALET SİTESİ</strong>
+                <div class="w3-row w3-margin-top w3-flex" style="display:flex; align-items:center;">
+                    <div class="w3-col s9">
                         <span class="iban-text" id="ibanNum">TR430014300000000026762952</span>
                     </div>
-                    <div class="w3-col s2">
+                    <div class="w3-col s3">
                         <button class="copy-btn" onclick="copyIban()" title="Kopyala">
                             <i class="fa fa-clone"></i>
                         </button>
@@ -91,7 +167,7 @@
             </div>
         </div>
 
-        <button onclick="location.reload()" class="w3-button w3-block w3-light-grey w3-round-large w3-margin-top w3-small">ÇIKIŞ</button>
+        <button onclick="location.reload()" class="w3-button w3-block w3-white w3-border w3-border-light-grey w3-round-large w3-margin-top w3-small w3-text-grey">SİSTEMDEN ÇIKIK</button>
     </div>
 </div>
 
@@ -102,13 +178,13 @@
         
         const toast = document.getElementById('toast');
         toast.style.display = 'block';
-        setTimeout(() => { toast.style.display = 'none'; }, 1500);
+        setTimeout(() => { toast.style.display = 'none'; }, 2000);
     }
 
     function sorgula() {
         const bd = document.getElementById('blokDaire').value.trim().toUpperCase();
         const sifre = document.getElementById('sifre').value.trim();
-        if(!bd || !sifre) return;
+        if(!bd || !sifre) { alert("Lütfen boş alanları doldurun!"); return; }
 
         fetch('veriler.csv?t=' + Date.now())
         .then(res => res.text())
@@ -121,11 +197,10 @@
                 document.getElementById('daireBaslik').innerText = daire.BlokDaire + " NOLU DAİRE";
                 document.getElementById('borcMiktari').innerText = daire.Borc + " TL";
                 document.getElementById('saat').innerText = new Date().toLocaleString('tr-TR');
-            } else { alert("Hatalı giriş!"); }
-        });
+            } else { alert("Hatalı Blok/Daire veya Şifre!"); }
+        })
+        .catch(err => alert("Verilere erişilemiyor. Lütfen GitHub'a dosyayı yüklediğinizden emin olun."));
     }
 </script>
 </body>
 </html>
-
-
