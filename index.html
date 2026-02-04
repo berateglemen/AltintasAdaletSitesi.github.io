@@ -3,94 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Ödeme Takip Sistemi</title>
+    <title>Borç Sorgulama Sistemi</title>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
     <style>
         :root {
-            --primary-color: #4f46e5;
-            --secondary-color: #0ea5e9;
-            --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --ana-kirmizi: #e30a17;
+            --koyu-gri: #333333;
+            --acik-gri: #f8f8f8;
         }
 
         body { 
-            background: var(--bg-gradient); 
-            height: 100vh; 
-            display: flex; 
-            align-items: center; 
+            background-color: var(--acik-gri);
+            height: 100vh;
+            display: flex;
+            align-items: center;
             justify-content: center;
-            font-family: 'Inter', sans-serif;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
         }
 
-        .glass-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 24px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-            width: 100%;
-            max-width: 420px;
-            padding: 40px;
-            border: 1px solid rgba(255,255,255,0.2);
+        .resmi-kart {
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            width: 90%;
+            max-width: 380px;
+            border-top: 5px solid var(--ana-kirmizi);
+            overflow: hidden;
         }
 
-        .input-style {
-            background: #f8fafc;
-            border: 2px solid #e2e8f0 !important;
-            border-radius: 12px !important;
-            padding: 12px 16px !important;
-            transition: all 0.3s;
+        .input-alan {
+            border: 1px solid #ddd !important;
+            border-radius: 8px !important;
+            padding: 14px !important;
+            margin-top: 5px;
+            background: #fdfdfd;
         }
 
-        .input-style:focus {
-            border-color: var(--primary-color) !important;
-            background: white;
-            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
-        }
-
-        .btn-modern {
-            background: var(--primary-color);
-            color: white;
+        .btn-kirmizi {
+            background-color: var(--ana-kirmizi) !important;
+            color: white !important;
+            border-radius: 8px;
             font-weight: 600;
-            border-radius: 12px;
-            padding: 14px;
+            padding: 14px !important;
+            margin-top: 25px;
             border: none;
             cursor: pointer;
-            transition: transform 0.2s, background 0.2s;
             width: 100%;
-            letter-spacing: 0.5px;
         }
 
-        .btn-modern:hover {
-            background: #4338ca;
-            transform: translateY(-2px);
+        .borc-kutusu {
+            background: #fff5f5;
+            padding: 25px;
+            border-radius: 12px;
+            margin-top: 20px;
+            border: 1px solid #ffe3e3;
+            text-align: center;
         }
 
-        .status-badge {
-            background: #ecfdf5;
-            color: #059669;
-            padding: 6px 12px;
-            border-radius: 99px;
-            font-size: 0.8rem;
-            font-weight: 600;
+        .borc-miktar {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--ana-kirmizi);
+            margin: 10px 0;
         }
 
-        .result-item {
-            background: #f1f5f9;
-            padding: 20px;
-            border-radius: 16px;
-            margin-bottom: 12px;
-        }
-
-        .loader-spinner {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid var(--primary-color);
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            animation: spin 1s linear infinite;
+        .yukleniyor {
             display: none;
-            margin: 20px auto;
+            margin: 15px auto;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid var(--ana-kirmizi);
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            animation: spin 1s linear infinite;
         }
 
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
@@ -98,92 +86,76 @@
 </head>
 <body>
 
-<div class="glass-card w3-animate-zoom">
-    <div id="loginArea">
-        <div class="w3-center w3-margin-bottom">
-            <div class="w3-padding w3-indigo w3-circle w3-inline-block" style="width:60px; height:60px">
-                <i class="fa fa-lock w3-xxlarge"></i>
-            </div>
-            <h2 class="w3-bold" style="color: #1e293b; margin-top: 15px;">Müşteri Paneli</h2>
-            <p class="w3-text-grey">Lütfen giriş bilgilerini doğrulayın</p>
+<div class="w3-card resmi-kart w3-animate-opacity">
+    <div id="girisEkrani" class="w3-container w3-padding-32">
+        <div class="w3-center">
+            <h4 style="font-weight: 800; color: var(--koyu-gri); letter-spacing: 1px;">BORÇ SORGULAMA</h4>
+            <p class="w3-small w3-text-grey">Bilgilerinize erişmek için giriş yapın</p>
         </div>
 
         <div class="w3-section">
-            <label class="w3-small w3-bold w3-text-grey">ADINIZ SOYADINIZ</label>
-            <input class="w3-input input-style" type="text" id="username" placeholder="Örn: Ahmet Yılmaz">
+            <label class="w3-tiny w3-bold w3-text-grey">AD SOYAD</label>
+            <input class="w3-input input-alan" type="text" id="adSoyad" placeholder="Örn: Ahmet Yılmaz">
         </div>
 
         <div class="w3-section">
-            <label class="w3-small w3-bold w3-text-grey">GÜVENLİK KODU</label>
-            <input class="w3-input input-style" type="password" id="usercode" placeholder="****">
+            <label class="w3-tiny w3-bold w3-text-grey">GİRİŞ KODU</label>
+            <input class="w3-input input-alan" type="password" id="girisKodu" placeholder="****">
         </div>
 
-        <button onclick="sorgula()" class="btn-modern w3-margin-top">
-            <i class="fa fa-sign-in"></i> GÜVENLİ SORGULA
-        </button>
-        <div id="loader" class="loader-spinner"></div>
+        <button onclick="sorgula()" class="btn-kirmizi">GİRİŞ</button>
+        <div id="spinner" class="yukleniyor"></div>
     </div>
 
-    <div id="resultArea" style="display:none;" class="w3-animate-right">
+    <div id="sonucEkrani" class="w3-container w3-padding-32" style="display:none">
         <div class="w3-center">
-            <span class="status-badge"><i class="fa fa-check-circle"></i> Erişim Başarılı</span>
-            <h3 id="resName" style="color:#1e293b; font-weight: 800; margin: 15px 0;"></h3>
+            <h5 id="kullaniciAdi" style="font-weight: 700; color: var(--koyu-gri);"></h5>
+            <p class="w3-small w3-text-grey">Güncel Borç Durumunuz</p>
         </div>
 
-        <div class="result-item">
-            <div class="w3-row">
-                <div class="w3-col s8 w3-text-grey">Toplam Ödenen</div>
-                <div id="resOdenen" class="w3-col s4 w3-right-align w3-text-green w3-bold"></div>
-            </div>
+        <div class="borc-kutusu">
+            <span class="w3-small w3-text-grey w3-uppercase">Toplam Borç</span>
+            <div id="borcTutari" class="borc-miktar"></div>
+            <span class="w3-tiny w3-text-grey">Son Güncelleme: <span id="tarih"></span></span>
         </div>
 
-        <div class="result-item" style="border-left: 4px solid #ef4444;">
-            <div class="w3-row">
-                <div class="w3-col s8 w3-text-grey">Kalan Borç</div>
-                <div id="resBorc" class="w3-col s4 w3-right-align w3-text-red w3-bold"></div>
-            </div>
-        </div>
-
-        <button onclick="location.reload()" class="w3-button w3-block w3-round-large w3-text-grey w3-margin-top">
-            <i class="fa fa-power-off"></i> Güvenli Çıkış
+        <button onclick="location.reload()" class="w3-button w3-block w3-light-grey w3-round-large w3-margin-top w3-small">
+            ÇIKIŞ
         </button>
     </div>
 </div>
 
 <script>
     function sorgula() {
-        const name = document.getElementById('username').value.trim().toLowerCase();
-        const code = document.getElementById('usercode').value.trim();
+        const ad = document.getElementById('adSoyad').value.trim().toLowerCase();
+        const kod = document.getElementById('girisKodu').value.trim();
 
-        if(!name || !code) { alert("Lütfen boş alan bırakmayın."); return; }
+        if(!ad || !kod) { alert("Lütfen tüm alanları doldurun."); return; }
 
-        document.getElementById('loader').style.display = 'block';
+        document.getElementById('spinner').style.display = "block";
 
         fetch('veriler.csv?t=' + Date.now())
         .then(res => res.text())
-        .then(data => {
-            const results = Papa.parse(data, { header: true, skipEmptyLines: true }).data;
-            const user = results.find(row => 
-                row.Isim && row.Isim.toLowerCase() === name && 
-                row.Kod && row.Kod.toString() === code
-            );
+        .then(csv => {
+            const data = Papa.parse(csv, {header:true, skipEmptyLines: true}).data;
+            const kisi = data.find(u => u.Isim && u.Isim.toLowerCase() === ad && u.Kod == kod);
 
             setTimeout(() => {
-                document.getElementById('loader').style.display = 'none';
-                if(user) {
-                    document.getElementById('loginArea').style.display = 'none';
-                    document.getElementById('resultArea').style.display = 'block';
-                    document.getElementById('resName').innerText = user.Isim;
-                    document.getElementById('resOdenen').innerText = user.Odenen + " ₺";
-                    document.getElementById('resBorc').innerText = user.Borc + " ₺";
+                document.getElementById('spinner').style.display = "none";
+                if(kisi) {
+                    document.getElementById('girisEkrani').style.display = "none";
+                    document.getElementById('sonucEkrani').style.display = "block";
+                    document.getElementById('kullaniciAdi').innerText = kisi.Isim.toUpperCase();
+                    document.getElementById('borcTutari').innerText = (kisi.Borc || "0") + " TL";
+                    document.getElementById('tarih').innerText = new Date().toLocaleDateString('tr-TR');
                 } else {
-                    alert("Bilgiler hatalı! Lütfen tekrar deneyin.");
+                    alert("Bilgiler uyuşmuyor!");
                 }
-            }, 800);
+            }, 600);
         });
     }
 </script>
 
 </body>
-            </html>
-            
+                                                                   </html>
+        
