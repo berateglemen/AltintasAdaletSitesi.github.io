@@ -91,6 +91,14 @@
 </div>
 
 <script>
+document.addEventListener("keypress", function(event) {
+    // Eğer basılan tuş "Enter" ise
+    if (event.key === "Enter") {
+        event.preventDefault(); // Sayfanın yenilenmesini veya istenmeyen kaymaları engeller
+        sorgula(); // Senin fonksiyonunu çalıştırır
+    }
+});
+    
     function copyIban() {
         navigator.clipboard.writeText(document.getElementById('ibanNum').innerText);
         alert("IBAN Kopyalandı!");
@@ -115,6 +123,7 @@
 </script>
 </body>
 </html>
+
 
 
 
