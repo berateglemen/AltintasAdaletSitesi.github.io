@@ -90,39 +90,52 @@
     </div>
 </div>
 
-<script>
-document.addEventListener("keypress", function(event) {
-    // Eğer basılan tuş "Enter" ise
+<script> 
+function handleKeyPress(event) {
     if (event.key === "Enter") {
-        event.preventDefault(); // Sayfanın yenilenmesini veya istenmeyen kaymaları engeller
-        sorgula(); // Senin fonksiyonunu çalıştırır
+        sorgula();
     }
-});
+}
+
+function copyIban() {
+    const iban = document.getElementById('ibanNum').innerText;
+    navigator.clipboard.writeText(iban);
+    alert("IBAN Kopyalandı!");
+}
+
+function sorgula() {
+    const bd = document.getElementById('blokDaire').value.trim().toUpperCase();
+    const sifre = document.getElementById('sifre').value.trim();
     
-    function copyIban() {
-        navigator.clipboard.writeText(document.getElementById('ibanNum').innerText);
-        alert("IBAN Kopyalandı!");
+    if(!bd || !sifre) { 
+        alert("Lütfen tüm alanları doldurun."); 
+        return; 
     }
-    function sorgula() {
-        const bd = document.getElementById('blokDaire').value.trim().toUpperCase();
-        const sifre = document.getElementById('sifre').value.trim();
-        if(!bd || !sifre) { alert("Lütfen alanları doldurun"); return; }
-        fetch('yonetim_data_982x_p7.csv?t=' + Date.now())
-        .then(res => res.text())
-        .then(csvText => {
-            const results = Papa.parse(csvText, {header:true, skipEmptyLines: true}).data;
-            const daire = results.find(u => u.BlokDaire && u.BlokDaire.toUpperCase() === bd && u.Sifre == sifre);
-            if(daire) {
-                document.getElementById('girisEkrani').style.display = "none";
-                document.getElementById('sonucEkrani').style.display = "block";
-                document.getElementById('daireBaslik').innerText = daire.BlokDaire + " NOLU DAİRE";
-                document.getElementById('borcMiktari').innerText = daire.Borc + " TL";
-            } else { alert("Bilgiler hatalı!"); }
-        });
-    }
+
+    fetch('yonetim_data_982x_p7.csv?t=' + Date.now())
+    .then(res => res.text())
+    .then(csvText => {
+        const results = Papa.parse(csvText, {header:true, skipEmptyLines: true}).data;
+        const daire = results.find(u => u.BlokDaire && u.BlokDaire.toUpperCase() === bd && u.Sifre == sifre);
+        
+        if(daire) {
+            document.getElementById('girisEkrani').style.display = "none";
+            document.getElementById('sonucEkrani').style.display = "block";
+            document.getElementById('daireBaslik').innerText = daire.BlokDaire + " NOLU DAİRE";
+            document.getElementById('borcMiktari').innerText = daire.Borc + " TL";
+        } else { 
+            alert("Giriş bilgileri hatalı!"); 
+        }
+    })
+    .catch(err => {
+        console.error("Veri çekme hatası:", err);
+        alert("Veri tabanına bağlanılamadı.");
+    });
+}
 </script>
 </body>
 </html>
+
 
 
 
