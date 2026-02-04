@@ -3,24 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Altıntaş Adalet Sitesi</title>
+    <title>Altıntaş Adalet Sitesi - Sorgulama</title>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
     <style>
         :root { --ana-turuncu: #f39c12; --koyu-turuncu: #e67e22; --metin-gri: #2d3436; }
-        body, html { height: 100%; margin: 0; font-family: 'Segoe UI', sans-serif; }
+        body, html { height: 100%; margin: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
         body { background: radial-gradient(circle, #ffffff 0%, #dfe6e9 100%); padding-top: 85px; }
 
+        /* BÜYÜK VE ZARİF NAVBAR */
         .navbar {
             background: #ffffff; height: 75px; width: 100%; position: fixed; top: 0; left: 0;
             display: flex; align-items: center; justify-content: space-between; padding: 0 15px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.08); z-index: 1000; border-bottom: 4px solid var(--ana-turuncu);
         }
-
         .navbar-brand { 
-            font-weight: 900; color: var(--metin-gri); 
-            font-size: 20px; /* İSTEDİĞİN BÜYÜK YAZI */
+            font-weight: 900; color: var(--metin-gri); font-size: 20px; 
             letter-spacing: 1.2px; text-transform: uppercase;
         }
         .navbar-brand span { color: var(--ana-turuncu); }
@@ -33,8 +32,8 @@
         }
 
         .container-center { display: flex; align-items: center; justify-content: center; min-height: calc(100vh - 85px); }
-        .resmi-kart { background: #ffffff; border-radius: 30px; box-shadow: 0 25px 50px rgba(0,0,0,0.1); width: 95%; max-width: 420px; overflow: hidden; }
-        .kalan-borc-baslik { font-size: 28px; font-weight: 900; color: var(--metin-gri); margin: 0; text-transform: uppercase; letter-spacing: 2px; }
+        .resmi-kart { background: #ffffff; border-radius: 30px; box-shadow: 0 25px 50px rgba(0,0,0,0.1); width: 95%; max-width: 420px; overflow: hidden; border: 1px solid rgba(243,156,18,0.1); }
+        .kalan-borc-baslik { font-size: 28px; font-weight: 900; color: var(--metin-gri); text-transform: uppercase; letter-spacing: 2px; }
         .input-alan { border: 2px solid #eee !important; border-radius: 15px !important; padding: 16px !important; width: 100%; font-size: 16px; margin-bottom: 10px; }
         .btn-giris { background: linear-gradient(to right, var(--ana-turuncu), var(--koyu-turuncu)) !important; color: white !important; border-radius: 15px; font-weight: bold; padding: 18px !important; border: none; width: 100%; cursor: pointer; font-size: 17px; }
         .borc-ekrani { background: #fff9f1; padding: 25px; border-radius: 20px; border: 1px solid #feeaa0; }
