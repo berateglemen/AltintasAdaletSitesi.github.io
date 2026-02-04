@@ -3,94 +3,187 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Güvenli Ödeme Sorgulama</title>
+    <title>Ödeme Takip Sistemi</title>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
     <style>
-        body { background-color: #f3f4f6; }
-        .main-card { max-width: 400px; margin: 60px auto; border-radius: 15px; overflow: hidden; }
-        .input-group { margin-bottom: 15px; }
+        :root {
+            --primary-color: #4f46e5;
+            --secondary-color: #0ea5e9;
+            --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        body { 
+            background: var(--bg-gradient); 
+            height: 100vh; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            width: 100%;
+            max-width: 420px;
+            padding: 40px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .input-style {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0 !important;
+            border-radius: 12px !important;
+            padding: 12px 16px !important;
+            transition: all 0.3s;
+        }
+
+        .input-style:focus {
+            border-color: var(--primary-color) !important;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+        }
+
+        .btn-modern {
+            background: var(--primary-color);
+            color: white;
+            font-weight: 600;
+            border-radius: 12px;
+            padding: 14px;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.2s;
+            width: 100%;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-modern:hover {
+            background: #4338ca;
+            transform: translateY(-2px);
+        }
+
+        .status-badge {
+            background: #ecfdf5;
+            color: #059669;
+            padding: 6px 12px;
+            border-radius: 99px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .result-item {
+            background: #f1f5f9;
+            padding: 20px;
+            border-radius: 16px;
+            margin-bottom: 12px;
+        }
+
+        .loader-spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary-color);
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            display: none;
+            margin: 20px auto;
+        }
+
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
-<div class="w3-container">
-    <div class="w3-card-4 w3-white main-card w3-animate-zoom">
-        <header class="w3-container w3-dark-grey w3-center w3-padding-16">
-            <h4 class="w3-wide">MÜŞTERİ GİRİŞİ</h4>
-        </header>
-
-        <div id="loginForm" class="w3-container w3-padding-24">
-            <div class="input-group">
-                <label class="w3-text-grey"><b>Ad Soyad</b></label>
-                <input class="w3-input w3-border w3-round" type="text" id="username" placeholder="Örn: Ahmet Yılmaz">
+<div class="glass-card w3-animate-zoom">
+    <div id="loginArea">
+        <div class="w3-center w3-margin-bottom">
+            <div class="w3-padding w3-indigo w3-circle w3-inline-block" style="width:60px; height:60px">
+                <i class="fa fa-lock w3-xxlarge"></i>
             </div>
-            
-            <div class="input-group">
-                <label class="w3-text-grey"><b>Güvenlik Kodu</b></label>
-                <input class="w3-input w3-border w3-round" type="password" id="usercode" placeholder="Size verilen kod">
-            </div>
-            
-            <button onclick="sorgula()" class="w3-button w3-block w3-black w3-round w3-margin-top w3-padding-large">SORGULA</button>
-            <p class="w3-small w3-center w3-text-grey">Kodunuzu bilmiyorsanız yönetici ile iletişime geçin.</p>
+            <h2 class="w3-bold" style="color: #1e293b; margin-top: 15px;">Müşteri Paneli</h2>
+            <p class="w3-text-grey">Lütfen giriş bilgilerini doğrulayın</p>
         </div>
 
-        <div id="resultArea" class="w3-container w3-padding-24 w3-animate-right" style="display:none">
-            <div class="w3-center">
-                <span class="w3-tag w3-teal w3-round">Doğrulandı <i class="w3-small">✓</i></span>
-                <h3 id="welcomeMsg" class="w3-border-bottom w3-padding-16"></h3>
-            </div>
-            
-            <div class="w3-row w3-padding-16">
-                <div class="w3-col s6"><b>Toplam Ödeme:</b></div>
-                <div id="resOdenen" class="w3-col s6 w3-right-align w3-text-green w3-large"></div>
-            </div>
-            
-            <div class="w3-row w3-padding-16 w3-border-top">
-                <div class="w3-col s6"><b>Kalan Borç:</b></div>
-                <div id="resBorc" class="w3-col s6 w3-right-align w3-text-red w3-large"></div>
-            </div>
-
-            <button onclick="location.reload()" class="w3-button w3-block w3-light-grey w3-round w3-margin-top">Geri Dön</button>
+        <div class="w3-section">
+            <label class="w3-small w3-bold w3-text-grey">ADINIZ SOYADINIZ</label>
+            <input class="w3-input input-style" type="text" id="username" placeholder="Örn: Ahmet Yılmaz">
         </div>
+
+        <div class="w3-section">
+            <label class="w3-small w3-bold w3-text-grey">GÜVENLİK KODU</label>
+            <input class="w3-input input-style" type="password" id="usercode" placeholder="****">
+        </div>
+
+        <button onclick="sorgula()" class="btn-modern w3-margin-top">
+            <i class="fa fa-sign-in"></i> GÜVENLİ SORGULA
+        </button>
+        <div id="loader" class="loader-spinner"></div>
+    </div>
+
+    <div id="resultArea" style="display:none;" class="w3-animate-right">
+        <div class="w3-center">
+            <span class="status-badge"><i class="fa fa-check-circle"></i> Erişim Başarılı</span>
+            <h3 id="resName" style="color:#1e293b; font-weight: 800; margin: 15px 0;"></h3>
+        </div>
+
+        <div class="result-item">
+            <div class="w3-row">
+                <div class="w3-col s8 w3-text-grey">Toplam Ödenen</div>
+                <div id="resOdenen" class="w3-col s4 w3-right-align w3-text-green w3-bold"></div>
+            </div>
+        </div>
+
+        <div class="result-item" style="border-left: 4px solid #ef4444;">
+            <div class="w3-row">
+                <div class="w3-col s8 w3-text-grey">Kalan Borç</div>
+                <div id="resBorc" class="w3-col s4 w3-right-align w3-text-red w3-bold"></div>
+            </div>
+        </div>
+
+        <button onclick="location.reload()" class="w3-button w3-block w3-round-large w3-text-grey w3-margin-top">
+            <i class="fa fa-power-off"></i> Güvenli Çıkış
+        </button>
     </div>
 </div>
 
 <script>
-function sorgula() {
-    const name = document.getElementById('username').value.trim().toLowerCase();
-    const code = document.getElementById('usercode').value.trim();
+    function sorgula() {
+        const name = document.getElementById('username').value.trim().toLowerCase();
+        const code = document.getElementById('usercode').value.trim();
 
-    if(!name || !code) { 
-        alert("Lütfen adınızı ve kodunuzu girin!"); 
-        return; 
+        if(!name || !code) { alert("Lütfen boş alan bırakmayın."); return; }
+
+        document.getElementById('loader').style.display = 'block';
+
+        fetch('veriler.csv?t=' + Date.now())
+        .then(res => res.text())
+        .then(data => {
+            const results = Papa.parse(data, { header: true, skipEmptyLines: true }).data;
+            const user = results.find(row => 
+                row.Isim && row.Isim.toLowerCase() === name && 
+                row.Kod && row.Kod.toString() === code
+            );
+
+            setTimeout(() => {
+                document.getElementById('loader').style.display = 'none';
+                if(user) {
+                    document.getElementById('loginArea').style.display = 'none';
+                    document.getElementById('resultArea').style.display = 'block';
+                    document.getElementById('resName').innerText = user.Isim;
+                    document.getElementById('resOdenen').innerText = user.Odenen + " ₺";
+                    document.getElementById('resBorc').innerText = user.Borc + " ₺";
+                } else {
+                    alert("Bilgiler hatalı! Lütfen tekrar deneyin.");
+                }
+            }, 800);
+        });
     }
-
-    // CSV'yi çek ve işle
-    fetch('veriler.csv?t=' + Date.now())
-    .then(res => res.text())
-    .then(data => {
-        const results = Papa.parse(data, { header: true, skipEmptyLines: true }).data;
-        
-        // İsmi ve Kodu eşleşen kişiyi filtrele
-        const user = results.find(row => 
-            row.Isim && row.Isim.toLowerCase() === name && 
-            row.Kod && row.Kod.toString() === code
-        );
-
-        if(user) {
-            document.getElementById('loginForm').style.display = 'none';
-            document.getElementById('resultArea').style.display = 'block';
-            document.getElementById('welcomeMsg').innerText = user.Isim;
-            document.getElementById('resOdenen').innerText = user.Odenen + " TL";
-            document.getElementById('resBorc').innerText = user.Borc + " TL";
-        } else {
-            alert("Hata: Adınız veya güvenlik kodunuz eşleşmiyor!");
-        }
-    })
-    .catch(err => alert("Veri dosyasına ulaşılamadı. İnternet bağlantınızı kontrol edin."));
-}
 </script>
 
 </body>
-</html>
+            </html>
+            
