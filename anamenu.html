@@ -7,30 +7,64 @@
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
-        :root { --ana-turuncu: #f39c12; --metin-gri: #34495e; }
-        body, html { height: 100%; margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
-        body { background: #f4f7f6; padding-top: 70px; }
+        :root { 
+            --ana-turuncu: #f39c12; 
+            --metin-gri: #2c3e50;
+            --arka-plan: #f8fafc;
+        }
+
+        body { 
+            background: var(--arka-plan); 
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            margin: 0; padding-top: 80px;
+        }
 
         .navbar {
-            background: #ffffff; height: 60px; width: 100%; position: fixed; top: 0; left: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            height: 65px; width: 100%; position: fixed; top: 0; left: 0;
             display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.05); z-index: 1000; border-bottom: 2px solid var(--ana-turuncu);
+            z-index: 1000; border-bottom: 2px solid var(--ana-turuncu);
         }
-        .navbar-brand { font-weight: 700; color: var(--metin-gri); font-size: 17px; letter-spacing: 0.8px; text-transform: uppercase; }
-        .navbar-brand span { color: var(--ana-turuncu); font-weight: 800; }
+        .navbar-brand { font-weight: 800; font-size: 17px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .navbar-brand span { color: var(--ana-turuncu); }
 
-        .container-center { display: flex; align-items: center; justify-content: center; min-height: calc(100vh - 70px); }
-        .menu-kart { background: #ffffff; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.04); width: 95%; max-width: 380px; padding: 35px; border: 1px solid #f0f0f0; }
-        
-        .menu-list { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
-        .menu-item {
-            display: flex; align-items: center; background: #fff; border: 1.5px solid #f5f5f5; 
-            padding: 16px 20px; border-radius: 12px; text-decoration: none; color: var(--metin-gri); 
-            font-weight: 600; font-size: 15px; transition: 0.3s;
+        .menu-kart {
+            background: #ffffff; border-radius: 24px; padding: 40px 30px;
+            width: 95%; max-width: 400px; margin: 0 auto;
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.05);
+            border: 1px solid rgba(0,0,0,0.03);
+            text-align: center;
         }
-        .menu-item i { color: var(--ana-turuncu); margin-right: 15px; font-size: 18px; }
-        .menu-item:hover { border-color: var(--ana-turuncu); background: #fffcf7; transform: translateY(-2px); }
-        .footer-text { text-align: center; margin-top: 25px; font-size: 10px; color: #ccc; letter-spacing: 1px; }
+
+        .menu-list { display: flex; flex-direction: column; gap: 14px; margin-top: 30px; }
+
+        .menu-item {
+            display: flex; align-items: center; justify-content: space-between;
+            background: #f8fafc; border: 1.5px solid #f1f5f9; padding: 18px 22px;
+            border-radius: 16px; text-decoration: none; color: var(--metin-gri);
+            font-weight: 700; font-size: 15px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .menu-item i.left-icon {
+            color: var(--ana-turuncu); font-size: 20px;
+            background: #fff; width: 40px; height: 40px;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            margin-right: 15px;
+        }
+
+        .menu-item:hover {
+            border-color: var(--ana-turuncu);
+            background: #fff;
+            transform: translateX(5px);
+            box-shadow: 0 10px 15px -3px rgba(243, 156, 18, 0.1);
+        }
+
+        .footer-tag {
+            margin-top: 35px; font-size: 10px; font-weight: 800;
+            color: #cbd5e1; letter-spacing: 2px;
+        }
     </style>
 </head>
 <body>
@@ -39,17 +73,35 @@
     <div class="navbar-brand">ALTINTAŞ <span>ADALET SİTESİ</span></div>
 </div>
 
-<div class="container-center">
-    <div class="menu-kart w3-animate-opacity">
-        <h2 style="font-size: 22px; font-weight: 800; color: var(--metin-gri); text-align: center; margin: 0;">ANA MENÜ</h2>
-        <div style="width: 40px; height: 3px; background: var(--ana-turuncu); margin: 10px auto 25px;"></div>
+<div class="w3-container w3-animate-bottom">
+    <div class="menu-kart">
+        <h2 style="font-weight: 900; color: var(--metin-gri); font-size: 22px; margin: 0;">ANA MENÜ</h2>
+        <div style="width: 40px; height: 4px; background: var(--ana-turuncu); margin: 12px auto; border-radius: 10px;"></div>
         
         <div class="menu-list">
-            <a href="index.html" class="menu-item"><i class="fa fa-credit-card"></i> BORÇ SORGULAMA</a>
-            <a href="#" class="menu-item"><i class="fa fa-bullhorn"></i> DUYURULAR</a>
-            <a href="mailto:airporthomessitesi@outlook.com" class="menu-item"><i class="fa fa-envelope"></i> YÖNETİME YAZIN</a>
+            <a href="index.html" class="menu-item">
+                <span style="display:flex; align-items:center;">
+                    <i class="fa fa-credit-card left-icon"></i> BORÇ SORGULAMA
+                </span>
+                <i class="fa fa-chevron-right" style="color: #cbd5e1; font-size: 12px;"></i>
+            </a>
+
+            <a href="#" class="menu-item">
+                <span style="display:flex; align-items:center;">
+                    <i class="fa fa-bullhorn left-icon"></i> DUYURULAR
+                </span>
+                <i class="fa fa-chevron-right" style="color: #cbd5e1; font-size: 12px;"></i>
+            </a>
+
+            <a href="mailto:destek@site.com" class="menu-item">
+                <span style="display:flex; align-items:center;">
+                    <i class="fa fa-envelope left-icon"></i> YÖNETİME YAZIN
+                </span>
+                <i class="fa fa-chevron-right" style="color: #cbd5e1; font-size: 12px;"></i>
+            </a>
         </div>
-        <p class="footer-text">© 2026 ALTINTAŞ ADALET SİTESİ</p>
+
+        <p class="footer-tag">© 2026 ALTINTAŞ ADALET</p>
     </div>
 </div>
 
