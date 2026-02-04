@@ -20,31 +20,31 @@
             padding-top: 80px; /* Navbar büyük olduğu için boşluk artırıldı */
         }
 
-        /* NAVBAR - BÜYÜK VE ZARİF */
-        .navbar {
-            background: #ffffff;
-            height: 70px;
-            width: 100%;
-            position: fixed;
-            top: 0;
-            left: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center; /* Merkeze odakladık */
-            padding: 0 20px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-            z-index: 1000;
-            border-bottom: 4px solid var(--ana-turuncu);
-        }
+       /* NAVBAR - BÜYÜK, NET VE ZARİF */
+.navbar {
+    background: #ffffff;
+    height: 75px; /* Yazı büyüdüğü için yüksekliği biraz artırdım */
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    z-index: 1000;
+    border-bottom: 4px solid var(--ana-turuncu);
+}
 
-        .navbar-brand { 
-            font-weight: 900; 
-            color: var(--metin-gri); 
-            font-size: 18px; /* Yazı büyütüldü */
-            letter-spacing: 1.5px; /* Harf arası açıldı (Zarafet katar) */
-            text-transform: uppercase;
-            text-align: center;
-        }
+.navbar-brand { 
+    font-weight: 900; 
+    color: var(--metin-gri); 
+    font-size: 20px; /* Yazı boyutu 20px'e çıkarıldı (Oldukça büyük ve net) */
+    letter-spacing: 1.2px; 
+    text-transform: uppercase;
+    line-height: 1;
+}
         .navbar-brand span { color: var(--ana-turuncu); }
 
         .container-center {
