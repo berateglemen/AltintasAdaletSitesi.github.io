@@ -107,34 +107,29 @@ function sorgula() {
     const bd = document.getElementById('blokDaire').value.trim().toUpperCase();
     const sifre = document.getElementById('sifre').value.trim();
     
-    if(!bd || !sifre) { 
-        alert("Lütfen tüm alanları doldurun."); 
-        return; 
-    }
+    if(!bd || !sifre) return;
 
-    fetch('yonetim_data_982x_p7.csv?t=' + Date.now())
-    .then(res => res.text())
-    .then(csvText => {
-        const results = Papa.parse(csvText, {header:true, skipEmptyLines: true}).data;
-        const daire = results.find(u => u.BlokDaire && u.BlokDaire.toUpperCase() === bd && u.Sifre == sifre);
-        
-        if(daire) {
+    // Google Apps Script URL'ni buraya yapıştır
+    const scriptURL = "https://script.google.com/macros/s/AKfycbwXgIRXeopaURPVKSeWyi1GhndumQyvpy27b4e6-YdNb9K3oVhOuzyjrD4AeqtNRuu0/exec";
+
+    fetch(`${scriptURL}?blokDaire=${bd}&sifre=${sifre}`)
+    .then(res => res.json())
+    .then(data => {
+        if(data.status === "success") {
             document.getElementById('girisEkrani').style.display = "none";
             document.getElementById('sonucEkrani').style.display = "block";
-            document.getElementById('daireBaslik').innerText = daire.BlokDaire + " NOLU DAİRE";
-            document.getElementById('borcMiktari').innerText = daire.Borc + " TL";
-        } else { 
-            alert("Giriş bilgileri hatalı!"); 
+            document.getElementById('daireBaslik').innerText = bd + " NOLU DAİRE";
+            document.getElementById('borcMiktari').innerText = data.borc + " TL";
+        } else {
+            alert("Bilgiler hatalı veya daire bulunamadı!");
         }
     })
-    .catch(err => {
-        console.error("Veri çekme hatası:", err);
-        alert("Veri tabanına bağlanılamadı.");
-    });
+    .catch(err => alert("Sistem hatası: " + err));
 }
 </script>
 </body>
 </html>
+
 
 
 
