@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Altıntaş Adalet Sitesi - Duyurular</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        :root { --ana-turuncu: #f39c12; --koyu-turuncu: #d35400; --metin-gri: #2c3e50; --mavi: #3498db; --kirmizi: #e74c3c; }
+        
+        body { 
+            background: linear-gradient(135deg, #f1f5f9 0%, #dfe7ef 100%); 
+            font-family: 'Segoe UI', sans-serif; 
+            margin: 0; padding: 0; 
+            min-height: 100vh;
+            -webkit-user-select: none; user-select: none;
+        }
+
+        /* --- NAVBAR --- */
+        .navbar { 
+            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); 
+            height: 70px; width: 100%; position: fixed; top: 0; left: 0; 
+            display: flex; align-items: center; justify-content: space-between; 
+            padding: 0 15px; z-index: 1000; border-bottom: 3px solid var(--ana-turuncu); 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05); 
+        }
+        .navbar-brand { font-weight: 800; font-size: 15px; text-transform: uppercase; color: var(--metin-gri); }
+        .navbar-brand span { color: var(--ana-turuncu); }
+
+        /* --- DUYURU LİSTESİ --- */
+        .container { 
+            margin-top: 90px; padding: 20px; width: 100%; max-width: 600px; 
+            margin-left: auto; margin-right: auto;
+        }
+
+        .sayfa-baslik { text-align: center; margin-bottom: 30px; }
+        .sayfa-baslik h1 { font-weight: 900; color: var(--metin-gri); font-size: 24px; margin-bottom: 5px; }
+        .sayfa-baslik .alt-cizgi { width: 50px; height: 4px; background: var(--ana-turuncu); margin: 0 auto; border-radius: 2px; }
+
+        /* Duyuru Kartı Stili */
+        .duyuru-kart {
+            background: white; border-radius: 18px; padding: 20px;
+            margin-bottom: 20px; position: relative;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            border-left: 6px solid var(--ana-turuncu);
+            transition: 0.3s;
+        }
+        .duyuru-kart:hover { transform: scale(1.02); }
+        
+        /* Önem Derecelerine Göre Renkler */
+        .duyuru-kart.onemli { border-left-color: var(--kirmizi); }
+        .duyuru-kart.bilgi { border-left-color: var(--mavi); }
+
+        .duyuru-tarih { 
+            font-size: 11px; font-weight: 800; color: #94a3b8; 
+            display: flex; align-items: center; gap: 5px; margin-bottom: 8px;
+        }
+        .duyuru-baslik { font-size: 17px; font-weight: 800; color: var(--metin-gri); margin-bottom: 8px; }
+        .duyuru-icerik { font-size: 14px; color: #64748b; line-height: 1.5; font-weight: 500; }
+
+        .badge {
+            display: inline-block; padding: 3px 10px; border-radius: 10px;
+            font-size: 10px; font-weight: 800; text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        .badge-uyari { background: #fff4e5; color: var(--ana-turuncu); }
+        .badge-onemli { background: #fee2e2; color: var(--kirmizi); }
+        .badge-bilgi { background: #e0f2fe; color: var(--mavi); }
+
+    </style>
+</head>
+<body oncontextmenu="return false">
+
+    <div class="navbar">
+        <div class="navbar-brand">ALTINTAŞ <span>ADALET SİTESİ</span></div>
+        <a href="index.html" style="text-decoration:none; font-weight:bold; font-size:12px; color:var(--metin-gri);"><i class="fa fa-arrow-left"></i> GERİ</a>
+    </div>
+
+    <div class="container">
+        <div class="sayfa-baslik w3-animate-top">
+            <h1>SİTE DUYURULARI(ÖRNEK. GERÇEK DEĞİLDİR!)</h1>
+            <div class="alt-cizgi"></div>
+        </div>
+
+        <div class="duyuru-kart onemli w3-animate-zoom">
+            <div class="duyuru-tarih"><i class="fa fa-calendar"></i> 06 Şubat 2026</div>
+            <div class="badge badge-onemli">ACİL DURUM</div>
+            <div class="duyuru-baslik">Asansör Bakım Çalışması</div>
+            <div class="duyuru-icerik">
+                A Blok ana asansörü, yıllık ağır bakım çalışmaları nedeniyle yarın saat 09:00 - 17:00 saatleri arasında hizmet veremeyecektir.
+            </div>
+        </div>
+
+        <div class="duyuru-kart bilgi w3-animate-zoom" style="animation-delay: 0.1s;">
+            <div class="duyuru-tarih"><i class="fa fa-calendar"></i> 05 Şubat 2026</div>
+            <div class="badge badge-bilgi">BİLGİLENDİRME</div>
+            <div class="duyuru-baslik">Bahçe İlaçlaması Hakkında</div>
+            <div class="duyuru-icerik">
+                Periyodik bahçe ve ortak alan ilaçlama çalışması bu hafta sonu gerçekleştirilecektir. Evcil hayvan sahiplerinin dikkatine sunulur.
+            </div>
+        </div>
+
+        <div class="duyuru-kart w3-animate-zoom" style="animation-delay: 0.2s;">
+            <div class="duyuru-tarih"><i class="fa fa-calendar"></i> 01 Şubat 2026</div>
+            <div class="badge badge-uyari">GENEL</div>
+            <div class="duyuru-baslik">Şubat Ayı Aidat Ödemeleri</div>
+            <div class="duyuru-icerik">
+                Şubat ayı aidatlarının en geç ayın 20'sine kadar ödenmesi rica olunur. Borç sorgulama panelinden güncel tutarı kontrol edebilirsiniz.
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        document.onkeydown = function(e) {
+            if(e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'C'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0))) || (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0))) { return false; }
+        };
+    </script>
+</body>
+</html>
