@@ -3,91 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Altıntaş Adalet - Sorgulama</title>
+    <title>Altıntaş Adalet Sitesi - Borç Sorgulama</title>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
-        :root { --ana-turuncu: #f39c12; --koyu-turuncu: #d35400; --metin-gri: #2c3e50; }
-        body { background: #f8fafc; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; overflow-x: hidden; }
+        :root { --ana-turuncu: #f39c12; --koyu-turuncu: #d35400; --metin-gri: #2c3e50; --uyari-sari: #fff9e6; }
+        body { 
+            background: #f8fafc; 
+            font-family: 'Segoe UI', sans-serif; 
+            margin: 0; padding: 0; 
+            overflow-x: hidden; 
+            -webkit-user-select: none; 
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
 
-        /* --- 1. INTRO (SPLASH SCREEN) STİLLERİ --- */
-        #intro-ekrani {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
-            background-color: #1a1a1a; display: flex; justify-content: center;
-            align-items: center; z-index: 10000; transition: transform 1s cubic-bezier(0.77, 0, 0.175, 1);
-        }
-        .hosgeldin-yazi {
-            color: white; font-size: 20px; font-weight: 800; letter-spacing: 4px;
-            text-transform: uppercase; opacity: 0; transform: translateY(20px);
-            animation: yaziBelir 1.2s forwards ease-out;
-        }
+        /* --- 1. INTRO (SPLASH SCREEN) --- */
+        #intro-ekrani { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background-color: #1a1a1a; display: flex; justify-content: center; align-items: center; z-index: 10000; transition: transform 1s cubic-bezier(0.77, 0, 0.175, 1); }
+        .hosgeldin-yazi { color: white; font-size: 20px; font-weight: 800; letter-spacing: 4px; text-transform: uppercase; opacity: 0; transform: translateY(20px); animation: yaziBelir 1.2s forwards ease-out; }
         .cizgi { width: 0; height: 2px; background: var(--ana-turuncu); margin: 10px auto; animation: cizgiUzat 0.8s 0.6s forwards; }
         @keyframes yaziBelir { to { opacity: 1; transform: translateY(0); } }
         @keyframes cizgiUzat { to { width: 100%; } }
         .intro-gizle { transform: translateY(-100%); }
 
-        /* --- 2. BAKIM MODU STİLLERİ --- */
-        #bakim-ekrani {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px);
-            z-index: 9999; flex-direction: column; justify-content: center; align-items: center;
-        }
+        /* --- 2. BAKIM MODU --- */
+        #bakim-ekrani { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px); z-index: 9999; flex-direction: column; justify-content: center; align-items: center; }
 
-        /* --- 3. ANA SİTE STİLLERİ --- */
-        .navbar {
-            background: #fff; height: 70px; width: 100%; position: fixed; top: 0; left: 0;
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 0 15px; z-index: 1000; border-bottom: 3px solid var(--ana-turuncu);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
+        /* --- 3. ANA TASARIM --- */
+        .navbar { background: #fff; height: 70px; width: 100%; position: fixed; top: 0; left: 0; display: flex; align-items: center; justify-content: space-between; padding: 0 15px; z-index: 1000; border-bottom: 3px solid var(--ana-turuncu); box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
         .navbar-brand { font-weight: 800; font-size: 15px; text-transform: uppercase; color: var(--metin-gri); }
         .navbar-brand span { color: var(--ana-turuncu); }
-        .main-container { display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; padding-top: 90px; }
-        .resmi-kart {
-            background: #fff; border-radius: 24px; padding: 35px;
-            width: 100%; max-width: 400px; box-shadow: 0 15px 35px rgba(0,0,0,0.05);
-            text-align: center; border: 1px solid #f0f0f0;
-        }
+        .main-container { display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; padding-top: 90px; }
+        .resmi-kart { background: #fff; border-radius: 24px; padding: 35px; width: 100%; max-width: 400px; box-shadow: 0 15px 35px rgba(0,0,0,0.05); text-align: center; border: 1px solid #f0f0f0; margin-bottom: 15px; position: relative; }
+        
+        /* Estetik Logo Alanı */
+        .logo-ust { color: var(--ana-turuncu); margin-bottom: 15px; }
+        
         .input-alan { width: 100%; padding: 14px; margin-bottom: 12px; border: 2px solid #f1f5f9; border-radius: 12px; outline: none; transition: 0.3s; }
         .input-alan:focus { border-color: var(--ana-turuncu); }
-        .btn-giris {
-            width: 100%; padding: 16px; border: none; border-radius: 12px;
-            background: linear-gradient(135deg, var(--ana-turuncu), var(--koyu-turuncu));
-            color: white; font-weight: 700; font-size: 16px; cursor: pointer; transition: 0.3s;
-        }
+        .btn-giris { width: 100%; padding: 16px; border: none; border-radius: 12px; background: linear-gradient(135deg, var(--ana-turuncu), var(--koyu-turuncu)); color: white; font-weight: 700; font-size: 16px; cursor: pointer; transition: 0.3s; }
         .borc-rakam { font-size: 42px; font-weight: 900; color: var(--koyu-turuncu); margin: 10px 0; }
         .copy-btn { background: var(--ana-turuncu); border: none; color: white; padding: 10px; border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold; margin-top: 10px; }
+
+        /* Güvenlik Rozeti */
+        .guvenlik-rozet { margin-top: 15px; font-size: 10px; color: #94a3b8; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* Tarih ve Duyuru Alanı */
+        .tarih-etiket { font-size: 11px; font-weight: 800; color: var(--metin-gri); background: #e2e8f0; padding: 4px 12px; border-radius: 20px; margin-bottom: 10px; }
+        .duyuru-bandi { width: 100%; max-width: 400px; background: var(--uyari-sari); border-left: 5px solid var(--ana-turuncu); border-radius: 12px; padding: 15px; display: flex; align-items: center; gap: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.03); }
+        .duyuru-icon { color: var(--ana-turuncu); font-size: 20px; }
+        .duyuru-metin { color: var(--metin-gri); font-size: 13px; font-weight: 600; line-height: 1.4; }
     </style>
 </head>
-<body onload="baslatIntro()">
+<body onload="baslatIntro()" oncontextmenu="return false">
 
-    <div id="intro-ekrani">
+    <div id="intro-ekrani" oncontextmenu="return false">
         <div class="intro-icerik">
             <div class="hosgeldin-yazi">Web Sitemize Hoşgeldiniz</div>
             <div class="cizgi"></div>
         </div>
     </div>
 
-    <div id="bakim-ekrani">
-        <div style="background:white; padding:30px; border-radius:20px; box-shadow:0 10px 30px rgba(0,0,0,0.1); text-align:center;">
+    <div id="bakim-ekrani" oncontextmenu="return false">
+        <div style="background:white; padding:30px; border-radius:20px; text-align:center;">
             <i class="fa fa-cog fa-spin fa-3x" style="color:var(--ana-turuncu); margin-bottom:15px;"></i>
             <h2 style="font-weight:800;">Sistem Güncelleniyor</h2>
-            <p style="color:#666;">En fazla 2 dakika sürer, lütfen ayrılmayın...</p>
         </div>
     </div>
 
-    <div class="navbar">
+    <div class="navbar" oncontextmenu="return false">
         <div class="navbar-brand">ALTINTAŞ <span>ADALET SİTESİ</span></div>
         <a href="anamenu.html" style="text-decoration:none; font-weight:bold; font-size:12px; color:var(--metin-gri);"><i class="fa fa-home"></i> MENÜ</a>
     </div>
 
-    <div class="main-container">
-        <div class="resmi-kart w3-animate-zoom">
+    <div class="main-container" oncontextmenu="return false">
+        
+        <div class="resmi-kart w3-animate-zoom" oncontextmenu="return false">
+            
             <div id="girisEkrani">
+                <div class="logo-ust">
+                    <i class="fa fa-balance-scale fa-3x"></i>
+                </div>
+                
                 <h2 style="font-weight:900; margin-bottom:25px; color:var(--metin-gri);">BORÇ SORGULA</h2>
+                
                 <input class="input-alan" type="text" id="blokDaire" placeholder="Blok - Daire (Örn: A-1)">
                 <input class="input-alan" type="password" id="sifre" placeholder="Şifre">
                 <button onclick="sorgula()" id="sorguBtn" class="btn-giris">SORGULA</button>
+
+                <div class="guvenlik-rozet">
+                    <i class="fa fa-lock"></i> 256-Bit SSL GÜVENLİ SORGULAMA
+                </div>
             </div>
 
             <div id="sonucEkrani" style="display:none">
@@ -103,41 +110,57 @@
                 <button onclick="location.reload()" style="background:none; border:none; color:#aaa; cursor:pointer; font-weight:bold;">GERİ DÖN</button>
             </div>
         </div>
+
+        <div id="tarihGosterge" class="tarih-etiket"></div>
+
+        <div class="duyuru-bandi" oncontextmenu="return false">
+            <div class="duyuru-icon"><i class="fa fa-bullhorn"></i></div>
+            <div class="duyuru-metin" id="duyuruMetni">Duyuru yükleniyor...</div>
+        </div>
     </div>
 
     <script>
-        // --- AYARLAR ---
-        const bakimModu = false; // Güncelleme yaparken true yap!
-        const scriptURL = "https://script.google.com/macros/s/AKfycbxgHg97R_u6BgK4c7YjKeGr4tFWZOiaQt9Zm9Uh1BNul7el-it4vRxBQlnMJRxBYRVD/exec"; 
+        const bakimModu = false; 
+        const scriptURL = "https://script.google.com/macros/s/AKfycbygL2f5XtN3ORfnZV9bs7qH1ajytT9u8P1zCH98sMn8_RuRZt2tjD4hfl5gskFBaD4/exec"; 
 
-        // 1. Intro Yönetimi
         function baslatIntro() {
             if (bakimModu) {
                 document.getElementById('bakim-ekrani').style.display = 'flex';
                 return;
             }
+            tarihGuncelle();
+            getDuyuru();
             setTimeout(() => {
                 document.getElementById('intro-ekrani').classList.add('intro-gizle');
             }, 2200);
         }
 
-        // 2. IBAN Kopyalama
+        // Tarih Fonksiyonu
+        function tarihGuncelle() {
+            const gunler = ["Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi"];
+            const aylar = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"];
+            const d = new Date();
+            const tarihStr = `${d.getDate()} ${aylar[d.getMonth()]} ${d.getFullYear()} | ${gunler[d.getDay()]}`;
+            document.getElementById('tarihGosterge').innerText = tarihStr;
+        }
+
+        function getDuyuru() {
+            const mesajlar = ["Önemli Duyurular. YAKINDA GELİCEK"];
+            document.getElementById('duyuruMetni').innerText = mesajlar[0];
+        }
+
         function copyIban() {
             navigator.clipboard.writeText(document.getElementById('ibanNum').innerText);
             alert("IBAN Kopyalandı!");
         }
 
-        // 3. Sorgulama (Google Sheets Bağlantısı)
         function sorgula() {
             const bd = document.getElementById('blokDaire').value.trim();
             const sf = document.getElementById('sifre').value.trim();
             const btn = document.getElementById('sorguBtn');
-
             if(!bd || !sf) { alert("Lütfen tüm alanları doldurun!"); return; }
-
             btn.disabled = true;
             btn.innerText = "Sorgulanıyor...";
-
             fetch(`${scriptURL}?blokDaire=${encodeURIComponent(bd)}&sifre=${encodeURIComponent(sf)}`)
             .then(res => res.json())
             .then(data => {
@@ -147,18 +170,21 @@
                     document.getElementById('daireBaslik').innerText = bd.toUpperCase();
                     document.getElementById('borcMiktari').innerText = data.borc + " TL";
                 } else {
-                    alert("Hatalı giriş: " + (data.message || "Bilgileri kontrol edin."));
+                    alert("Hatalı giriş!");
                     btn.disabled = false;
                     btn.innerText = "SORGULA";
                 }
             })
             .catch(err => {
-                alert("Bağlantı hatası! Lütfen internetinizi kontrol edin.");
+                alert("Bağlantı hatası!");
                 btn.disabled = false;
                 btn.innerText = "SORGULA";
             });
         }
+
+        document.onkeydown = function(e) {
+            if(e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'C'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0))) || (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0))) { return false; }
+        };
     </script>
 </body>
 </html>
-
