@@ -6,30 +6,26 @@
     <title>Altıntaş Adalet - Sorgulama</title>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
     <style>
         :root { --ana-turuncu: #f39c12; --koyu-turuncu: #d35400; --metin-gri: #2c3e50; }
         body { background: #f8fafc; font-family: 'Segoe UI', sans-serif; margin: 0; padding-top: 80px; }
 
-        /* NAVBAR - BUTONLARIN ÜST ÜSTE BİNMESİ ENGELLENDİ */
         .navbar {
             background: #fff; height: 70px; width: 100%; position: fixed; top: 0; left: 0;
             display: flex; align-items: center; justify-content: space-between;
             padding: 0 15px; z-index: 1000; border-bottom: 3px solid var(--ana-turuncu);
             box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
-        .navbar-brand { font-weight: 800; font-size: 15px; text-transform: uppercase; color: var(--metin-gri); flex-shrink: 0; }
+        .navbar-brand { font-weight: 800; font-size: 15px; text-transform: uppercase; color: var(--metin-gri); }
         .navbar-brand span { color: var(--ana-turuncu); }
 
-        .nav-buttons { display: flex; gap: 8px; flex-shrink: 0; }
+        .nav-buttons { display: flex; gap: 8px; }
         .nav-btn {
             background: #f8fafc; border: 1px solid #e2e8f0; padding: 6px 10px;
             border-radius: 8px; font-size: 11px; font-weight: 700; color: var(--metin-gri);
-            text-decoration: none; display: flex; align-items: center; gap: 4px; transition: 0.2s;
+            text-decoration: none; display: flex; align-items: center; gap: 4px;
         }
-        .nav-btn:hover { border-color: var(--ana-turuncu); background: #fff; }
 
-        /* KART VE İÇERİK MERKEZLEME */
         .main-container { display: flex; justify-content: center; align-items: center; min-height: calc(100vh - 100px); padding: 20px; }
         .resmi-kart {
             background: #fff; border-radius: 24px; padding: 30px;
@@ -37,8 +33,8 @@
             text-align: center; border: 1px solid #f0f0f0;
         }
 
-        .kalan-borc-baslik { font-size: 24px; font-weight: 900; margin-bottom: 25px; letter-spacing: 1px; }
-        .input-alan { width: 100%; padding: 14px; margin-bottom: 12px; border: 2px solid #f1f5f9; border-radius: 12px; outline: none; transition: 0.3s; font-size: 15px; }
+        .kalan-borc-baslik { font-size: 24px; font-weight: 900; margin-bottom: 25px; }
+        .input-alan { width: 100%; padding: 14px; margin-bottom: 12px; border: 2px solid #f1f5f9; border-radius: 12px; outline: none; font-size: 15px; }
         .input-alan:focus { border-color: var(--ana-turuncu); }
 
         .btn-giris {
@@ -46,9 +42,8 @@
             background: linear-gradient(135deg, var(--ana-turuncu), var(--koyu-turuncu));
             color: white; font-weight: 700; font-size: 16px; cursor: pointer; transition: 0.3s;
         }
-        .btn-giris:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(243, 156, 18, 0.3); }
+        .btn-giris:hover { transform: translateY(-2px); }
 
-        /* SONUÇ EKRANI */
         .borc-kutusu { background: #fffcf0; border-radius: 18px; padding: 20px; margin: 20px 0; border: 1px solid #fef3c7; }
         .borc-rakam { font-size: 38px; font-weight: 900; color: var(--koyu-turuncu); }
         .iban-container { background: #fff; border: 1px dashed #ddd; border-radius: 12px; padding: 12px; margin-top: 15px; }
@@ -59,7 +54,7 @@
 <body>
 
 <div class="navbar">
-    <div class="navbar-brand">ALTINTAŞ <span>ADALET SİTESİ</span></div>
+    <div class="navbar-brand">ALTINTAŞ <span>ADALET</span></div>
     <div class="nav-buttons">
         <a href="anamenu.html" class="nav-btn"><i class="fa fa-home"></i> MENÜ</a>
         <button class="nav-btn" onclick="location.reload()"><i class="fa fa-refresh"></i> YENİLE</button>
@@ -71,12 +66,12 @@
         <div id="girisEkrani">
             <h2 class="kalan-borc-baslik">KALAN BORÇ</h2>
             <input class="input-alan" type="text" id="blokDaire" placeholder="Blok - Daire (A-1)">
-            <input class="input-alan" type="password" id="sifre" placeholder="Şifre">
+            <input class="input-alan" type="password" id="sifre" placeholder="Şifre" onkeypress="handleKeyPress(event)">
             <button onclick="sorgula()" class="btn-giris">SORGULA</button>
         </div>
 
         <div id="sonucEkrani" style="display:none">
-            <h3 id="daireBaslik" style="font-weight: 800; color: var(--metin-gri); margin-bottom: 10px;"></h3>
+            <h3 id="daireBaslik" style="font-weight: 800; color: var(--metin-gri);"></h3>
             <div class="borc-kutusu">
                 <span style="font-size: 11px; font-weight: 800; color: #94a3b8;">TOPLAM BORÇ</span>
                 <div id="borcMiktari" class="borc-rakam"></div>
@@ -90,51 +85,41 @@
     </div>
 </div>
 
-<script> 
-function handleKeyPress(event) {
-    if (event.key === "Enter") {
-        sorgula();
+<script>
+    const scriptURL = "https://script.google.com/macros/s/AKfycbwwUtos2NJiWXLSpikmCtN_Ir6CA52Epg0Q_vQuA9itsDZWb8F9qsGp7QlzznEQV7nE/exec"; // <--- LİNKİ BURAYA KOY
+
+    function handleKeyPress(event) {
+        if (event.key === "Enter") { sorgula(); }
     }
-}
 
-function copyIban() {
-    const iban = document.getElementById('ibanNum').innerText;
-    navigator.clipboard.writeText(iban);
-    alert("IBAN Kopyalandı!");
-}
+    function copyIban() {
+        navigator.clipboard.writeText(document.getElementById('ibanNum').innerText);
+        alert("IBAN Kopyalandı!");
+    }
 
-function sorgula() {
-    const bd = document.getElementById('blokDaire').value.trim().toUpperCase();
-    const sifre = document.getElementById('sifre').value.trim();
-    
-    if(!bd || !sifre) return;
+    function sorgula() {
+        const bd = document.getElementById('blokDaire').value.trim();
+        const sifre = document.getElementById('sifre').value.trim();
+        
+        if(!bd || !sifre) { alert("Lütfen alanları doldurun"); return; }
 
-    // Google Apps Script URL'ni buraya yapıştır
-    const scriptURL = "https://script.google.com/macros/s/AKfycbwXgIRXeopaURPVKSeWyi1GhndumQyvpy27b4e6-YdNb9K3oVhOuzyjrD4AeqtNRuu0/exec";
-
-    fetch(`${scriptURL}?blokDaire=${bd}&sifre=${sifre}`)
-    .then(res => res.json())
-    .then(data => {
-        if(data.status === "success") {
-            document.getElementById('girisEkrani').style.display = "none";
-            document.getElementById('sonucEkrani').style.display = "block";
-            document.getElementById('daireBaslik').innerText = bd + " NOLU DAİRE";
-            document.getElementById('borcMiktari').innerText = data.borc + " TL";
-        } else {
-            alert("Bilgiler hatalı veya daire bulunamadı!");
-        }
-    })
-    .catch(err => alert("Sistem hatası: " + err));
-}
+        fetch(`${scriptURL}?blokDaire=${encodeURIComponent(bd)}&sifre=${encodeURIComponent(sifre)}`)
+        .then(res => res.json())
+        .then(data => {
+            if(data.status === "success") {
+                document.getElementById('girisEkrani').style.display = "none";
+                document.getElementById('sonucEkrani').style.display = "block";
+                document.getElementById('daireBaslik').innerText = bd.toUpperCase() + " NOLU DAİRE";
+                document.getElementById('borcMiktari').innerText = data.borc + " TL";
+            } else {
+                alert("Bilgiler hatalı veya kayıt bulunamadı!");
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            alert("Sistem şu an meşgul, lütfen daha sonra deneyin.");
+        });
+    }
 </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
