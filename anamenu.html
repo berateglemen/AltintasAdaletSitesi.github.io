@@ -1,85 +1,42 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Ana Menü</title>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
-        :root { --ana-turuncu: #f39c12; --metin-gri: #2c3e50; }
-        body { background: #f8fafc; font-family: 'Segoe UI', sans-serif; margin: 0; padding-top: 80px; }
-
-        .navbar {
-            background: #fff; height: 70px; width: 100%; position: fixed; top: 0; left: 0;
-            display: flex; align-items: center; justify-content: center;
-            border-bottom: 3px solid var(--ana-turuncu); box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            z-index: 1000;
-        }
-        .navbar-brand { font-weight: 800; font-size: 18px; text-transform: uppercase; color: var(--metin-gri); letter-spacing: 1px; }
-        .navbar-brand span { color: var(--ana-turuncu); }
-
-        .main-container { display: flex; justify-content: center; align-items: center; min-height: calc(100vh - 100px); padding: 20px; }
-        .menu-kart {
-            background: #fff; border-radius: 24px; padding: 40px 25px;
-            width: 100%; max-width: 400px; box-shadow: 0 15px 35px rgba(0,0,0,0.05);
-            text-align: center; border: 1px solid #f0f0f0;
-        }
-
+        :root { --ana-renk: #f39c12; --koyu-bg: #0f172a; }
+        * { cursor: none !important; }
+        #cursor { width: 8px; height: 8px; background: var(--ana-renk); border-radius: 50%; position: fixed; z-index: 99999; pointer-events: none; }
+        #cursor-ring { width: 35px; height: 35px; border: 1.5px solid var(--ana-renk); border-radius: 50%; position: fixed; z-index: 99998; pointer-events: none; transition: 0.15s ease-out; }
+        body { background: var(--koyu-bg); background-image: radial-gradient(circle at 2px 2px, rgba(255,255,255,0.05) 1px, transparent 0); background-size: 40px 40px; font-family: 'Segoe UI', sans-serif; margin: 0; color: #fff; overflow: hidden; }
+        .navbar { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(15px); height: 75px; width: 100%; position: fixed; top: 0; display: flex; align-items: center; justify-content: center; border-bottom: 2px solid var(--ana-renk); }
+        .main-container { height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; }
+        .menu-kart { background: rgba(255,255,255,0.03); backdrop-filter: blur(20px); border-radius: 30px; padding: 40px 25px; width: 100%; max-width: 400px; border: 1px solid rgba(255,255,255,0.1); text-align: center; }
         .menu-list { display: flex; flex-direction: column; gap: 15px; margin-top: 30px; }
-        .menu-item {
-            display: flex; align-items: center; justify-content: space-between;
-            background: #f8fafc; border: 1.5px solid #f1f5f9; padding: 18px;
-            border-radius: 15px; text-decoration: none; color: var(--metin-gri);
-            font-weight: 700; font-size: 15px; transition: 0.3s;
-        }
-        .menu-item:hover { border-color: var(--ana-turuncu); background: #fffcf7; transform: translateY(-2px); }
-        
-        .icon-box {
-            width: 35px; height: 35px; background: #fff; border-radius: 8px;
-            display: flex; align-items: center; justify-content: center;
-            color: var(--ana-turuncu); box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            margin-right: 12px;
-        }
-        .footer-text { margin-top: 30px; font-size: 10px; color: #ccc; font-weight: bold; letter-spacing: 1px; }
+        .menu-item { display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.05); padding: 20px; border-radius: 18px; text-decoration: none; color: #fff; font-weight: 700; transition: 0.4s; }
+        .menu-item:hover { background: var(--ana-renk); color: #000; transform: translateY(-5px); }
+        .icon-box { width: 40px; height: 40px; background: rgba(0,0,0,0.3); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: var(--ana-renk); margin-right: 15px; }
+        .menu-item:hover .icon-box { color: #000; }
     </style>
 </head>
 <body>
-
-<div class="navbar">
-    <div class="navbar-brand">ALTINTAŞ <span>ADALET SİTESİ</span></div>
-</div>
-
-<div class="main-container">
-    <div class="menu-kart w3-animate-bottom">
-        <h2 style="font-weight: 900; color: var(--metin-gri); font-size: 22px; margin: 0;">ANA MENÜ</h2>
-        <div style="width: 40px; height: 4px; background: var(--ana-turuncu); margin: 12px auto; border-radius: 10px;"></div>
-        
-        <div class="menu-list">
-            <a href="index.html" class="menu-item">
-                <span style="display:flex; align-items:center;">
-                    <div class="icon-box"><i class="fa fa-credit-card"></i></div> BORÇ SORGULAMA
-                </span>
-                <i class="fa fa-chevron-right" style="color:#ddd; font-size:12px;"></i>
-            </a>
-
-            <a href="duyurular.html" class="menu-item">
-                <span style="display:flex; align-items:center;">
-                    <div class="icon-box"><i class="fa fa-bullhorn"></i></div> DUYURULAR
-                </span>
-                <i class="fa fa-chevron-right" style="color:#ddd; font-size:12px;"></i>
-            </a>
-
-            <a href="mailto:airporthomessitesi@outlook.com" class="menu-item">
-                <span style="display:flex; align-items:center;">
-                    <div class="icon-box"><i class="fa fa-envelope"></i></div> YÖNETİME YAZIN
-                </span>
-                <i class="fa fa-chevron-right" style="color:#ddd; font-size:12px;"></i>
-            </a>
+    <div id="cursor"></div><div id="cursor-ring"></div>
+    <div class="navbar"><div style="font-weight:900; letter-spacing:2px;">ALTINTAŞ <span style="color:var(--ana-renk)">ADALET SİTESİ</span></div></div>
+    <div class="main-container">
+        <div class="menu-kart w3-animate-zoom">
+            <h2 style="font-weight:900;">ANA MENÜ</h2>
+            <div class="menu-list">
+                <a href="index.html" class="menu-item"><span><div class="icon-box"><i class="fa fa-credit-card"></i></div> BORÇ SORGULAMA</span><i class="fa fa-chevron-right"></i></a>
+                <a href="duyurular.html" class="menu-item"><span><div class="icon-box"><i class="fa fa-bullhorn"></i></div> DUYURULAR</span><i class="fa fa-chevron-right"></i></a>
+                <a href="mailto:airporthomessitesi@outlook.com" class="menu-item"><span><div class="icon-box"><i class="fa fa-envelope"></i></div> YÖNETİME YAZIN</span><i class="fa fa-chevron-right"></i></a>
+            </div>
         </div>
-        <p class="footer-text">© 2026 ALTINTAŞ ADALET</p>
     </div>
-</div>
-
+    <script>
+        const cur = document.getElementById('cursor'); const ring = document.getElementById('cursor-ring');
+        document.addEventListener('mousemove', (e) => { cur.style.left = e.clientX + 'px'; cur.style.top = e.clientY + 'px'; ring.animate({ left: e.clientX-17+'px', top: e.clientY-17+'px' }, { duration: 400, fill: "forwards" }); });
+    </script>
 </body>
 </html>

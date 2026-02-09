@@ -3,119 +3,114 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Altıntaş Adalet Sitesi - Duyurular</title>
+    <title>Site Duyuruları</title>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
-        :root { --ana-turuncu: #f39c12; --koyu-turuncu: #d35400; --metin-gri: #2c3e50; --mavi: #3498db; --kirmizi: #e74c3c; }
-        
+        :root { 
+            --vurgu: #f39c12; 
+            --bg: #0f172a; 
+            --glass: rgba(255, 255, 255, 0.03);
+        }
+
+        /* --- MODERN MOUSE --- */
+        * { cursor: none !important; }
+        #cursor { width: 8px; height: 8px; background: var(--vurgu); border-radius: 50%; position: fixed; z-index: 99999; pointer-events: none; }
+        #cursor-ring { width: 35px; height: 35px; border: 1.5px solid var(--vurgu); border-radius: 50%; position: fixed; z-index: 99998; pointer-events: none; transition: 0.15s ease-out; }
+
         body { 
-            background: linear-gradient(135deg, #f1f5f9 0%, #dfe7ef 100%); 
+            background: var(--bg); 
+            background-image: radial-gradient(circle at 2px 2px, rgba(255,255,255,0.05) 1px, transparent 0);
+            background-size: 40px 40px;
             font-family: 'Segoe UI', sans-serif; 
-            margin: 0; padding: 0; 
-            min-height: 100vh;
-            -webkit-user-select: none; user-select: none;
+            margin: 0; padding: 0; padding-top: 100px;
+            color: #fff;
+            overflow-x: hidden;
+            user-select: none;
         }
 
         /* --- NAVBAR --- */
         .navbar { 
-            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); 
-            height: 70px; width: 100%; position: fixed; top: 0; left: 0; 
+            background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(15px);
+            height: 75px; width: 100%; position: fixed; top: 0; 
             display: flex; align-items: center; justify-content: space-between; 
-            padding: 0 15px; z-index: 1000; border-bottom: 3px solid var(--ana-turuncu); 
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05); 
-        }
-        .navbar-brand { font-weight: 800; font-size: 15px; text-transform: uppercase; color: var(--metin-gri); }
-        .navbar-brand span { color: var(--ana-turuncu); }
-
-        /* --- DUYURU LİSTESİ --- */
-        .container { 
-            margin-top: 90px; padding: 20px; width: 100%; max-width: 600px; 
-            margin-left: auto; margin-right: auto;
+            padding: 0 25px; border-bottom: 2px solid var(--vurgu); z-index: 1000; 
         }
 
-        .sayfa-baslik { text-align: center; margin-bottom: 30px; }
-        .sayfa-baslik h1 { font-weight: 900; color: var(--metin-gri); font-size: 24px; margin-bottom: 5px; }
-        .sayfa-baslik .alt-cizgi { width: 50px; height: 4px; background: var(--ana-turuncu); margin: 0 auto; border-radius: 2px; }
+        .container { max-width: 700px; margin: auto; padding: 20px; }
 
-        /* Duyuru Kartı Stili */
-        .duyuru-kart {
-            background: white; border-radius: 18px; padding: 20px;
-            margin-bottom: 20px; position: relative;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-            border-left: 6px solid var(--ana-turuncu);
-            transition: 0.3s;
+        /* --- DUYURU KARTLARI --- */
+        .duyuru-kart { 
+            background: var(--glass); 
+            backdrop-filter: blur(20px);
+            border-radius: 20px; padding: 25px; margin-bottom: 25px; 
+            position: relative; border: 1px solid rgba(255,255,255,0.08);
+            border-left: 5px solid var(--vurgu); 
+            transition: 0.4s ease; 
         }
-        .duyuru-kart:hover { transform: scale(1.02); }
+
+        .duyuru-kart:hover { 
+            transform: translateX(10px); 
+            background: rgba(255,255,255,0.06);
+            border-color: var(--vurgu);
+        }
+
+        /* --- DÜZELTİLEN RADIUS BURADA --- */
+        .duyuru-tag { 
+            position: absolute; 
+            top: -1px; /* Kenarlıkla tam sıfırlanması için */
+            right: -1px; 
+            padding: 5px 15px; 
+            font-size: 10px; 
+            font-weight: 900; 
+            background: var(--vurgu); 
+            color: #000; 
+            /* Kartın border-radiusu 20px olduğu için üst ve sağ köşeyi 20px yaptık */
+            border-top-right-radius: 20px; 
+            border-bottom-left-radius: 15px; 
+        }
+
+        .duyuru-baslik { font-size: 20px; font-weight: 800; margin-bottom: 10px; color: #fff; display: flex; align-items: center; }
+        .duyuru-baslik i { margin-right: 12px; color: var(--vurgu); }
+        .duyuru-icerik { font-size: 15px; color: #94a3b8; line-height: 1.6; }
         
-        /* Önem Derecelerine Göre Renkler */
-        .duyuru-kart.onemli { border-left-color: var(--kirmizi); }
-        .duyuru-kart.bilgi { border-left-color: var(--mavi); }
-
-        .duyuru-tarih { 
-            font-size: 11px; font-weight: 800; color: #94a3b8; 
-            display: flex; align-items: center; gap: 5px; margin-bottom: 8px;
-        }
-        .duyuru-baslik { font-size: 17px; font-weight: 800; color: var(--metin-gri); margin-bottom: 8px; }
-        .duyuru-icerik { font-size: 14px; color: #64748b; line-height: 1.5; font-weight: 500; }
-
-        .badge {
-            display: inline-block; padding: 3px 10px; border-radius: 10px;
-            font-size: 10px; font-weight: 800; text-transform: uppercase;
-            margin-bottom: 10px;
-        }
-        .badge-uyari { background: #fff4e5; color: var(--ana-turuncu); }
-        .badge-onemli { background: #fee2e2; color: var(--kirmizi); }
-        .badge-bilgi { background: #e0f2fe; color: var(--mavi); }
-
+        .duyuru-tarih { font-size: 11px; color: #475569; margin-top: 15px; font-weight: 700; text-transform: uppercase; }
     </style>
 </head>
-<body oncontextmenu="return false">
+<body>
+    <div id="cursor"></div>
+    <div id="cursor-ring"></div>
 
     <div class="navbar">
-        <div class="navbar-brand">ALTINTAŞ <span>ADALET SİTESİ</span></div>
-        <a href="index.html" style="text-decoration:none; font-weight:bold; font-size:12px; color:var(--metin-gri);"><i class="fa fa-arrow-left"></i> GERİ</a>
+        <b style="letter-spacing: 1px;">SİTE DUYURULARI</b>
+        <a href="anamenu.html" style="color:var(--vurgu)"><i class="fa fa-times fa-lg"></i></a>
     </div>
 
     <div class="container">
-        <div class="sayfa-baslik w3-animate-top">
-            <h1>SİTE DUYURULARI(ÖRNEK. GERÇEK DEĞİLDİR!)</h1>
-            <div class="alt-cizgi"></div>
-        </div>
-
-        <div class="duyuru-kart onemli w3-animate-zoom">
-            <div class="duyuru-tarih"><i class="fa fa-calendar"></i> 06 Şubat 2026</div>
-            <div class="badge badge-onemli">ACİL DURUM</div>
-            <div class="duyuru-baslik">Asansör Bakım Çalışması</div>
-            <div class="duyuru-icerik">
-                A Blok ana asansörü, yıllık ağır bakım çalışmaları nedeniyle yarın saat 09:00 - 17:00 saatleri arasında hizmet veremeyecektir.
+        <div class="duyuru-kart w3-animate-bottom">
+            <div class="duyuru-tag">BİLGİ</div>
+            <div class="duyuru-baslik">
+                <i class="fa fa-paint-brush"></i> Dış Cephe Boya
             </div>
-        </div>
-
-        <div class="duyuru-kart bilgi w3-animate-zoom" style="animation-delay: 0.1s;">
-            <div class="duyuru-tarih"><i class="fa fa-calendar"></i> 05 Şubat 2026</div>
-            <div class="badge badge-bilgi">BİLGİLENDİRME</div>
-            <div class="duyuru-baslik">Bahçe İlaçlaması Hakkında</div>
             <div class="duyuru-icerik">
-                Periyodik bahçe ve ortak alan ilaçlama çalışması bu hafta sonu gerçekleştirilecektir. Evcil hayvan sahiplerinin dikkatine sunulur.
+                Bina dış cephe tamiratı ve boya işleri için fiyat teklifleri alınmaya devam etmektedir. Ayrıntılı bilgi almak için yönetime başvurabilirsiniz.
             </div>
+            <div class="duyuru-tarih">10 ŞUBAT 2026</div>
         </div>
-
-        <div class="duyuru-kart w3-animate-zoom" style="animation-delay: 0.2s;">
-            <div class="duyuru-tarih"><i class="fa fa-calendar"></i> 01 Şubat 2026</div>
-            <div class="badge badge-uyari">GENEL</div>
-            <div class="duyuru-baslik">Şubat Ayı Aidat Ödemeleri</div>
-            <div class="duyuru-icerik">
-                Şubat ayı aidatlarının en geç ayın 20'sine kadar ödenmesi rica olunur. Borç sorgulama panelinden güncel tutarı kontrol edebilirsiniz.
-            </div>
-        </div>
-
     </div>
 
     <script>
-        document.onkeydown = function(e) {
-            if(e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'C'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0))) || (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0))) { return false; }
-        };
+        const cur = document.getElementById('cursor');
+        const ring = document.getElementById('cursor-ring');
+        
+        document.addEventListener('mousemove', (e) => { 
+            cur.style.left = e.clientX + 'px'; 
+            cur.style.top = e.clientY + 'px'; 
+            ring.animate({ 
+                left: e.clientX - 17 + 'px', 
+                top: e.clientY - 17 + 'px' 
+            }, { duration: 400, fill: "forwards" });
+        });
     </script>
 </body>
 </html>
