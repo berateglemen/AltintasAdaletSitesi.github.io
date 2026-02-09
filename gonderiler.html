@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Site Paylaşımları</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        :root { --ana-renk: #f39c12; --koyu-bg: #0f172a; }
+        * { cursor: none !important; }
+        #cursor { width: 8px; height: 8px; background: var(--ana-renk); border-radius: 50%; position: fixed; z-index: 99999; pointer-events: none; }
+        #cursor-ring { width: 35px; height: 35px; border: 1.5px solid var(--ana-renk); border-radius: 50%; position: fixed; z-index: 99998; pointer-events: none; transition: 0.15s ease-out; }
+        body { background: var(--koyu-bg); color: #fff; font-family: sans-serif; margin: 0; padding: 15px; }
+        
+        .post-card { background: rgba(255,255,255,0.05); padding: 20px; border-radius: 20px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.1); position: relative; }
+        .input-box { width: 100%; background: #000; border: 1px solid #334155; color: #fff; padding: 15px; border-radius: 15px; resize: none; outline: none; margin-bottom: 10px; }
+        
+        .btn-paylas { background: var(--ana-renk); color: #000; border: none; padding: 12px 25px; border-radius: 12px; font-weight: 900; float: right; cursor: pointer; }
+        .foto-ekle-btn { color: var(--ana-renk); cursor: pointer; font-size: 20px; display: inline-block; padding: 5px; }
+        
+        #onizleme-alani { display: none; margin: 10px 0; position: relative; width: 100px; }
+        #onizleme-img { width: 100px; height: 100px; object-fit: cover; border-radius: 10px; border: 1px solid var(--ana-renk); }
+        .onizleme-sil { position: absolute; top: -10px; right: -10px; background: red; color: white; border-radius: 50%; width: 20px; height: 20px; text-align: center; font-size: 12px; cursor: pointer; }
+        
+        .akis-img { width: 100%; border-radius: 15px; margin-top: 15px; border: 1px solid rgba(255,255,255,0.1); }
+        .muhur { position: absolute; top: 15px; right: 20px; font-size: 9px; color: var(--ana-renk); opacity: 0.7; }
+    </style>
+</head>
+<body>
+    <div id="cursor"></div><div id="cursor-ring"></div>
+
+    <div style="max-width:600px; margin:0 auto; padding-top:10px;">
+        <a href="anamenu.html" style="color:var(--ana-renk); text-decoration:none;"><i class="fa fa-arrow-left"></i> Geri Dön</a>
+        <h2 style="font-weight:900; margin: 20px 0;">SİTE AKIŞI</h2>
+
+        <div class="post-card w3-animate-top">
+            <div style="margin-bottom:10px; font-weight:bold; font-size:14px;" id="yazar"></div>
+            <textarea id="metin" class="input-box" placeholder="Bir şeyler paylaş veya fotoğraf ekle..." rows="3"></textarea>
+            
+            <div id="onizleme-alani">
+                <img id="onizleme-img" src="">
+                <div class="onizleme-sil" onclick="fotoIptal()">×</div>
+            </div>
+
+            <input type="file" id="foto-input" accept="image/*" hidden onchange="fotoOnizle(this)">
+            
+            <label for="foto-input" class="foto-ekle-btn">
+                <i class="fa fa-camera"></i> <span style="font-size:14px;">Fotoğraf Ekle</span>
+            </label>
+
+            <button class="btn-paylas" onclick="paylas()">PAYLAŞ</button>
+            <div style="clear:both"></div>
+        </div>
+
+        <div id="akis"></div>
+    </div>
+
+    <script>
+        // Mouse efekti
+        document.addEventListener('mousemove', (e) => {
+            document.getElementById('cursor').style.left = e.clientX + 'px';
+            document.getElementById('cursor').style.top = e.clientY + 'px';
+            document.getElementById('cursor-ring').animate({ left: e.clientX-17+'px', top: e.clientY-17+'px' }, { duration: 400, fill: "forwards" });
+        });
+
+        const ad = localStorage.getItem('user_name');
+        const bd = localStorage.getItem('user_bd');
+        let secilenFotoData = "";
+
+        if(!ad) window.location.href="index.html";
+        document.getElementById('yazar').innerText = "Kullanıcı: " + ad + " (" + bd + ")";
+
+        // Fotoğraf Seçildiğinde
+        function fotoOnizle(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    secilenFotoData = e.target.result;
+                    document.getElementById('onizleme-img').src = secilenFotoData;
+                    document.getElementById('onizleme-alani').style.display = "block";
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        // Fotoğrafı İptal Et
+        function fotoIptal() {
+            secilenFotoData = "";
+            document.getElementById('onizleme-alani').style.display = "none";
+            document.getElementById('foto-input').value = "";
+        }
+
+        function paylas() {
+            const txt = document.getElementById('metin').value.trim();
+            if(!txt && !secilenFotoData) return alert("Boş paylaşım yapılamaz!");
+
+            const html = `
+                <div class="post-card w3-animate-bottom">
+                    <div class="muhur">DOĞRULANMIŞ SAKİN</div>
+                    <b style="color:var(--ana-renk)">${ad}</b> <small style="color:#94a3b8">(${bd})</small><br>
+                    <small style="color:#475569">Az önce</small>
+                    <p style="margin-top:10px;">${txt}</p>
+                    ${secilenFotoData ? `<img src="${secilenFotoData}" class="akis-img">` : ""}
+                </div>
+            `;
+            
+            document.getElementById('akis').insertAdjacentHTML('afterbegin', html);
+            
+            // Formu Temizle
+            document.getElementById('metin').value = "";
+            fotoIptal();
+        }
+    </script>
+</body>
+</html>

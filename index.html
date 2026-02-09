@@ -1,89 +1,82 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Altıntaş Adalet Sitesi - Borç Sorgulama</title>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Altıntaş Adalet Sitesi - Giriş</title>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="icon" href="logo.svg">
     <style>
         :root { --ana-renk: #f39c12; --koyu-bg: #0f172a; --glass: rgba(255, 255, 255, 0.03); }
         * { cursor: none !important; }
         #cursor { width: 8px; height: 8px; background: var(--ana-renk); border-radius: 50%; position: fixed; z-index: 99999; pointer-events: none; }
         #cursor-ring { width: 35px; height: 35px; border: 1.5px solid var(--ana-renk); border-radius: 50%; position: fixed; z-index: 99998; pointer-events: none; transition: 0.15s ease-out; }
-        body { background: var(--koyu-bg); background-image: radial-gradient(circle at 2px 2px, rgba(255,255,255,0.05) 1px, transparent 0); background-size: 40px 40px; font-family: 'Segoe UI', sans-serif; margin: 0; color: #f1f5f9; overflow-x: hidden; user-select: none; }
-        
-        /* YENİ NESİL INTRO */
-        #intro-ekrani { position: fixed; inset: 0; background: #0f172a; z-index: 10000; display: flex; justify-content: center; align-items: center; transition: 1s cubic-bezier(0.7, 0, 0.3, 1); }
-        .loader-ring { width: 100px; height: 100px; border: 2px solid rgba(243, 156, 18, 0.1); border-top: 2px solid var(--ana-renk); border-radius: 50%; margin: 0 auto 25px; animation: spin 1.5s linear infinite; display: flex; justify-content: center; align-items: center; }
-        .loader-ring i { animation: reverse-spin 1.5s linear infinite; color: var(--ana-renk); }
-        @keyframes spin { 100% { transform: rotate(360deg); } }
-        @keyframes reverse-spin { 100% { transform: rotate(-360deg); } }
-        .status-text { color: #fff; font-weight: 300; letter-spacing: 4px; font-size: 13px; text-transform: uppercase; }
-        .loading-dot { width: 4px; height: 4px; background: var(--ana-renk); display: inline-block; border-radius: 50%; margin-left: 5px; animation: blink 1s infinite; }
-        @keyframes blink { 0%, 100% { opacity: 0; } 50% { opacity: 1; } }
-        .intro-gizle { transform: scale(1.1); opacity: 0; pointer-events: none; }
-
+        body { background: var(--koyu-bg); background-image: radial-gradient(circle at 2px 2px, rgba(255,255,255,0.05) 1px, transparent 0); background-size: 40px 40px; font-family: 'Segoe UI', sans-serif; margin: 0; color: #f1f5f9; overflow-x: hidden; }
+        #intro-ekrani { position: fixed; inset: 0; background: #0f172a; z-index: 10000; display: flex; justify-content: center; align-items: center; transition: 0.8s; }
+        .intro-gizle { opacity: 0; pointer-events: none; }
         .navbar { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(15px); height: 75px; width: 100%; position: fixed; top: 0; display: flex; align-items: center; justify-content: space-between; padding: 0 30px; z-index: 1000; border-bottom: 1px solid rgba(243, 156, 18, 0.3); }
-        .navbar-brand { font-weight: 800; font-size: 16px; letter-spacing: 1px; text-transform: uppercase; }
-        .navbar-brand span { color: var(--ana-renk); }
         .main-container { display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
-        .resmi-kart { background: var(--glass); backdrop-filter: blur(25px); border-radius: 24px; padding: 45px; width: 100%; max-width: 420px; border: 1px solid rgba(255,255,255,0.1); text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
-        .input-alan { width: 100%; padding: 16px; margin-bottom: 15px; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; color: #fff; outline: none; transition: 0.3s; }
-        .input-alan:focus { border-color: var(--ana-renk); background: rgba(0,0,0,0.4); }
-        .btn-giris { width: 100%; padding: 18px; border: none; border-radius: 14px; background: linear-gradient(135deg, #f39c12, #e67e22); color: #fff; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; transition: 0.3s; }
-        .borc-rakam { font-size: 45px; font-weight: 900; color: #fff; margin: 15px 0; }
+        .resmi-kart { background: var(--glass); backdrop-filter: blur(25px); border-radius: 24px; padding: 45px; width: 100%; max-width: 420px; border: 1px solid rgba(255,255,255,0.1); text-align: center; }
+        .input-alan { width: 100%; padding: 16px; margin-bottom: 15px; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; color: #fff; outline: none; }
+        .btn-giris { width: 100%; padding: 18px; border: none; border-radius: 14px; background: linear-gradient(135deg, #f39c12, #e67e22); color: #fff; font-weight: 700; cursor: pointer; }
     </style>
 </head>
-<body onload="baslatIntro()" oncontextmenu="return false">
+<body onload="setTimeout(()=>document.getElementById('intro-ekrani').classList.add('intro-gizle'), 1200)">
     <div id="cursor"></div><div id="cursor-ring"></div>
-    <div id="intro-ekrani">
-        <div class="intro-content">
-            <div class="loader-ring"><i class="fa fa-balance-scale fa-2x"></i></div>
-            <div class="status-text">GÜVENLİ ERİŞİM <span class="loading-dot"></span></div>
-            <div style="font-size: 9px; color: #475569; margin-top: 15px; letter-spacing: 2px;">ALTINTAŞ ADALET SİTESİ</div>
-            <div style="font-size: 9px; color: #475569; margin-top: 15px; letter-spacing: 2px;">GİRİŞ YAPILIYOR</div>
-        </div>
-    </div>
+    <div id="intro-ekrani"><div style="color:var(--ana-renk); letter-spacing:5px; font-weight:900;">BAĞLANILIYOR...</div></div>
+    
     <div class="navbar">
-        <div class="navbar-brand">ALTINTAŞ <span>ADALET SİTESİ</span></div>
-        <a href="anamenu.html" style="text-decoration:none; color:#fff; font-size:20px;"><i class="fa fa-bars"></i></a>
+        <div style="font-weight:900;">ALTINTAŞ <span style="color:var(--ana-renk)">ADALET SİTESİ</span></div>
+        <a href="anamenu.html" style="color:#fff;"><i class="fa fa-bars fa-lg"></i></a>
     </div>
+
     <div class="main-container">
-        <div class="resmi-kart w3-animate-opacity">
+        <div class="resmi-kart w3-animate-zoom">
             <div id="girisEkrani">
-                <h2 style="font-weight:800; margin-bottom:30px; font-size:20px; letter-spacing: 1px;">BORÇ SORGULAMA</h2>
-                <input class="input-alan" type="text" id="blokDaire" placeholder="Blok - Daire Giriniz">
+                <h2 style="font-weight:800; margin-bottom:25px;">BORÇ SORGULAMA</h2>
+                <input class="input-alan" type="text" id="blokDaire" placeholder="Blok-Daire (Örn: A-1)">
                 <input class="input-alan" type="password" id="sifre" placeholder="Sistem Şifresi">
                 <button onclick="sorgula()" id="sorguBtn" class="btn-giris">GİRİŞ YAP</button>
             </div>
             <div id="sonucEkrani" style="display:none">
-                <h3 id="daireBaslik" style="font-weight:800; color:var(--ana-renk);"></h3>
-                <div style="background:rgba(255,255,255,0.05); padding:30px; border-radius:20px; margin:20px 0;">
-                    <span style="font-size:11px; color:#94a3b8; letter-spacing: 1px;">TOPLAM BORÇ TUTARI</span>
-                    <div id="borcMiktari" class="borc-rakam">0 TL</div>
+                <h3 id="daireBaslik" style="color:var(--ana-renk); font-weight:900;"></h3>
+                <div style="background:rgba(255,255,255,0.05); padding:25px; border-radius:20px; margin:20px 0;">
+                    <small style="color:#94a3b8">GÜNCEL BORÇ</small>
+                    <div id="borcMiktari" style="font-size:40px; font-weight:900;">0 TL</div>
                 </div>
-                <button class="btn-giris" onclick="copyIban()" style="background:#1e293b; border:1px solid #334155;">IBAN KOPYALA</button>
-                <button onclick="location.reload()" style="margin-top:25px; background:none; border:none; color:#64748b; font-weight:600;">OTURUMU KAPAT</button>
+                <button class="btn-giris" onclick="window.location.href='anamenu.html'">ANA MENÜYE GİT</button>
             </div>
         </div>
     </div>
+
     <script>
-        const scriptURL = "https://script.google.com/macros/s/AKfycbziTF1JO9CmX0RMt0QaAC_h_EgQColF6hS9jhgIvETHanl1pRZg0NCKnXb0pdEW-Gs/exec"; 
-        const cur = document.getElementById('cursor'); const ring = document.getElementById('cursor-ring');
-        document.addEventListener('mousemove', (e) => { cur.style.left = e.clientX + 'px'; cur.style.top = e.clientY + 'px'; ring.animate({ left: e.clientX-17+'px', top: e.clientY-17+'px' }, { duration: 400, fill: "forwards" }); });
-        function baslatIntro() { const status = document.querySelector('.status-text'); setTimeout(() => { status.innerHTML = 'VERİLER DOĞRULANIYOR <span class="loading-dot"></span>'; }, 1000); setTimeout(() => { document.getElementById('intro-ekrani').classList.add('intro-gizle'); }, 2200); }
-        function copyIban() { navigator.clipboard.writeText("TR430014300000000026762952"); alert("IBAN Kopyalandı."); }
+        const scriptURL = "https://script.google.com/macros/s/AKfycbziTF1JO9CmX0RMt0QaAC_h_EgQColF6hS9jhgIvETHanl1pRZg0NCKnXb0pdEW-Gs/exec";
+        document.addEventListener('mousemove', (e) => { 
+            document.getElementById('cursor').style.left = e.clientX+'px'; document.getElementById('cursor').style.top = e.clientY+'px';
+            document.getElementById('cursor-ring').animate({left: e.clientX-17+'px', top: e.clientY-17+'px'}, {duration:400, fill:"forwards"});
+        });
+
         function sorgula() {
-            const bd = document.getElementById('blokDaire').value.trim(); const sf = document.getElementById('sifre').value.trim(); const btn = document.getElementById('sorguBtn');
-            if(!bd || !sf) return alert("Bilgileri giriniz.");
-            btn.disabled = true; btn.innerText = "GİRİŞ YAPILIYOR...";
+            const bd = document.getElementById('blokDaire').value.trim();
+            const sf = document.getElementById('sifre').value.trim();
+            if(!bd || !sf) return alert("Eksik bilgi!");
+
+            document.getElementById('sorguBtn').innerText = "KONTROL EDİLİYOR...";
+            
             fetch(`${scriptURL}?blokDaire=${encodeURIComponent(bd)}&sifre=${encodeURIComponent(sf)}`)
             .then(res => res.json()).then(data => {
-                if(data.status === "success") { document.getElementById('girisEkrani').style.display = "none"; document.getElementById('sonucEkrani').style.display = "block"; document.getElementById('daireBaslik').innerText = bd.toUpperCase(); document.getElementById('borcMiktari').innerText = data.borc + " TL";
-                } else { alert("Bilgiler hatalı."); btn.disabled = false; btn.innerText = "TEKRAR DENE"; }
-            }).catch(() => { alert("Sistem meşgul."); btn.disabled = false; });
+                if(data.status === "success") {
+                    localStorage.setItem('user_bd', bd); 
+                    
+                    if(!localStorage.getItem('user_name')) {
+                        window.location.href = "profil.html";
+                    } else {
+                        document.getElementById('girisEkrani').style.display = "none";
+                        document.getElementById('sonucEkrani').style.display = "block";
+                        document.getElementById('daireBaslik').innerText = bd.toUpperCase();
+                        document.getElementById('borcMiktari').innerText = data.borc + " TL";
+                    }
+                } else { alert("Hatalı Giriş!"); location.reload(); }
+            });
         }
     </script>
 </body>

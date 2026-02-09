@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Profil Kurulumu</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <style>
+        :root { --ana-renk: #f39c12; --koyu-bg: #0f172a; }
+        body { background: var(--koyu-bg); color: #fff; font-family: sans-serif; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }
+        .kart { background: rgba(255,255,255,0.05); padding: 40px; border-radius: 25px; width: 90%; max-width: 380px; text-align: center; border: 1px solid rgba(255,255,255,0.1); }
+        .input-alan { width: 100%; padding: 14px; margin: 10px 0; border-radius: 12px; border: 1px solid #334155; background: #000; color: #fff; outline: none; }
+        .btn { width: 100%; padding: 16px; background: var(--ana-renk); border: none; border-radius: 12px; font-weight: 900; cursor: pointer; margin-top: 15px; color: #000; }
+    </style>
+</head>
+<body onload="check()">
+    <div class="kart w3-animate-top">
+        <h2 style="font-weight:900">PROFİL OLUŞTUR</h2>
+        <p style="font-size:12px; color:#94a3b8">Adınız ve Telefonunuz gönderilerde görünecek şekilde sisteme mühürlenecektir.</p>
+        
+        <input type="text" id="pAd" class="input-alan" placeholder="Ad Soyad">
+        <input type="tel" id="pTel" class="input-alan" placeholder="Telefon (05xx)">
+        <input type="text" id="pBD" class="input-alan" readonly style="opacity:0.5; cursor:not-allowed;">
+
+        <button class="btn" onclick="save()">MÜHÜRLE VE GİRİŞ YAP</button>
+    </div>
+
+    <script>
+        function check() {
+            const bd = localStorage.getItem('user_bd');
+            if(!bd) { window.location.href="index.html"; return; }
+            document.getElementById('pBD').value = "DAİRE: " + bd;
+        }
+
+        function save() {
+            const ad = document.getElementById('pAd').value.trim();
+            const tel = document.getElementById('pTel').value.trim();
+            if(ad.length < 5 || tel.length < 10) return alert("Bilgileri eksiksiz doldurun!");
+
+            localStorage.setItem('user_name', ad);
+            localStorage.setItem('user_tel', tel);
+            localStorage.setItem('user_status', 'registered');
+            
+            alert("Hoşgeldiniz " + ad + "!");
+            window.location.href = "anamenu.html";
+        }
+    </script>
+</body>
+</html>

@@ -6,7 +6,6 @@
     <title>Site Duyuruları</title>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="icon" href="logo.svg">
     <style>
         :root { 
             --vurgu: #f39c12; 
@@ -56,26 +55,38 @@
             border-color: var(--vurgu);
         }
 
-        /* --- DÜZELTİLEN RADIUS BURADA --- */
         .duyuru-tag { 
-            position: absolute; 
-            top: -1px; /* Kenarlıkla tam sıfırlanması için */
-            right: -1px; 
-            padding: 5px 15px; 
-            font-size: 10px; 
-            font-weight: 900; 
-            background: var(--vurgu); 
-            color: #000; 
-            /* Kartın border-radiusu 20px olduğu için üst ve sağ köşeyi 20px yaptık */
-            border-top-right-radius: 20px; 
-            border-bottom-left-radius: 15px; 
+            position: absolute; top: -1px; right: -1px; 
+            padding: 5px 15px; font-size: 10px; font-weight: 900; 
+            background: var(--vurgu); color: #000; 
+            border-top-right-radius: 20px; border-bottom-left-radius: 15px; 
         }
 
         .duyuru-baslik { font-size: 20px; font-weight: 800; margin-bottom: 10px; color: #fff; display: flex; align-items: center; }
         .duyuru-baslik i { margin-right: 12px; color: var(--vurgu); }
-        .duyuru-icerik { font-size: 15px; color: #94a3b8; line-height: 1.6; }
+        .duyuru-icerik { font-size: 15px; color: #94a3b8; line-height: 1.6; padding-right: 40px; }
         
-        .duyuru-tarih { font-size: 11px; color: #475569; margin-top: 15px; font-weight: 700; text-transform: uppercase; }
+        .duyuru-alt-kisim { display: flex; justify-content: space-between; align-items: center; margin-top: 15px; }
+        .duyuru-tarih { font-size: 11px; color: #475569; font-weight: 700; text-transform: uppercase; }
+
+        /* MESAJ BUTONU */
+        .mesaj-btn {
+            background: var(--vurgu);
+            color: #000;
+            width: 35px;
+            height: 35px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(243, 156, 18, 0.2);
+        }
+        .mesaj-btn:hover {
+            transform: scale(1.1);
+            background: #fff;
+        }
     </style>
 </head>
 <body>
@@ -96,9 +107,16 @@
             <div class="duyuru-icerik">
                 Bina dış cephe tamiratı ve boya işleri için fiyat teklifleri alınmaya devam etmektedir. Ayrıntılı bilgi almak için yönetime başvurabilirsiniz.
             </div>
-            <div class="duyuru-tarih">10 ŞUBAT 2026</div>
+            
+            <div class="duyuru-alt-kisim">
+                <div class="duyuru-tarih">10 ŞUBAT 2026</div>
+                <a href="mailto:airporthomessitesi@outlook.com?subject=Duyuru Hakkında: Dış Cephe Boya" class="mesaj-btn" title="Yöneticiye Soru Sor">
+                    <i class="fa fa-envelope"></i>
+                </a>
+            </div>
         </div>
-    </div>
+        
+        </div>
 
     <script>
         const cur = document.getElementById('cursor');

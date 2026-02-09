@@ -5,39 +5,49 @@
     <title>Ana Menü</title>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="icon" href="logo.svg">
     <style>
         :root { --ana-renk: #f39c12; --koyu-bg: #0f172a; }
-        * { cursor: none !important; }
-        #cursor { width: 8px; height: 8px; background: var(--ana-renk); border-radius: 50%; position: fixed; z-index: 99999; pointer-events: none; }
-        #cursor-ring { width: 35px; height: 35px; border: 1.5px solid var(--ana-renk); border-radius: 50%; position: fixed; z-index: 99998; pointer-events: none; transition: 0.15s ease-out; }
-        body { background: var(--koyu-bg); background-image: radial-gradient(circle at 2px 2px, rgba(255,255,255,0.05) 1px, transparent 0); background-size: 40px 40px; font-family: 'Segoe UI', sans-serif; margin: 0; color: #fff; overflow: hidden; }
-        .navbar { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(15px); height: 75px; width: 100%; position: fixed; top: 0; display: flex; align-items: center; justify-content: center; border-bottom: 2px solid var(--ana-renk); }
-        .main-container { height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; }
-        .menu-kart { background: rgba(255,255,255,0.03); backdrop-filter: blur(20px); border-radius: 30px; padding: 40px 25px; width: 100%; max-width: 400px; border: 1px solid rgba(255,255,255,0.1); text-align: center; }
-        .menu-list { display: flex; flex-direction: column; gap: 15px; margin-top: 30px; }
-        .menu-item { display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.05); padding: 20px; border-radius: 18px; text-decoration: none; color: #fff; font-weight: 700; transition: 0.4s; }
-        .menu-item:hover { background: var(--ana-renk); color: #000; transform: translateY(-5px); }
-        .icon-box { width: 40px; height: 40px; background: rgba(0,0,0,0.3); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: var(--ana-renk); margin-right: 15px; }
-        .menu-item:hover .icon-box { color: #000; }
+        body { background: var(--koyu-bg); color: #fff; font-family: sans-serif; margin: 0; }
+        .menu-list { padding: 30px 20px; display: flex; flex-direction: column; gap: 15px; max-width: 500px; margin: 0 auto; }
+        .menu-item { background: rgba(255,255,255,0.05); padding: 22px; border-radius: 18px; display: flex; justify-content: space-between; align-items: center; text-decoration: none; color: #fff; font-weight: bold; border: 1px solid rgba(255,255,255,0.05); transition: 0.3s; }
+        .menu-item:hover { border-color: var(--ana-renk); background: rgba(243, 156, 18, 0.1); }
+        .icon { width: 40px; color: var(--ana-renk); text-align: center; font-size: 20px; }
     </style>
 </head>
 <body>
-    <div id="cursor"></div><div id="cursor-ring"></div>
-    <div class="navbar"><div style="font-weight:900; letter-spacing:2px;">ALTINTAŞ <span style="color:var(--ana-renk)">ADALET SİTESİ</span></div></div>
-    <div class="main-container">
-        <div class="menu-kart w3-animate-zoom">
-            <h2 style="font-weight:900;">ANA MENÜ</h2>
-            <div class="menu-list">
-                <a href="index.html" class="menu-item"><span><div class="icon-box"><i class="fa fa-credit-card"></i></div> BORÇ SORGULAMA</span><i class="fa fa-chevron-right"></i></a>
-                <a href="duyurular.html" class="menu-item"><span><div class="icon-box"><i class="fa fa-bullhorn"></i></div> DUYURULAR</span><i class="fa fa-chevron-right"></i></a>
-                <a href="mailto:airporthomessitesi@outlook.com" class="menu-item"><span><div class="icon-box"><i class="fa fa-envelope"></i></div> YÖNETİME YAZIN</span><i class="fa fa-chevron-right"></i></a>
-            </div>
-        </div>
+    <div style="text-align:center; padding:40px 20px; border-bottom:1px solid rgba(255,255,255,0.1);">
+        <h2 style="font-weight:900; margin:0;">ALTINTAŞ <span style="color:var(--ana-renk)">ADALET SİTESİ</span></h2>
+        <div id="hosgeldin" style="margin-top:10px; font-size:14px; color:#94a3b8"></div>
     </div>
+    
+<div class="menu-list">
+    <a href="gonderiler.html" class="menu-item">
+        <span><i class="fa fa-comments icon"></i> SİTE AKIŞI / PAYLAŞIM</span>
+        <i class="fa fa-chevron-right"></i>
+    </a>
+    <a href="duyurular.html" class="menu-item">
+        <span><i class="fa fa-bullhorn icon"></i> DUYURULAR</span>
+        <i class="fa fa-chevron-right"></i>
+    </a>
+    <a href="galeri.html" class="menu-item">
+        <span><i class="fa fa-image icon"></i> GALERİ</span>
+        <i class="fa fa-chevron-right"></i>
+    </a>
+    <a href="site-kurallari.html" class="menu-item">
+        <span><i class="fa fa-gavel icon"></i> SİTE KURALLARI</span>
+        <i class="fa fa-chevron-right"></i>
+    </a>
+    <a href="index.html" class="menu-item">
+        <span><i class="fa fa-credit-card icon"></i> BORÇ SORGULAMA</span>
+        <i class="fa fa-chevron-right"></i>
+    </a>
+</div>
+
     <script>
-        const cur = document.getElementById('cursor'); const ring = document.getElementById('cursor-ring');
-        document.addEventListener('mousemove', (e) => { cur.style.left = e.clientX + 'px'; cur.style.top = e.clientY + 'px'; ring.animate({ left: e.clientX-17+'px', top: e.clientY-17+'px' }, { duration: 400, fill: "forwards" }); });
+        const ad = localStorage.getItem('user_name');
+        const bd = localStorage.getItem('user_bd');
+        if(ad) document.getElementById('hosgeldin').innerText = "Hoş geldin, " + ad + " (" + bd + ")";
+        else window.location.href="index.html";
     </script>
 </body>
 </html>
