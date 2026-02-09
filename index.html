@@ -17,7 +17,9 @@
         .main-container { display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
         .resmi-kart { background: var(--glass); backdrop-filter: blur(25px); border-radius: 24px; padding: 45px; width: 100%; max-width: 420px; border: 1px solid rgba(255,255,255,0.1); text-align: center; }
         .input-alan { width: 100%; padding: 16px; margin-bottom: 15px; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; color: #fff; outline: none; }
-        .btn-giris { width: 100%; padding: 18px; border: none; border-radius: 14px; background: linear-gradient(135deg, #f39c12, #e67e22); color: #fff; font-weight: 700; cursor: pointer; }
+        .btn-giris { width: 100%; padding: 18px; border: none; border-radius: 14px; background: linear-gradient(135deg, #f39c12, #e67e22); color: #fff; font-weight: 700; cursor: pointer; margin-bottom: 10px; }
+        .btn-iban { width: 100%; padding: 12px; border: 1px solid #334155; border-radius: 12px; background: rgba(30, 41, 59, 0.5); color: #94a3b8; font-weight: 600; cursor: pointer; transition: 0.3s; }
+        .btn-iban:hover { background: #1e293b; color: #fff; }
     </style>
 </head>
 <body onload="setTimeout(()=>document.getElementById('intro-ekrani').classList.add('intro-gizle'), 1200)">
@@ -44,16 +46,23 @@
                     <div id="borcMiktari" style="font-size:40px; font-weight:900;">0 TL</div>
                 </div>
                 <button class="btn-giris" onclick="window.location.href='anamenu.html'">ANA MENÜYE GİT</button>
+                <button class="btn-iban" onclick="copyIban()"><i class="fa fa-copy"></i> IBAN KOPYALA</button>
             </div>
         </div>
     </div>
 
     <script>
         const scriptURL = "https://script.google.com/macros/s/AKfycbziTF1JO9CmX0RMt0QaAC_h_EgQColF6hS9jhgIvETHanl1pRZg0NCKnXb0pdEW-Gs/exec";
+        
         document.addEventListener('mousemove', (e) => { 
             document.getElementById('cursor').style.left = e.clientX+'px'; document.getElementById('cursor').style.top = e.clientY+'px';
             document.getElementById('cursor-ring').animate({left: e.clientX-17+'px', top: e.clientY-17+'px'}, {duration:400, fill:"forwards"});
         });
+
+        function copyIban() { 
+            navigator.clipboard.writeText("TR430014300000000026762952"); 
+            alert("IBAN başarıyla kopyalandı."); 
+        }
 
         function sorgula() {
             const bd = document.getElementById('blokDaire').value.trim();
@@ -76,7 +85,7 @@
                         document.getElementById('borcMiktari').innerText = data.borc + " TL";
                     }
                 } else { alert("Hatalı Giriş!"); location.reload(); }
-            });
+            }).catch(() => { alert("Bağlantı hatası!"); location.reload(); });
         }
     </script>
 </body>
