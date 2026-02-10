@@ -2,7 +2,8 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Profil Kurulumu - Altıntaş Adalet</title>
+    <title>Profil Mühürleme</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <style>
         :root { --vurgu: #f39c12; --bg: #0f172a; }
         body { background: var(--bg); color: #fff; font-family: sans-serif; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }
@@ -12,9 +13,9 @@
     </style>
 </head>
 <body onload="check()">
-    <div class="kart" id="profilPanel">
+    <div class="kart w3-animate-top">
         <h2 style="font-weight:900">KİMLİK MÜHÜRLE</h2>
-        <p style="font-size:12px; color:#94a3b8">Bilgileriniz sisteme kaydedilecektir.</p>
+        <p style="font-size:12px; color:#94a3b8">Bu bilgiler akışta görünecektir.</p>
         <input type="text" id="pAd" class="inp" placeholder="Ad Soyad">
         <input type="tel" id="pTel" class="inp" placeholder="Telefon (05xx)">
         <input type="text" id="pBD" class="inp" readonly style="opacity:0.5;">
@@ -28,22 +29,19 @@
             const tel = localStorage.getItem('user_tel');
 
             if(!bd) { window.location.href="index.html"; return; }
-
-            // KRİTİK NOKTA: Eğer ad ve tel zaten varsa, profil ekranını gösterme, direkt içeri al!
+            
+            // AD VE TEL VARSA PROFİLİ ATLA!
             if(ad && tel) {
                 window.location.href = "anamenu.html";
                 return;
             }
-            
             document.getElementById('pBD').value = "DAİRE: " + bd;
         }
 
         function save() {
             const ad = document.getElementById('pAd').value.trim();
             const tel = document.getElementById('pTel').value.trim();
-            
-            if(ad.length < 3 || tel.length < 10) return alert("Lütfen bilgileri tam girin!");
-
+            if(ad.length < 3 || tel.length < 10) return alert("Lütfen eksiksiz doldurun!");
             localStorage.setItem('user_name', ad);
             localStorage.setItem('user_tel', tel);
             window.location.href = "anamenu.html";
