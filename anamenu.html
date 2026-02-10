@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Ana Menü - Altıntaş Adalet</title>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Ana Menü - Altıntaş Adalet Sitesi</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
         :root { --vurgu: #f39c12; --bg: #0f172a; }
         * { cursor: none !important; }
@@ -11,159 +12,136 @@
         #cursor-ring { width: 35px; height: 35px; border: 1.5px solid var(--vurgu); border-radius: 50%; position: fixed; z-index: 99998; pointer-events: none; transition: 0.15s ease-out; }
         
         body { 
-            background: var(--bg); 
-            background-image: radial-gradient(#1e293b 1px, transparent 1px); 
-            background-size: 30px 30px; 
-            color: #fff; 
-            font-family: sans-serif; 
-            margin: 0; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            min-height: 100vh;
+            background-color: var(--bg);
+            background-image: radial-gradient(#1e293b 1px, transparent 1px);
+            background-size: 25px 25px;
+            color: #fff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0; display: flex; align-items: center; justify-content: center; min-height: 100vh;
         }
 
-        .ust-bar {
-            width: 100%;
-            padding: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-sizing: border-box;
-            background: rgba(15, 23, 42, 0.8);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .profil-ozet {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            cursor: pointer;
-        }
-
-        #anaProfilLogosu {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            border: 2px solid var(--vurgu);
-            object-fit: cover;
-            background: #1e293b;
-        }
-
-        .kullanici-bilgi h3 { margin: 0; font-size: 16px; }
-        .kullanici-bilgi p { margin: 0; font-size: 12px; color: #94a3b8; }
-
-        .ana-konteynir {
-            padding: 30px;
-            width: 100%;
-            max-width: 600px;
+        .ana-kart {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(20px);
+            border-radius: 35px;
+            padding: 40px;
+            width: 90%;
+            max-width: 450px;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
             text-align: center;
         }
 
-        .menu-kart {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255,255,255,0.1);
-            padding: 20px;
+        /* Profil Resmi ve Başlık Alanı */
+        .profil-alan { margin-bottom: 25px; }
+        #anaPfp { 
+            width: 90px; height: 90px; 
+            border-radius: 50%; 
+            border: 3px solid var(--vurgu); 
+            object-fit: cover; 
+            margin-bottom: 10px;
+            background: #1e293b;
+        }
+
+        .menu-liste { display: flex; flex-direction: column; gap: 12px; }
+        .menu-item {
+            background: rgba(255,255,255,0.05);
+            padding: 18px;
             border-radius: 20px;
-            margin-bottom: 15px;
-            transition: 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
             text-decoration: none;
             color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: 0.3s;
+            border: 1px solid transparent;
+            font-size: 14px;
+            font-weight: 600;
         }
-
-        .menu-kart:hover {
+        .menu-item:hover {
             background: rgba(243, 156, 18, 0.1);
             border-color: var(--vurgu);
-            transform: translateY(-3px);
+            transform: scale(1.02);
         }
+        .menu-item i { color: var(--vurgu); font-size: 20px; width: 25px; }
 
         .cikis-btn {
-            margin-top: 30px;
-            color: #ef4444;
-            background: none;
-            border: 1px solid #ef4444;
-            padding: 10px 25px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: bold;
+            background: none; border: 1px solid #e74c3c; color: #e74c3c;
+            padding: 12px 25px; border-radius: 12px; margin-top: 25px;
+            cursor: pointer; font-weight: bold; font-size: 12px; transition: 0.3s;
         }
+        .cikis-btn:hover { background: #e74c3c; color: #fff; }
     </style>
 </head>
-<body onload="verileriYukle()">
+<body onload="yukle()">
     <div id="cursor"></div><div id="cursor-ring"></div>
 
-    <div class="ust-bar">
-        <div class="profil-ozet" onclick="window.location.href='profil.html'">
-            <img id="anaProfilLogosu" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Profil">
-            <div class="kullanici-bilgi">
-                <h3 id="anaKullaniciAdi">Yükleniyor...</h3>
-                <p id="anaDaireNo">Daire: --</p>
-            </div>
+    <div class="ana-kart w3-animate-zoom">
+        <div class="profil-alan">
+            <img id="anaPfp" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Profil">
+            <h2 id="kullaniciAd" style="font-weight: 900; letter-spacing: 1px; margin: 0; font-size: 18px;">YÜKLENİYOR...</h2>
+            <p style="color: var(--vurgu); font-size: 10px; font-weight: bold; margin-top: 5px;">ALTINTAŞ ADALET SİTESİ SAKİNİ</p>
         </div>
-        <div style="font-weight: 900; color: var(--vurgu);">ALTINTAŞ</div>
-    </div>
 
-    <div class="ana-konteynir">
-        <h1 style="font-size: 28px;">HOŞ <span style="color:var(--vurgu)">GELDİNİZ</span></h1>
-        
-        <a href="duyurular.html" class="menu-kart">
-            <span>📢 Duyurular</span>
-            <span>➜</span>
-        </a>
+        <div class="menu-liste">
+            <a href="duyurular.html" class="menu-item w3-animate-left">
+                <i class="fa fa-bullhorn"></i>
+                <span>SİTE DUYURULARI</span>
+            </a>
 
-        <a href="aidat.html" class="menu-kart">
-            <span>💳 Aidat Ödemeleri</span>
-            <span>➜</span>
-        </a>
+            <a href="gonderiler.html" class="menu-item w3-animate-right">
+                <i class="fa fa-users"></i>
+                <span>SİTE AKIŞI / GÖNDERİLER</span>
+            </a>
 
-        <a href="profil.html" class="menu-kart">
-            <span>👤 Profilimi Düzenle</span>
-            <span>➜</span>
-        </a>
+            <a href="galeri.html" class="menu-item w3-animate-left">
+                <i class="fa fa-camera"></i>
+                <span>GALERİ VE ÇALIŞMALAR</span>
+            </a>
 
-        <button class="cikis-btn" onclick="cikisYap()">Sistemden Ayrıl</button>
+            <a href="site-kurallari.html" class="menu-item w3-animate-right">
+                <i class="fa fa-gavel"></i>
+                <span>SİTE KURALLARI</span>
+            </a>
+
+            <a href="index.html" class="menu-item w3-animate-left" style="border-left: 4px solid var(--vurgu);">
+                <i class="fa fa-credit-card"></i>
+                <span>AİDAT VE BORÇ SORGULA</span>
+            </a>
+
+            <a href="profil.html" class="menu-item w3-animate-right">
+                <i class="fa fa-user-circle"></i>
+                <span>PROFİLİMİ DÜZENLE</span>
+            </a>
+        </div>
+
+        <button class="cikis-btn" onclick="cikis()">GÜVENLİ ÇIKIŞ YAP</button>
     </div>
 
     <script>
-        function verileriYukle() {
-            // LocalStorage'dan verileri çek
-            const ad = localStorage.getItem('user_name');
-            const daire = localStorage.getItem('user_bd');
-            const resim = localStorage.getItem('user_img');
+        function yukle() {
+            const ad = localStorage.getItem('user_name') || "Sakin";
+            const bd = localStorage.getItem('user_bd');
+            const foto = localStorage.getItem('user_img'); // Burayı güncelledik (profil.html ile uyumlu)
 
-            // Giriş kontrolü: Eğer daire numarası yoksa index'e at
-            if (!daire) {
-                window.location.href = "index.html";
-                return;
-            }
+            if(!bd) { window.location.href = "index.html"; return; }
 
-            // Bilgileri yerleştir
-            document.getElementById('anaKullaniciAdi').innerText = ad ? ad.toUpperCase() : "İSİMSİZ SAKİN";
-            document.getElementById('anaDaireNo').innerText = "DAİRE: " + daire;
+            document.getElementById('kullaniciAd').innerText = ad.toUpperCase() + " (" + bd + ")";
             
-            // Eğer profil resmi varsa yükle
-            if (resim) {
-                document.getElementById('anaProfilLogosu').src = resim;
+            // Eğer profil.html'den resim yüklendiyse onu göster, yoksa varsayılan kalsın
+            if(foto) {
+                document.getElementById('anaPfp').src = foto;
             }
         }
 
-        function cikisYap() {
-            if(confirm("Çıkış yapmak istediğinize emin misiniz?")) {
-                localStorage.clear();
+        function cikis() {
+            if(confirm("Çıkış yapılıyor? (Mühürleriniz korunacaktır)")) {
+                localStorage.removeItem('user_bd');
                 window.location.href = "index.html";
             }
         }
 
-        // Mouse imleci efektleri
-        const cur = document.getElementById('cursor'); 
-        const ring = document.getElementById('cursor-ring');
+        // Mouse imleci takibi
+        const cur = document.getElementById('cursor'); const ring = document.getElementById('cursor-ring');
         document.addEventListener('mousemove', e => { 
             cur.style.left = e.clientX+'px'; cur.style.top = e.clientY+'px'; 
             ring.animate({left:e.clientX-17.5+'px', top:e.clientY-17.5+'px'}, {duration:400, fill:"forwards"}); 
