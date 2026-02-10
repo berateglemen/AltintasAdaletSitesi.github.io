@@ -2,193 +2,135 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Site Akışı - Altıntaş Adalet SİTESİ</title>
+    <title>Site Akışı - Altıntaş Adalet</title>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
-        :root { --ana-renk: #f39c12; --koyu-bg: #0f172a; }
+        :root { --vurgu: #f39c12; --bg: #0f172a; }
         * { cursor: none !important; }
-        #cursor { width: 8px; height: 8px; background: var(--ana-renk); border-radius: 50%; position: fixed; z-index: 99999; pointer-events: none; }
-        #cursor-ring { width: 35px; height: 35px; border: 1.5px solid var(--ana-renk); border-radius: 50%; position: fixed; z-index: 99998; pointer-events: none; transition: 0.15s ease-out; }
+        #cursor { width: 8px; height: 8px; background: var(--vurgu); border-radius: 50%; position: fixed; z-index: 99999; pointer-events: none; }
+        #cursor-ring { width: 35px; height: 35px; border: 1.5px solid var(--vurgu); border-radius: 50%; position: fixed; z-index: 99998; pointer-events: none; transition: 0.15s ease-out; }
         
         body { 
-            background-color: var(--koyu-bg);
-            background-image: radial-gradient(#1e293b 1px, transparent 1px);
-            background-size: 25px 25px;
-            color: #fff; font-family: sans-serif; margin: 0; padding-bottom: 100px;
+            background: var(--bg) radial-gradient(#1e293b 1px, transparent 1px) 0 0 / 25px 25px;
+            color: #fff; font-family: sans-serif; margin: 0; padding-bottom: 30px;
         }
 
-        .header {
-            background: rgba(15, 23, 42, 0.9);
-            backdrop-filter: blur(10px);
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            position: sticky; top: 0; z-index: 100;
+        .ust-nav {
+            background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(10px);
+            padding: 15px; position: sticky; top: 0; z-index: 1000;
+            border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center;
         }
 
-        .container { max-width: 600px; margin: 20px auto; padding: 0 15px; }
+        .container { max-width: 500px; margin: auto; padding: 15px; }
 
-        .paylas-box {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 20px;
-            padding: 15px;
-            margin-bottom: 25px;
+        .paylas-alani {
+            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 25px; padding: 20px; margin-bottom: 25px;
         }
 
         textarea {
-            width: 100%; background: transparent; border: none;
-            color: #fff; resize: none; outline: none; font-size: 15px;
-            min-height: 60px;
+            width: 100%; background: transparent; border: none; color: #fff;
+            resize: none; outline: none; font-size: 16px; min-height: 80px;
         }
 
-        .paylas-butonlar {
-            display: flex; justify-content: space-between; align-items: center;
-            margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 10px;
+        .kart {
+            background: rgba(255,255,255,0.03); border-radius: 20px;
+            padding: 20px; margin-bottom: 15px;
+            border: 1px solid rgba(255,255,255,0.05); position: relative;
         }
 
-        .post-card {
-            background: rgba(255,255,255,0.03);
-            border-radius: 20px;
-            padding: 20px;
-            margin-bottom: 20px;
-            border: 1px solid rgba(255,255,255,0.05);
-            position: relative;
+        .pfp-mini { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--vurgu); object-fit: cover; }
+
+        .btn-vurgu {
+            background: var(--vurgu); color: #fff; border: none;
+            padding: 10px 25px; border-radius: 12px; font-weight: bold;
+            cursor: pointer; float: right;
         }
 
-        .profil-satiri { display: flex; align-items: center; gap: 12px; margin-bottom: 15px; }
-        .pfp { width: 45px; height: 45px; border-radius: 50%; object-fit: cover; border: 2px solid var(--ana-renk); background: #1e293b; }
-
-        .muhur {
-            position: absolute; top: 15px; right: 15px;
-            font-size: 8px; font-weight: bold; color: var(--ana-renk);
-            border: 1px solid var(--ana-renk); padding: 3px 6px; border-radius: 4px;
-            opacity: 0.6;
-        }
-
-        .akis-medya { width: 100%; border-radius: 15px; margin-top: 10px; border: 1px solid rgba(255,255,255,0.1); }
-        
-        .btn-paylas {
-            background: var(--ana-renk); border: none; color: #fff;
-            padding: 8px 20px; border-radius: 10px; font-weight: bold; cursor: pointer;
-        }
-
-        .medya-onizleme { position: relative; display: none; margin-top: 10px; }
-        .onizleme-iptal {
-            position: absolute; top: 5px; right: 5px;
-            background: rgba(0,0,0,0.7); color: #fff; border: none;
-            border-radius: 50%; width: 25px; height: 25px; cursor: pointer;
+        .temizle-btn {
+            background: none; border: 1px solid #e74c3c; color: #e74c3c;
+            padding: 5px 15px; border-radius: 10px; font-size: 10px; margin-top: 20px;
         }
     </style>
 </head>
-<body onload="baslat()">
+<body onload="akisYukle()">
     <div id="cursor"></div><div id="cursor-ring"></div>
 
-    <div class="header">
-        <a href="anamenu.html" style="color:var(--ana-renk)"><i class="fa fa-chevron-left"></i> Geri</a>
-        <b style="letter-spacing: 1px;">SİTE AKIŞI</b>
-        <i class="fa fa-refresh" onclick="location.reload()" style="color:var(--ana-renk)"></i>
+    <div class="ust-nav">
+        <a href="anamenu.html" style="color:var(--vurgu); text-decoration:none;"><i class="fa fa-arrow-left"></i> GERİ</a>
+        <b style="letter-spacing:2px">SİTE AKIŞI</b>
+        <i class="fa fa-users" style="color:var(--vurgu);"></i>
     </div>
 
     <div class="container">
-        <div class="paylas-box">
-            <textarea id="metin" placeholder="Komşularınıza ne söylemek istersiniz?"></textarea>
-            
-            <div id="medyaAlani" class="medya-onizleme">
-                <button class="onizleme-iptal" onclick="medyaIptal()">×</button>
-                <img id="imgOnizle" class="akis-medya" style="display:none;">
-                <video id="vidOnizle" class="akis-medya" style="display:none;" controls></video>
-            </div>
-
-            <div class="paylas-butonlar">
-                <label for="medyaSec" style="cursor:pointer; color:var(--ana-renk); font-size:18px;">
-                    <i class="fa fa-image"></i>
-                </label>
-                <input type="file" id="medyaSec" hidden accept="image/*,video/*" onchange="medyaHandle(this)">
-                <button class="btn-paylas" onclick="gonder()">YAYINLA</button>
+        <div class="paylas-alani">
+            <textarea id="mesajInput" placeholder="Bir şeyler yazın..."></textarea>
+            <div style="margin-top:10px; height:40px;">
+                <button class="btn-vurgu" onclick="gonder()">YAYINLA</button>
             </div>
         </div>
 
-        <div id="akis">
-            </div>
+        <div id="akisKutusu"></div>
+
+        <center>
+            <button class="temizle-btn" onclick="akisTemizle()">AKISI SIFIRLA</button>
+        </center>
     </div>
 
     <script>
-        let secilenMedyaData = null;
-        let medyaTipi = "";
+        function akisYukle() {
+            // Hafızadaki mesajları getir
+            const mesajlar = JSON.parse(localStorage.getItem('site_akis_verisi')) || [];
+            const akis = document.getElementById('akisKutusu');
+            akis.innerHTML = "";
 
-        function baslat() {
-            const bd = localStorage.getItem('user_bd');
-            if(!bd) window.location.href = "index.html";
-        }
-
-        function medyaHandle(input) {
-            if (input.files && input.files[0]) {
-                const reader = new FileReader();
-                medyaTipi = input.files[0].type.split('/')[0];
-                
-                reader.onload = function(e) {
-                    secilenMedyaData = e.target.result;
-                    document.getElementById('medyaAlani').style.display = "block";
-                    if(medyaTipi === "image") {
-                        document.getElementById('imgOnizle').src = e.target.result;
-                        document.getElementById('imgOnizle').style.display = "block";
-                        document.getElementById('vidOnizle').style.display = "none";
-                    } else {
-                        document.getElementById('vidOnizle').src = e.target.result;
-                        document.getElementById('vidOnizle').style.display = "block";
-                        document.getElementById('imgOnizle').style.display = "none";
-                    }
-                };
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-
-        function medyaIptal() {
-            secilenMedyaData = null;
-            document.getElementById('medyaAlani').style.display = "none";
-            document.getElementById('medyaSec').value = "";
+            mesajlar.forEach(m => {
+                akis.innerHTML += `
+                    <div class="kart w3-animate-bottom">
+                        <div style="display:flex; align-items:center; gap:12px; margin-bottom:15px;">
+                            <img src="${m.foto}" class="pfp-mini">
+                            <div>
+                                <b style="color:var(--vurgu); display:block; font-size:14px;">${m.ad.toUpperCase()}</b>
+                                <small style="color:#94a3b8">Daire: ${m.bd} • ${m.saat}</small>
+                            </div>
+                        </div>
+                        <p style="margin:0; line-height:1.6; color:#e2e8f0; font-size:15px;">${m.metin}</p>
+                    </div>
+                `;
+            });
         }
 
         function gonder() {
-            const txt = document.getElementById('metin').value.trim();
-            if(!txt && !secilenMedyaData) return alert("Boş gönderi yapılamaz!");
+            const txt = document.getElementById('mesajInput').value.trim();
+            if(!txt) return;
 
-            const ad = localStorage.getItem('user_name') || "Sakin";
-            const bd = localStorage.getItem('user_bd') || "??";
-            const foto = localStorage.getItem('user_img') || "https://cdn-icons-png.flaticon.com/512/149/149071.png";
+            // Yeni mesaj objesi
+            const yeniMesaj = {
+                ad: localStorage.getItem('user_name') || "Sakin",
+                bd: localStorage.getItem('user_bd') || "?",
+                foto: localStorage.getItem('user_img') || "https://cdn-icons-png.flaticon.com/512/149/149071.png",
+                metin: txt,
+                saat: new Date().toLocaleTimeString('tr-TR', {hour: '2-digit', minute:'2-digit'})
+            };
 
-            let medyaHtml = "";
-            if(secilenMedyaData) {
-                medyaHtml = medyaTipi === "image" 
-                    ? `<img src="${secilenMedyaData}" class="akis-medya">` 
-                    : `<video src="${secilenMedyaData}" controls class="akis-medya"></video>`;
-            }
+            // Hafızaya kaydet
+            const eskiMesajlar = JSON.parse(localStorage.getItem('site_akis_verisi')) || [];
+            eskiMesajlar.unshift(yeniMesaj); // Başa ekle
+            localStorage.setItem('site_akis_verisi', JSON.stringify(eskiMesajlar));
 
-            const html = `
-                <div class="post-card w3-animate-bottom">
-                    <div class="muhur">DOĞRULANMIŞ GÖNDERİ</div>
-                    <div class="profil-satiri">
-                        <img src="${foto}" class="pfp">
-                        <div>
-                            <b style="color:var(--ana-renk); font-size:14px;">${ad.toUpperCase()}</b>
-                            <small style="color:#94a3b8; font-size:11px; display:block;">Daire: ${bd} • Az önce</small>
-                        </div>
-                    </div>
-                    <p style="font-size:15px; line-height:1.5; margin:0;">${txt}</p>
-                    ${medyaHtml}
-                </div>
-            `;
-            
-            document.getElementById('akis').insertAdjacentHTML('afterbegin', html);
-            document.getElementById('metin').value = "";
-            medyaIptal();
+            document.getElementById('mesajInput').value = "";
+            akisYukle(); // Listeyi tazele
         }
 
-        // Mouse efekti
+        function akisTemizle() {
+            if(confirm("Tüm akışı temizlemek istiyor musun?")) {
+                localStorage.removeItem('site_akis_verisi');
+                akisYukle();
+            }
+        }
+
+        // Mouse imleci
         const cur = document.getElementById('cursor'); const ring = document.getElementById('cursor-ring');
         document.addEventListener('mousemove', e => { 
             cur.style.left = e.clientX+'px'; cur.style.top = e.clientY+'px'; 
