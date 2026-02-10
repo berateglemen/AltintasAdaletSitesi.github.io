@@ -2,43 +2,58 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Profil Düzenle</title>
+    <title>Profil Düzenle - Altıntaş Adalet</title>
     <style>
         :root { --vurgu: #f39c12; --bg: #0f172a; }
         * { cursor: none !important; }
         #cursor { width: 8px; height: 8px; background: var(--vurgu); border-radius: 50%; position: fixed; z-index: 99999; pointer-events: none; }
         #cursor-ring { width: 35px; height: 35px; border: 1.5px solid var(--vurgu); border-radius: 50%; position: fixed; z-index: 99998; pointer-events: none; transition: 0.15s ease-out; }
         body { background: var(--bg); background-image: radial-gradient(#1e293b 1px, transparent 1px); background-size: 30px 30px; color: #fff; font-family: sans-serif; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }
-        .kart { background: rgba(255,255,255,0.05); backdrop-filter: blur(25px); padding: 40px; border-radius: 30px; width: 90%; max-width: 400px; text-align: center; border: 1px solid rgba(255,255,255,0.1); }
-        .inp { width: 100%; padding: 16px; margin: 10px 0; border-radius: 12px; border: 1px solid #334155; background: #000; color: #fff; outline: none; box-sizing: border-box; }
-        .btn { width: 100%; padding: 18px; background: var(--vurgu); border: none; border-radius: 15px; color: #000; font-weight: 900; cursor: pointer; }
+        .kart { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(25px); padding: 40px; border-radius: 30px; width: 90%; max-width: 400px; text-align: center; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 25px 50px -12px rgba(0,0,0,0.7); }
+        .inp { width: 100%; padding: 16px; margin: 10px 0; border-radius: 15px; border: 1px solid #334155; background: rgba(0,0,0,0.6); color: #fff; outline: none; box-sizing: border-box; font-size: 15px; }
+        .btn { width: 100%; padding: 18px; background: linear-gradient(135deg, #f39c12, #d35400); border: none; border-radius: 15px; color: #fff; font-weight: 900; margin-top: 20px; cursor: pointer; }
     </style>
 </head>
 <body onload="yukle()">
     <div id="cursor"></div><div id="cursor-ring"></div>
     <div class="kart">
-        <h2 style="font-weight:900">PROFİL <span style="color:var(--vurgu)">MÜHÜRÜ</span></h2>
+        <h2 style="font-weight:900;">PROFİL <span style="color:var(--vurgu)">DÜZENLE</span></h2>
+        <p style="font-size:12px; color:#94a3b8; margin-bottom:20px;">Bilgilerinizi buradan güncelleyebilirsiniz.</p>
+        
         <input type="text" id="pAd" class="inp" placeholder="Ad Soyad">
         <input type="tel" id="pTel" class="inp" placeholder="Telefon">
         <input type="text" id="pBD" class="inp" readonly style="opacity:0.5;">
-        <button class="btn" onclick="kaydet()">BİLGİLERİ GÜNCELLE</button>
+
+        <button class="btn" onclick="kaydet()">GÜNCELLE VE KAYDET</button>
+        <button onclick="window.location.href='anamenu.html'" style="background:none; border:none; color:#94a3b8; margin-top:15px; cursor:pointer;">Vazgeç</button>
     </div>
+
     <script>
         function yukle() {
             const bd = localStorage.getItem('user_bd');
+            const ad = localStorage.getItem('user_name');
+            const tel = localStorage.getItem('user_tel');
+
             if(!bd) { window.location.href="index.html"; return; }
+            
             document.getElementById('pBD').value = "DAİRE: " + bd;
-            document.getElementById('pAd').value = localStorage.getItem('user_name') || "";
-            document.getElementById('pTel').value = localStorage.getItem('user_tel') || "";
+            if(ad) document.getElementById('pAd').value = ad;
+            if(tel) document.getElementById('pTel').value = tel;
+            
+            // BURADA OTOMATİK YÖNLENDİRME (window.location.href) OLMAYACAK!
         }
+
         function kaydet() {
             const ad = document.getElementById('pAd').value.trim();
             const tel = document.getElementById('pTel').value.trim();
-            if(ad.length < 3 || tel.length < 10) return alert("Hatalı veri!");
+            if(ad.length < 3 || tel.length < 10) return alert("Hata: Bilgiler çok kısa!");
+
             localStorage.setItem('user_name', ad);
             localStorage.setItem('user_tel', tel);
+            alert("Mührünüz güncellendi!");
             window.location.href = "anamenu.html";
         }
+
         const cur = document.getElementById('cursor'); const ring = document.getElementById('cursor-ring');
         document.addEventListener('mousemove', e => { 
             cur.style.left = e.clientX+'px'; cur.style.top = e.clientY+'px'; 
