@@ -1,61 +1,121 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Profil Kurulumu - Altıntaş Adalet</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Profil Mühürleme - Altıntaş Adalet</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <style>
         :root { --vurgu: #f39c12; --bg: #0f172a; }
         * { cursor: none !important; }
+        #cursor { width: 8px; height: 8px; background: var(--vurgu); border-radius: 50%; position: fixed; z-index: 99999; pointer-events: none; }
+        #cursor-ring { width: 35px; height: 35px; border: 1.5px solid var(--vurgu); border-radius: 50%; position: fixed; z-index: 99998; pointer-events: none; transition: 0.15s ease-out; }
+        
         body { 
             background: var(--bg); 
             background-image: radial-gradient(#1e293b 1px, transparent 1px); 
             background-size: 30px 30px; 
-            color: #fff; font-family: sans-serif; 
+            color: #fff; font-family: 'Segoe UI', sans-serif; 
             display: flex; align-items: center; justify-content: center; 
             min-height: 100vh; margin: 0; 
         }
-        .kart { background: rgba(255,255,255,0.05); backdrop-filter: blur(20px); padding: 40px; border-radius: 25px; width: 90%; max-width: 400px; text-align: center; border: 1px solid rgba(255,255,255,0.1); }
-        .inp { width: 100%; padding: 15px; margin: 10px 0; border-radius: 12px; border: 1px solid #334155; background: #000; color: #fff; outline: none; box-sizing: border-box; }
-        .btn { width: 100%; padding: 16px; background: var(--vurgu); border: none; border-radius: 12px; color: #000; font-weight: 900; cursor: pointer; margin-top: 10px; }
+
+        .kart { 
+            background: rgba(255, 255, 255, 0.03); 
+            backdrop-filter: blur(25px); 
+            padding: 40px; 
+            border-radius: 30px; 
+            width: 90%; max-width: 400px; 
+            text-align: center; 
+            border: 1px solid rgba(255,255,255,0.1); 
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.7); 
+        }
+
+        .inp { 
+            width: 100%; padding: 16px; margin: 10px 0; border-radius: 15px; 
+            border: 1px solid #334155; background: rgba(0,0,0,0.6); 
+            color: #fff; outline: none; box-sizing: border-box; 
+            font-size: 15px; transition: 0.3s;
+        }
+        .inp:focus { border-color: var(--vurgu); }
+
+        .btn { 
+            width: 100%; padding: 18px; 
+            background: linear-gradient(135deg, #f39c12, #d35400); 
+            border: none; border-radius: 15px; color: #fff; 
+            font-weight: 900; margin-top: 20px; cursor: pointer; 
+            letter-spacing: 1px; transition: 0.3s;
+        }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(243, 156, 18, 0.3); }
+
+        .bilgi-notu { font-size: 12px; color: #94a3b8; margin-bottom: 20px; line-height: 1.5; }
     </style>
 </head>
-<body onload="check()">
-    <div class="kart">
-        <h2 style="font-weight:900">KİMLİK MÜHÜRLE</h2>
-        <p style="font-size:12px; color:#94a3b8; margin-bottom:20px;">Bu bilgiler paylaşımlarda mühür olarak kullanılacaktır.</p>
+<body onload="sayfaYuklendi()">
+    <div id="cursor"></div><div id="cursor-ring"></div>
+
+    <div class="kart w3-animate-top">
+        <h2 style="font-weight:900; letter-spacing:1px;">KİMLİK <span style="color:var(--vurgu)">MÜHÜRLE</span></h2>
+        <p class="bilgi-notu">Site içerisindeki tüm paylaşımlarınızda ve akışta bu bilgileriniz görünecektir.</p>
         
         <input type="text" id="pAd" class="inp" placeholder="Ad Soyad">
         <input type="tel" id="pTel" class="inp" placeholder="Telefon (05xx)">
-        <input type="text" id="pBD" class="inp" readonly style="opacity:0.5; cursor:not-allowed;">
+        <input type="text" id="pBD" class="inp" readonly style="opacity:0.5; cursor:not-allowed;" title="Blok-Daire değiştirilemez.">
 
-        <button class="btn" onclick="save()">MÜHÜRLE VE GİRİŞ YAP</button>
+        <button class="btn" onclick="kaydetVeGiris()">MÜHÜRLE VE DEVAM ET</button>
     </div>
 
     <script>
-        function check() {
-            const bd = localStorage.getItem('user_bd');
-            const ad = localStorage.getItem('user_name');
-            const tel = localStorage.getItem('user_tel');
+        function sayfaYuklendi() {
+            // localStorage'dan verileri çek
+            const daire = localStorage.getItem('user_bd');
+            const isim = localStorage.getItem('user_name');
+            const telefon = localStorage.getItem('user_tel');
 
-            if(!bd) { window.location.href="index.html"; return; }
-            
-            // Mühürler zaten varsa profil sayfasını hiç göstermeden geç!
-            if(ad && tel) {
-                window.location.href = "anamenu.html";
+            // Eğer daire bilgisi (A-1 gibi) yoksa giriş sayfasına geri gönder
+            if (!daire) {
+                alert("Önce borç sorgulama ekranından giriş yapmalısınız!");
+                window.location.href = "index.html";
                 return;
             }
-            document.getElementById('pBD').value = "DAİRE: " + bd;
+
+            // Daire kutusuna yaz
+            document.getElementById('pBD').value = "DAİRE: " + daire;
+
+            // KRİTİK KONTROL: Eğer isim ve telefon ZATEN VARSA bu sayfayı gösterme, direkt ana menüye git
+            if (isim && telefon && isim !== "" && telefon !== "") {
+                window.location.href = "anamenu.html";
+            }
         }
 
-        function save() {
+        function kaydetVeGiris() {
             const ad = document.getElementById('pAd').value.trim();
             const tel = document.getElementById('pTel').value.trim();
-            if(ad.length < 3 || tel.length < 10) return alert("Bilgileri tam giriniz!");
+            
+            if (ad.length < 5) {
+                alert("Lütfen geçerli bir ad soyad giriniz!");
+                return;
+            }
+            if (tel.length < 10) {
+                alert("Lütfen geçerli bir telefon numarası giriniz!");
+                return;
+            }
 
+            // Bilgileri localStorage'a mühürle
             localStorage.setItem('user_name', ad);
             localStorage.setItem('user_tel', tel);
+            
+            // Başarılı uyarısı ve yönlendirme
+            alert("Kimliğiniz başarıyla mühürlendi! Hoş geldiniz.");
             window.location.href = "anamenu.html";
         }
+
+        // Mouse efekti
+        const cur = document.getElementById('cursor'); const ring = document.getElementById('cursor-ring');
+        document.addEventListener('mousemove', e => { 
+            cur.style.left = e.clientX+'px'; cur.style.top = e.clientY+'px'; 
+            ring.animate({left:e.clientX-17.5+'px', top:e.clientY-17.5+'px'}, {duration:400, fill:"forwards"}); 
+        });
     </script>
 </body>
 </html>
