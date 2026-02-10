@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Ana Menü - Altıntaş Adalet</title>
+    <title>Ana Menü - Altıntaş Adalet Sitesi</title>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
@@ -10,51 +10,133 @@
         * { cursor: none !important; }
         #cursor { width: 8px; height: 8px; background: var(--vurgu); border-radius: 50%; position: fixed; z-index: 99999; pointer-events: none; }
         #cursor-ring { width: 35px; height: 35px; border: 1.5px solid var(--vurgu); border-radius: 50%; position: fixed; z-index: 99998; pointer-events: none; transition: 0.15s ease-out; }
-        body { background: var(--bg); background-image: radial-gradient(#1e293b 1px, transparent 1px); background-size: 25px 25px; color: #fff; font-family: sans-serif; margin: 0; }
+        
+        body { 
+            background-color: var(--bg);
+            background-image: radial-gradient(#1e293b 1px, transparent 1px);
+            background-size: 25px 25px;
+            color: #fff; font-family: 'Segoe UI', sans-serif; margin: 0; min-height: 100vh;
+        }
+        
         .container { max-width: 500px; margin: 0 auto; padding: 20px; }
-        .profil-ozet { background: rgba(255,255,255,0.05); padding: 20px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; gap: 15px; margin-bottom: 25px; }
-        .pfp { width: 55px; height: 55px; border-radius: 50%; border: 2px solid var(--vurgu); }
-        .menu-grid { display: grid; gap: 15px; }
-        .menu-item { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); padding: 20px; border-radius: 20px; text-decoration: none; color: #fff; display: flex; align-items: center; gap: 15px; transition: 0.3s; }
-        .menu-item:hover { transform: translateX(10px); border-color: var(--vurgu); background: rgba(243, 156, 18, 0.1); }
-        .menu-item i { color: var(--vurgu); font-size: 20px; width: 30px; text-align: center; }
-        .cikis-btn { width: 100%; padding: 15px; margin-top: 30px; background: none; border: 1px solid #e74c3c; color: #e74c3c; border-radius: 15px; font-weight: bold; cursor: pointer; }
+
+        .ust-header { text-align: center; margin-bottom: 30px; padding-top: 20px; }
+        .site-logo { font-weight: 900; font-size: 26px; letter-spacing: 2px; color: #fff; margin: 0; }
+
+        .profil-ozet { 
+            background: rgba(255,255,255,0.05); 
+            padding: 25px; 
+            border-radius: 25px; 
+            border: 1px solid rgba(255,255,255,0.1); 
+            display: flex; 
+            align-items: center; 
+            gap: 15px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+        }
+        .pfp-ana { width: 65px; height: 65px; border-radius: 50%; border: 2.5px solid var(--vurgu); object-fit: cover; }
+
+        .menu-grid { display: grid; gap: 18px; }
+        .menu-item { 
+            background: rgba(255,255,255,0.03); 
+            border: 1px solid rgba(255,255,255,0.1); 
+            padding: 22px; 
+            border-radius: 22px; 
+            text-decoration: none; 
+            color: #fff; 
+            display: flex; 
+            align-items: center; 
+            gap: 18px;
+            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .menu-item:hover { 
+            background: rgba(243, 156, 18, 0.15); 
+            border-color: var(--vurgu); 
+            transform: scale(1.03) translateX(10px); 
+        }
+        .menu-item i { font-size: 22px; color: var(--vurgu); width: 35px; text-align: center; }
+        .menu-item b { font-size: 16px; letter-spacing: 0.5px; text-transform: uppercase; }
+
+        .borc-ozel { border: 1.5px solid var(--vurgu); background: rgba(243, 156, 18, 0.05); }
+
+        .cikis-btn { 
+            width: 100%; padding: 18px; margin-top: 40px; 
+            background: rgba(231, 76, 60, 0.1); border: 1px solid #e74c3c; 
+            color: #e74c3c; border-radius: 20px; font-weight: 900; cursor: pointer;
+            transition: 0.3s;
+        }
+        .cikis-btn:hover { background: #e74c3c; color: #fff; }
     </style>
 </head>
 <body onload="yukle()">
     <div id="cursor"></div><div id="cursor-ring"></div>
+
     <div class="container">
-        <h1 style="text-align:center; font-weight:900; letter-spacing:2px;">ALTINTAŞ <span style="color:var(--vurgu)">ADALET</span></h1>
-        
+        <div class="ust-header w3-animate-top">
+            <h1 class="site-logo">ALTINTAŞ <span style="color:var(--vurgu)">ADALET</span></h1>
+            <div id="alt-baslik" style="color:var(--vurgu); font-size:12px; font-weight: bold; margin-top: 5px; letter-spacing: 2px;">RESMİ YÖNETİM PORTALI</div>
+        </div>
+
         <div class="profil-ozet w3-animate-left">
-            <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" class="pfp">
+            <img id="anaPfp" class="pfp-ana" src="https://cdn-icons-png.flaticon.com/512/149/149071.png">
             <div>
-                <b id="userAd" style="font-size:16px; display:block;">---</b>
-                <small style="color:var(--vurgu); font-weight:bold;">MÜHÜRLÜ KİMLİK</small>
+                <div style="font-size: 11px; opacity: 0.5; letter-spacing: 1px;">MÜHÜRLÜ KİMLİK</div>
+                <b id="kullaniciAd" style="font-size: 17px; letter-spacing: 0.5px;">YÜKLENİYOR...</b>
             </div>
         </div>
 
         <div class="menu-grid">
-            <a href="gonderiler.html" class="menu-item w3-animate-right"><i class="fa fa-comments"></i><b>SİTE AKIŞI</b></a>
-            <a href="duyurular.html" class="menu-item w3-animate-right"><i class="fa fa-bullhorn"></i><b>DUYURULAR</b></a>
-            <a href="site-kurallari.html" class="menu-item w3-animate-right"><i class="fa fa-gavel"></i><b>SİTE KURALLARI</b></a>
-            <a href="profil.html" class="menu-item w3-animate-right" style="border-color: var(--vurgu);"><i class="fa fa-user-circle"></i><b>PROFİLİ DÜZENLE</b></a>
-            <a href="index.html" class="menu-item w3-animate-right"><i class="fa fa-credit-card"></i><b>BORÇ SORGULA</b></a>
+            <a href="index.html" class="menu-item borc-ozel w3-animate-right">
+                <i class="fa fa-credit-card"></i>
+                <b>BORÇ SORGULA / IBAN</b>
+            </a>
+            
+            <a href="gonderiler.html" class="menu-item w3-animate-right" style="animation-delay: 0.1s;">
+                <i class="fa fa-comments"></i>
+                <b>SİTE AKIŞI & PAYLAŞIM</b>
+            </a>
+
+            <a href="duyurular.html" class="menu-item w3-animate-right" style="animation-delay: 0.2s;">
+                <i class="fa fa-bullhorn"></i>
+                <b>SİTE DUYURULARI</b>
+            </a>
+
+            <a href="galeri.html" class="menu-item w3-animate-right" style="animation-delay: 0.3s;">
+                <i class="fa fa-image"></i>
+                <b>SİTE GALERİSİ</b>
+            </a>
+
+            <a href="site-kurallari.html" class="menu-item w3-animate-right" style="animation-delay: 0.4s;">
+                <i class="fa fa-gavel"></i>
+                <b>SİTE KURALLARI</b>
+            </a>
+
+            <a href="profil.html" class="menu-item w3-animate-right" style="animation-delay: 0.5s;">
+                <i class="fa fa-user-circle"></i>
+                <b>PROFİLİMİ DÜZENLE</b>
+            </a>
         </div>
 
-        <button class="cikis-btn" onclick="cikis()">OTURUMU KAPAT</button>
+        <button class="cikis-btn" onclick="cikis()">GÜVENLİ ÇIKIŞ YAP</button>
     </div>
+
     <script>
         function yukle() {
             const ad = localStorage.getItem('user_name') || "Sakin";
-            const bd = localStorage.getItem('user_bd');
-            if(!bd) window.location.href="index.html";
-            document.getElementById('userAd').innerText = ad.toUpperCase() + " (" + bd + ")";
+            const bd = localStorage.getItem('user_bd') || "---";
+            const foto = localStorage.getItem('user_avatar') || "https://cdn-icons-png.flaticon.com/512/149/149071.png";
+
+            document.getElementById('kullaniciAd').innerText = ad.toUpperCase() + " (" + bd + ")";
+            document.getElementById('anaPfp').src = foto;
         }
+
         function cikis() {
-            localStorage.removeItem('user_bd');
-            window.location.href = "index.html";
+            if(confirm("Çıkış yapılıyor? (Mühürleriniz korunacaktır)")) {
+                localStorage.removeItem('user_bd'); // Sadece girişi sil, ismi sakla.
+                window.location.href = "index.html";
+            }
         }
+
         const cur = document.getElementById('cursor'); const ring = document.getElementById('cursor-ring');
         document.addEventListener('mousemove', e => { 
             cur.style.left = e.clientX+'px'; cur.style.top = e.clientY+'px'; 
