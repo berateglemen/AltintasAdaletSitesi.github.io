@@ -8,113 +8,158 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
         :root { 
-            --vurgu: #f39c12; 
-            --bg: #0f172a; 
-            --glass: rgba(255, 255, 255, 0.03);
+            --vurgu: #f39c12; --bg: #0f172a; --mavi: #3498db;
+            --yesil: #2ecc71; --kirmizi: #e74c3c; --mor: #9b59b6; --turkuaz: #1abc9c;
         }
-
-        /* --- MODERN MOUSE --- */
         * { cursor: none !important; }
         #cursor { width: 8px; height: 8px; background: var(--vurgu); border-radius: 50%; position: fixed; z-index: 99999; pointer-events: none; }
         #cursor-ring { width: 35px; height: 35px; border: 1.5px solid var(--vurgu); border-radius: 50%; position: fixed; z-index: 99998; pointer-events: none; transition: 0.15s ease-out; }
-
+        
         body { 
-            background: var(--bg); 
-            background-image: radial-gradient(circle at 2px 2px, rgba(255,255,255,0.05) 1px, transparent 0);
-            background-size: 40px 40px;
-            font-family: 'Segoe UI', sans-serif; 
-            margin: 0; padding: 0; padding-top: 100px;
-            color: #fff;
-            overflow-x: hidden;
-            user-select: none;
+            background-color: var(--bg);
+            background-image: radial-gradient(#1e293b 1px, transparent 1px);
+            background-size: 25px 25px;
+            color: #fff; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 15px; 
         }
 
-        /* --- NAVBAR --- */
-        .navbar { 
-            background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(15px);
-            height: 75px; width: 100%; position: fixed; top: 0; 
-            display: flex; align-items: center; justify-content: space-between; 
-            padding: 0 25px; border-bottom: 2px solid var(--vurgu); z-index: 1000; 
-        }
+        .container { max-width: 800px; margin: 0 auto; padding-bottom: 60px; }
 
-        .container { max-width: 800px; margin: auto; padding: 20px; padding-bottom: 100px; }
+        .ust-header { text-align: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .site-logo { font-weight: 900; font-size: 24px; letter-spacing: 2px; color: #fff; margin: 0; }
 
-        /* --- KURAL KARTLARI --- */
         .kural-kart { 
-            background: var(--glass); 
-            backdrop-filter: blur(20px);
-            border-radius: 20px; padding: 25px; margin-bottom: 20px; 
-            position: relative; border: 1px solid rgba(255,255,255,0.08);
-            border-left: 5px solid var(--vurgu); 
-            transition: 0.4s ease; 
+            background: rgba(255,255,255,0.03); 
+            backdrop-filter: blur(10px);
+            padding: 25px; 
+            border-radius: 20px; 
+            margin-bottom: 25px; 
+            border: 1px solid rgba(255,255,255,0.05);
+            border-left: 6px solid var(--vurgu);
+            transition: 0.3s ease;
         }
+        .kural-kart:hover { transform: translateY(-5px); background: rgba(255,255,255,0.06); }
 
-        .kural-kart:hover { 
-            transform: translateY(-5px); 
-            background: rgba(255,255,255,0.06);
-            border-color: var(--vurgu);
-        }
+        /* RENK GRUPLARI */
+        .turuncu { border-left-color: var(--vurgu); }
+        .mor { border-left-color: var(--mor); }
+        .turkuaz { border-left-color: var(--turkuaz); }
+        .mavi { border-left-color: var(--mavi); }
+        .yesil { border-left-color: var(--yesil); }
+        .kirmizi { border-left-color: var(--kirmizi); }
 
-        .kural-baslik { 
-            font-size: 18px; font-weight: 800; color: var(--vurgu); 
-            display: flex; align-items: center; margin-bottom: 10px;
-        }
-        .kural-baslik i { margin-right: 12px; width: 25px; text-align: center; }
+        .kural-baslik { font-weight: 900; font-size: 18px; margin-bottom: 15px; display: flex; align-items: center; gap: 12px; text-transform: uppercase; }
+        .kural-liste { padding-left: 20px; margin: 0; font-size: 14.5px; color: #cbd5e1; line-height: 1.7; }
+        .kural-liste li { margin-bottom: 12px; list-style-type: none; position: relative; }
+        .kural-liste li::before { content: "•"; position: absolute; left: -18px; color: inherit; font-weight: bold; opacity: 0.5; }
 
-        .kural-liste { list-style: none; padding: 0; margin: 0; }
-        .kural-liste li { 
-            font-size: 14px; color: #94a3b8; line-height: 1.8; 
-            margin-bottom: 8px; padding-left: 20px; position: relative;
-        }
-        .kural-liste li::before { 
-            content: "•"; color: var(--vurgu); position: absolute; left: 0; font-weight: bold;
-        }
+        .not-kutusu { background: rgba(0,0,0,0.3); padding: 10px; border-radius: 10px; font-size: 13px; font-style: italic; margin-top: 10px; border-left: 3px solid #7f8c8d; }
 
-        /* SABİT MESAJ BUTONU */
-        .fixed-msg-btn {
-            position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; 
-            background: var(--vurgu); color: #000; border-radius: 50%; 
+        .fixed-msg-btn { 
+            position: fixed; bottom: 20px; right: 20px; 
+            background: var(--vurgu); color: #000; 
+            width: 50px; height: 50px; border-radius: 50%; 
             display: flex; align-items: center; justify-content: center; 
-            font-size: 24px; box-shadow: 0 10px 25px rgba(243, 156, 18, 0.3); 
-            z-index: 9999; transition: 0.3s; text-decoration: none;
+            font-size: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            text-decoration: none; z-index: 100;
         }
-        .fixed-msg-btn:hover { transform: scale(1.1) rotate(10deg); background: #fff; }
     </style>
 </head>
 <body>
-    <div id="cursor"></div>
-    <div id="cursor-ring"></div>
-
-    <div class="navbar">
-        <b style="letter-spacing: 1px;">SİTE KURALLARI</b>
-        <a href="anamenu.html" style="color:var(--vurgu)"><i class="fa fa-times fa-lg"></i></a>
-    </div>
+    <div id="cursor"></div><div id="cursor-ring"></div>
 
     <div class="container">
-        <div class="kural-kart w3-animate-bottom">
-            <div class="kural-baslik"><i class="fa fa-users"></i> GENEL YAŞAM VE DÜZEN</div>
+        <div class="ust-header">
+            <a href="anamenu.html" style="float:left; color:var(--vurgu); text-decoration:none;"><i class="fa fa-arrow-left fa-lg"></i></a>
+            <h1 class="site-logo">ALTINTAŞ <span style="color:var(--vurgu)">ADALET SİTESİ</span></h1>
+            <p style="font-size:12px; margin-top:8px; opacity:0.8; letter-spacing: 1px;">RESMİ SİTE KURALLARI VE YAŞAM REHBERİ</p>
+        </div>
+
+        <div class="kural-kart turuncu w3-animate-bottom">
+            <div class="kural-baslik" style="color:var(--vurgu)"><i class="fa fa-users"></i> GENEL KURALLAR</div>
             <ul class="kural-liste">
-                <li>Site içerisinde ortak alanlarda gürültü yapmaktan kaçınılmalıdır.</li>
-                <li>Komşuluk hukukuna riayet edilmesi esastır.</li>
-                <li>Blok girişlerine ve koridorlara kişisel eşya bırakılmamalıdır.</li>
+                <li>Tüm site sakinleri, ortak yaşam kurallarına uygun davranmakla yükümlüdür.</li>
+                <li>Gece 22:00 – 08:00 saatleri arasında sessizlik kuralı uygulanır.</li>
+                <li>Yüksek sesle müzik, bağırma, koridorda gürültü gibi davranışlar yasaktır.</li>
+                <li>Evcil hayvanlar yönetim izniyle bakılabilir; dışkı temizliği zorunludur. Tasmasız hayvan gezdirmek, hayvanı serbest bırakmak, site içinde dışkı yaptırmak yasaktır.</li>
+                <li>Ortak alanları kirletmek, çöp bırakmak yasaktır. Balkondan çöp izmarit vs. atmak yasaktır.</li>
+                <li>Asansör, merdiven boşluğu ve ortak alanlarda sigara içmek yasaktır. Kapı önlerine eşya, çöp, ayakkabı koymak yasaktır. Ortak alanlarda özellikle çatılarda tamir tadilat montaj işlem yapmak kesinlikle yasaktır.</li>
+                <li>Bina giriş kapılarını açık bırakmak kapı önüne kapının kapanmasını engelleyecek taş vs. koymak yasaktır.</li>
+                <li>Diğer sakinleri rahatsız edici davranışlar yasaktır (Balkonda mangal yakmak, gürültü, kirlilik vs.).</li>
             </ul>
         </div>
 
-        <div class="kural-kart w3-animate-bottom" style="animation-delay: 0.1s;">
-            <div class="kural-baslik"><i class="fa fa-trash"></i> TEMİZLİK VE ATIK YÖNETİMİ</div>
+        <div class="kural-kart mor w3-animate-bottom">
+            <div class="kural-baslik" style="color:var(--mor)"><i class="fa fa-key"></i> EV SAHİPLERİ İÇİN KURALLAR</div>
             <ul class="kural-liste">
-                <li>Çöpler belirlenen saatlerde ve ağzı kapalı şekilde çöp alanlarına bırakılmalıdır.</li>
-                <li>Ortak alanların temiz tutulmasına özen gösterilmelidir.</li>
-                <li>Balkonlardan halı silkelemek veya aşağı bir şey atmak yasaktır.</li>
+                <li>Kiraya verilen dairelerin kurallara uygun kullanımı ev sahibinin sorumluluğundadır.</li>
+                <li>Kiracılar site kurallarını yazılı olarak almalı ve imza karşılığı teslim edilmelidir.</li>
+                <li>Aidat borcundan öncelikli olarak ev sahibi sorumludur.</li>
+                <li>Daireler yalnızca konut olarak kullanılabilir, ticari faaliyetler yasaktır.</li>
+                <li>Günlük/haftalık kiralamalar (Airbnb vb.) yalnızca yönetim izniyle mümkündür.</li>
             </ul>
         </div>
 
-        <div class="kural-kart w3-animate-bottom" style="animation-delay: 0.2s;">
-            <div class="kural-baslik"><i class="fa fa-car"></i> OTOPARK VE GÜVENLİK</div>
+        <div class="kural-kart turkuaz w3-animate-bottom">
+            <div class="kural-baslik" style="color:var(--turkuaz)"><i class="fa fa-user-circle"></i> KİRACILAR İÇİN KURALLAR</div>
             <ul class="kural-liste">
-                <li>Araçlar sadece kendilerine tahsis edilen veya uygun alanlara park edilmelidir.</li>
-                <li>Site giriş ve çıkışlarında trafik kurallarına uyulmalıdır.</li>
-                <li>Tanınmayan kişilerin siteye girişi konusunda dikkatli olunmalıdır.</li>
+                <li>Kiracılar, ev sahibi gibi tüm kurallara aynen uymakla yükümlüdür.</li>
+                <li>Aidatlar zamanında ve düzenli olarak ödenmelidir.</li>
+                <li>Ortak alanlara zarar verilmesi halinde zarar kiracı yada ev sahibi farketmeksizin zarar veren tarafından karşılanır.</li>
+                <li>Ziyaretçiler için yönetimin belirlediği kurallara uyulmalı, kalabalık davetlerden kaçınılmalıdır.</li>
+                <li>Kural ihlalleri durumunda kiracılar hakkında yaptırım uygulanabilir.</li>
+            </ul>
+        </div>
+
+        <div class="kural-kart mavi w3-animate-bottom">
+            <div class="kural-baslik" style="color:var(--mavi)"><i class="fa fa-tint"></i> YÜZME HAVUZU KURALLARI</div>
+            <ul class="kural-liste">
+                <li>Havuz yalnızca site sakinleri içindir; dış misafirler kullanamaz. <span style="opacity:0.7; font-size:12px;">(Suistimal edildiği için bu kural konulmuştur)</span></li>
+                <li>Duş almadan havuza girilmesi yasaktır. Terliklerinizi havuz kapısında bırakınız.</li>
+                <li>Yiyecek, içecek, cam şişe ve kırılabilir eşya ile havuza girmek yasaktır. Sigara izmaritleri çöpe atılmalı.</li>
+                <li>Çocuklar ancak veli gözetiminde havuzu kullanabilir.</li>
+                <li><b>Havuz saatleri:</b> 08:00 – 21:00 arasıdır. Cumartesi-Pazar kapanış 22:00 olarak güncellenmiştir.</li>
+            </ul>
+        </div>
+
+        <div class="kural-kart kirmizi w3-animate-bottom">
+            <div class="kural-baslik" style="color:var(--kirmizi)"><i class="fa fa-arrows-v"></i> ASANSÖR KURALLARI</div>
+            <ul class="kural-liste">
+                <li>Asansör maksimum ağırlık kapasitesine göre kullanılmalıdır.</li>
+                <li>Büyük eşya taşımak yasaktır; diğer eşyalar için yönetimden izin alınmalıdır.</li>
+                <li>Asansörde zıplamak, koşmak veya kasıtlı zarar vermek yasaktır. Sigara içmek, asansöre ıslak binmek, çöp suyu akıtmak yasaktır.</li>
+                <li>Çocuklar yalnız başına asansör kullanmamalıdır.</li>
+                <li>Arıza durumları derhal site yönetimine bildirilmelidir.</li>
+            </ul>
+        </div>
+
+        <div class="kural-kart mavi w3-animate-bottom">
+            <div class="kural-baslik" style="color:var(--mavi)"><i class="fa fa-car"></i> OTOPARK KURALLARI</div>
+            <ul class="kural-liste">
+                <li>Otopark yalnızca daire sahipleri ve kayıtlı araçlar içindir.</li>
+                <li>Araçlar sadece çizili alanlara park edilmelidir (Çizgiler çekilecektir).</li>
+                <li>Araç içinde müzik açmak, korna çalmak yasaktır.</li>
+                <li>Site içinde araç yıkama, tamir veya parça değişimi yapılamaz.</li>
+                <li>Diğer araçların çıkışını ve yolları kapatacak parklar yasaktır.</li>
+            </ul>
+        </div>
+
+        <div class="kural-kart yesil w3-animate-bottom">
+            <div class="kural-baslik" style="color:var(--yesil)"><i class="fa fa-leaf"></i> BAHÇE VE SOSYAL ALANLAR</div>
+            <ul class="kural-liste">
+                <li>Bahçede yüksek sesle müzik, bağırma ve toplu eğlence etkinlikleri yasaktır (izin alınmalıdır).</li>
+                <li>Çimlere, çiçeklere ve peyzaj alanına zarar vermek kesinlikle yasaktır.</li>
+                <li>Oyun alanları çocuklar içindir; büyüklerin kullanımı yasaktır (Oyun alanı yapılacaktır).</li>
+                <li>Kullanım sonrası alan temiz bırakılmalıdır.</li>
+            </ul>
+        </div>
+
+        <div class="kural-kart kirmizi w3-animate-bottom">
+            <div class="kural-baslik" style="color:var(--kirmizi)"><i class="fa fa-gavel"></i> UYARILAR VE YAPTIRIMLAR</div>
+            <ul class="kural-liste">
+                <li>Kural ihlallerinde ilk olarak yazılı uyarı yapılır.</li>
+                <li>Tekrarlayan ihlallerde para cezası veya ortak alan kısıtlaması uygulanabilir.</li>
+                <li>Ev sahipleri, kiracılarının ihlallerinden birinci dereceden sorumludur.</li>
+                <li>Aşırı ihlal durumunda hukuki süreç başlatılabilir.</li>
             </ul>
         </div>
 
@@ -125,16 +170,10 @@
     </a>
 
     <script>
-        const cur = document.getElementById('cursor');
-        const ring = document.getElementById('cursor-ring');
-        
-        document.addEventListener('mousemove', (e) => { 
-            cur.style.left = e.clientX + 'px'; 
-            cur.style.top = e.clientY + 'px'; 
-            ring.animate({ 
-                left: e.clientX - 17 + 'px', 
-                top: e.clientY - 17 + 'px' 
-            }, { duration: 400, fill: "forwards" });
+        const cur = document.getElementById('cursor'); const ring = document.getElementById('cursor-ring');
+        document.addEventListener('mousemove', e => { 
+            cur.style.left = e.clientX+'px'; cur.style.top = e.clientY+'px'; 
+            ring.animate({left:e.clientX-17.5+'px', top:e.clientY-17.5+'px'}, {duration:400, fill:"forwards"}); 
         });
     </script>
 </body>
