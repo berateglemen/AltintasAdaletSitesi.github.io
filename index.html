@@ -1,89 +1,155 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Giriş - Altıntaş Adalet Sitesi</title>
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
-        :root { --vurgu: #f39c12; --bg: #0f172a; --kart: rgba(30, 41, 59, 0.95); --border: rgba(255, 255, 255, 0.1); }
-        body { background: var(--bg); color: white; font-family: sans-serif; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }
-        .giris-kart { background: var(--kart); border: 1px solid var(--border); border-radius: 40px; padding: 40px; width: 90%; max-width: 400px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
-        .m-input { width: 100%; background: rgba(15, 23, 42, 0.8); border: 1px solid var(--border); padding: 15px; border-radius: 15px; color: white; margin-bottom: 12px; outline: none; text-align: center; font-size: 16px; }
-        .btn { width: 100%; padding: 16px; border-radius: 15px; border: none; font-weight: bold; cursor: pointer; transition: 0.3s; background: var(--vurgu); color: white; }
+        :root { --vurgu: #f39c12; --bg: #0f172a; --glass: rgba(255, 255, 255, 0.03); }
+        * { cursor: none !important; box-sizing: border-box; }
+        #cursor { width: 8px; height: 8px; background: var(--vurgu); border-radius: 50%; position: fixed; z-index: 99999; pointer-events: none; }
+        #cursor-ring { width: 35px; height: 35px; border: 1.5px solid var(--vurgu); border-radius: 50%; position: fixed; z-index: 99998; pointer-events: none; transition: 0.15s ease-out; }
+        
+        body { 
+            background: var(--bg); 
+            background-image: radial-gradient(#1e293b 1px, transparent 1px); 
+            background-size: 30px 30px; 
+            color: #fff; font-family: 'Segoe UI', sans-serif; 
+            display: flex; align-items: center; justify-content: center; 
+            min-height: 100vh; margin: 0; 
+        }
+
+        .kart { 
+            background: var(--glass); backdrop-filter: blur(25px); 
+            padding: 40px; border-radius: 30px; 
+            width: 95%; max-width: 420px; text-align: center; 
+            border: 1px solid rgba(255,255,255,0.1); 
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.7); 
+        }
+
+        .inp { 
+            width: 100%; padding: 16px; border-radius: 15px; 
+            border: 1px solid #334155; background: rgba(0,0,0,0.6); 
+            color: #fff; outline: none; margin-bottom: 12px;
+            font-size: 15px; transition: 0.3s; text-align: center;
+        }
+        .inp:focus { border-color: var(--vurgu); }
+
+        .btn { 
+            width: 100%; padding: 18px; 
+            background: linear-gradient(135deg, #f39c12, #d35400); 
+            border: none; border-radius: 15px; color: #fff; 
+            font-weight: 900; cursor: pointer; margin-bottom: 10px;
+            letter-spacing: 1px; transition: 0.3s;
+        }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(243, 156, 18, 0.3); }
+
+        .iban-kutu { 
+            background: rgba(0,0,0,0.5); padding: 20px; 
+            border-radius: 15px; margin: 25px 0; 
+            border: 1px dashed var(--vurgu); font-size: 13px; 
+        }
+
+        #loader { display: none; color: var(--vurgu); margin: 10px 0; font-weight: bold; }
     </style>
 </head>
 <body>
+    <div id="cursor"></div><div id="cursor-ring"></div>
 
-    <div class="giris-kart w3-animate-zoom">
-        <i class="fa fa-university" style="font-size: 50px; color: var(--vurgu);"></i>
-        <h2 style="font-weight: 900; margin: 15px 0;">ALTINTAŞ ADALET SİTESİ</h2>
+    <div class="kart" id="anaPanel">
+        <h2 style="font-weight:900; margin-bottom:5px; letter-spacing:1px;">ALTINTAŞ <span style="color:var(--vurgu)">ADALET SİTESİ</span></h2>
+        <p style="color:#94a3b8; font-size:11px; margin-bottom:30px; font-weight:bold; letter-spacing: 2px;">DİJİTAL YÖNETİM PORTALI</p>
+        
+        <button onclick="sakinModu()" class="btn">SİTE SAKİNİ GİRİŞİ</button>
+        <button onclick="window.location.href='ziyaretci.html'" class="btn" style="background: rgba(255,255,255,0.1);">ZİYARETÇİ KAYDI</button>
+    </div>
 
-        <div id="panelAna">
-            <button class="btn" style="background:rgba(255,255,255,0.1); margin-bottom:10px;" onclick="sakinAc()">SİTE SAKİNİ</button>
-            <button class="btn" style="background:rgba(255,255,255,0.1);" onclick="window.location.href='ziyaretci.html'">ZİYARETÇİ</button>
+    <div class="kart" id="girisEkrani" style="display:none;">
+        <h3 style="color:var(--vurgu); font-weight:900;">SAKİN DOĞRULAMA</h3>
+        <p style="font-size:12px; color:#94a3b8; margin-bottom:20px;">Lütfen bilgilerinizi giriniz.</p>
+        
+        <input type="text" id="blokDaire" class="inp" placeholder="Blok-Daire (Örn: A-1)">
+        <input type="password" id="sifre" class="inp" placeholder="Şifre">
+        
+        <div id="loader"><i class="fa fa-spinner fa-spin"></i> Bilgiler Sorgulanıyor...</div>
+        
+        <button onclick="sorgula()" id="sorguBtn" class="btn">SORGULA & GİRİŞ</button>
+        <p onclick="location.reload()" style="cursor:pointer; font-size:11px; opacity:0.5; margin-top:15px;">← Geri Dön</p>
+    </div>
+
+    <div class="kart" id="sonucEkrani" style="display:none;">
+        <h3 id="daireBaslik" style="color:var(--vurgu); font-weight:900; margin-bottom:20px;"></h3>
+        <p style="font-size:14px; color:#94a3b8;">GÜNCEL BORÇ BAKİYENİZ</p>
+        <h1 id="borcMiktari" style="font-size:48px; margin:15px 0; font-weight:900; color:#fff;">0.00 TL</h1>
+        
+        <div class="iban-kutu">
+            <small style="color:#94a3b8; display:block; margin-bottom:10px;">Yönetim IBAN (Ziraat Bankası):</small>
+            <b style="letter-spacing:1px; font-size:13px;">TR43 0014 3000 0000 0026 7629 52</b><br>
+            <button onclick="kopya()" style="background:none; border:none; color:var(--vurgu); margin-top:15px; font-weight:900; cursor:pointer;">IBAN KOPYALA</button>
         </div>
-
-        <div id="panelSakin" style="display:none;">
-            <input type="text" id="daireInput" class="m-input" placeholder="Daire No (Örn: A-1)">
-            <input type="text" id="sifreInput" class="m-input" placeholder="Şifre (1234)">
-            <button class="btn" onclick="girisYap()">BORÇ SORGULA VE GİRİŞ</button>
-            <div id="yukleniyor" style="display:none; margin-top:10px; color:var(--vurgu); font-size:12px;"><i class="fa fa-spinner fa-spin"></i> Bilgiler çekiliyor...</div>
-            
-            <div id="sonucPaneli" style="display:none; background:white; color:black; border-radius:20px; padding:20px; margin-top:20px; text-align:left;">
-                <b id="resDaire"></b><br>
-                Borç: <span id="resBorc" style="color:red; font-weight:bold;"></span> TL<br>
-                <button class="btn" style="margin-top:15px; padding:10px;" onclick="sayfayaGit()">SİTEYE GİR</button>
-            </div>
-            <p onclick="location.reload()" style="font-size:11px; margin-top:15px; opacity:0.5; cursor:pointer;">← Geri</p>
-        </div>
+        <button onclick="siteyeGir()" class="btn">SİTEYE DEVAM ET</button>
     </div>
 
     <script>
-        // Görseldeki URL:
+        // Görseldeki güncel Script URL
         const scriptURL = "https://script.google.com/macros/s/AKfycbxgHg97R_u6BgK4c7YjKeGr4tFWZOiaQt9Zm9Uh1BNul7el-it4vRxBQlnMJRxBYRVD/exec";
 
-        function sakinAc() {
-            document.getElementById('panelAna').style.display = 'none';
-            document.getElementById('panelSakin').style.display = 'block';
+        function sakinModu() {
+            document.getElementById('anaPanel').style.display = "none";
+            document.getElementById('girisEkrani').style.display = "block";
         }
 
-        function girisYap() {
-            const bd = document.getElementById('daireInput').value.trim().toUpperCase();
-            const pw = document.getElementById('sifreInput').value.trim();
+        function sorgula() {
+            const bd = document.getElementById('blokDaire').value.trim().toUpperCase();
+            const sf = document.getElementById('sifre').value.trim();
+            
+            if(!bd || !sf) return alert("Eksik bilgi!");
+            if(sf !== "1234") return alert("Şifre Hatalı!");
 
-            // Şifre kontrolü (Boşlukları ve büyük/küçük harfi yok sayar)
-            if (pw == "1234") {
-                document.getElementById('yukleniyor').style.display = 'block';
-                
-                fetch(scriptURL)
-                .then(res => res.json())
-                .then(data => {
-                    document.getElementById('yukleniyor').style.display = 'none';
-                    const kisi = data.find(i => (i.DAIRE || i.daire || "").toString().toUpperCase() === bd);
-                    
-                    if (kisi) {
-                        localStorage.setItem('user_bd', bd);
-                        document.getElementById('sonucPaneli').style.display = 'block';
-                        document.getElementById('resDaire').innerText = bd + " - " + (kisi.AD || "Sakin");
-                        document.getElementById('resBorc').innerText = kisi.BORC || "0";
-                    } else {
-                        alert("Daire bulunamadı. Tabloyu kontrol edin.");
-                    }
-                })
-                .catch(e => {
-                    alert("Tabloya bağlanılamadı!");
-                    document.getElementById('yukleniyor').style.display = 'none';
-                });
-            } else {
-                alert("ŞİFRE YANLIŞ! Lütfen sadece 1234 yazın.");
-            }
+            document.getElementById('sorguBtn').style.display = "none";
+            document.getElementById('loader').style.display = "block";
+
+            fetch(scriptURL)
+            .then(res => res.json())
+            .then(data => {
+                const kisi = data.find(i => (i.DAIRE || i.daire || "").toString().toUpperCase() === bd);
+                document.getElementById('loader').style.display = "none";
+                document.getElementById('sorguBtn').style.display = "block";
+
+                if(kisi) {
+                    localStorage.setItem('user_bd', bd);
+                    document.getElementById('girisEkrani').style.display = "none";
+                    document.getElementById('sonucEkrani').style.display = "block";
+                    document.getElementById('daireBaslik').innerText = bd + " SAKİNİ";
+                    document.getElementById('borcMiktari').innerText = (kisi.BORC || kisi.borc || "0") + " TL";
+                } else { 
+                    alert("Daire bulunamadı! Lütfen kontrol edin.");
+                    document.getElementById('sorguBtn').innerText = "TEKRAR DENE";
+                }
+            })
+            .catch(e => {
+                alert("Veritabanı bağlantı hatası!");
+                document.getElementById('loader').style.display = "none";
+                document.getElementById('sorguBtn').style.display = "block";
+            });
         }
 
-        function sayfayaGit() {
-            window.location.href = localStorage.getItem('user_name') ? "anamenu.html" : "profil.html";
+        function siteyeGir() {
+            const isimVar = localStorage.getItem('user_name');
+            window.location.href = isimVar ? 'anamenu.html' : 'profil.html';
         }
+
+        function kopya() {
+            navigator.clipboard.writeText("TR430014300000000026762952");
+            alert("IBAN Kopyalandı!");
+        }
+
+        const cur = document.getElementById('cursor'); const ring = document.getElementById('cursor-ring');
+        document.addEventListener('mousemove', e => { 
+            cur.style.left = e.clientX+'px'; cur.style.top = e.clientY+'px'; 
+            ring.animate({left:e.clientX-17.5+'px', top:e.clientY-17.5+'px'}, {duration:400, fill:"forwards"}); 
+        });
     </script>
 </body>
-</html>
+                </html>
+                
