@@ -48,65 +48,61 @@
         }
         .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(243, 156, 18, 0.3); }
 
-        .bilgi-notu { font-size: 12px; color: #94a3b8; margin-bottom: 20px; line-height: 1.5; }
+        .bilgi-notu { font-size: 12px; color: #94a3b8; margin-bottom: 20px; }
     </style>
 </head>
-<body onload="sayfaYuklendi()">
+<body onload="checkStatus()">
     <div id="cursor"></div><div id="cursor-ring"></div>
 
     <div class="kart w3-animate-top">
-        <h2 style="font-weight:900; letter-spacing:1px;">KİMLİK <span style="color:var(--vurgu)">MÜHÜRLE</span></h2>
-        <p class="bilgi-notu">Site içerisindeki tüm paylaşımlarınızda ve akışta bu bilgileriniz görünecektir.</p>
+        <h2 style="font-weight:900; letter-spacing:1px;">PROFİL <span style="color:var(--vurgu)">AYARLARI</span></h2>
+        <p class="bilgi-notu">Kimlik bilgilerinizi buradan güncelleyebilirsiniz.</p>
         
         <input type="text" id="pAd" class="inp" placeholder="Ad Soyad">
         <input type="tel" id="pTel" class="inp" placeholder="Telefon (05xx)">
-        <input type="text" id="pBD" class="inp" readonly style="opacity:0.5; cursor:not-allowed;" title="Blok-Daire değiştirilemez.">
+        <input type="text" id="pBD" class="inp" readonly style="opacity:0.5; cursor:not-allowed;">
 
-        <button class="btn" onclick="kaydetVeGiris()">MÜHÜRLE VE DEVAM ET</button>
+        <button class="btn" onclick="kaydet()">BİLGİLERİ GÜNCELLE</button>
+        <button onclick="window.location.href='anamenu.html'" style="background:none; border:none; color:#94a3b8; margin-top:15px; cursor:pointer; font-size:13px;">İptal Et ve Dön</button>
     </div>
 
     <script>
-        function sayfaYuklendi() {
-            // localStorage'dan verileri çek
-            const daire = localStorage.getItem('user_bd');
-            const isim = localStorage.getItem('user_name');
-            const telefon = localStorage.getItem('user_tel');
+        function checkStatus() {
+            const bd = localStorage.getItem('user_bd');
+            const ad = localStorage.getItem('user_name');
+            const tel = localStorage.getItem('user_tel');
 
-            // Eğer daire bilgisi (A-1 gibi) yoksa giriş sayfasına geri gönder
-            if (!daire) {
-                alert("Önce borç sorgulama ekranından giriş yapmalısınız!");
+            // 1. Eğer Borç sorgulamadan giriş yapmadıysa kapı dışarı et
+            if (!bd) {
                 window.location.href = "index.html";
                 return;
             }
 
-            // Daire kutusuna yaz
-            document.getElementById('pBD').value = "DAİRE: " + daire;
+            // 2. Daire bilgisini yaz
+            document.getElementById('pBD').value = "DAİRE: " + bd;
 
-            // KRİTİK KONTROL: Eğer isim ve telefon ZATEN VARSA bu sayfayı gösterme, direkt ana menüye git
-            if (isim && telefon && isim !== "" && telefon !== "") {
-                window.location.href = "anamenu.html";
-            }
+            // 3. Eğer zaten isim ve tel varsa kutulara doldur (ama yönlendirme yapma!)
+            if (ad) document.getElementById('pAd').value = ad;
+            if (tel) document.getElementById('pTel').value = tel;
+
+            // 4. SADECE İLK KURULUMDA OTOMATİK YÖNLENDİRME İSTİYORSAN:
+            // Eğer anamenu'den "Düzenle" diyerek gelmediysen ve bilgiler tamsa yönlendir.
+            // Ama biz şu an "Düzenleme" imkanı vermek için yönlendirmeyi kaldırdık.
         }
 
-        function kaydetVeGiris() {
+        function kaydet() {
             const ad = document.getElementById('pAd').value.trim();
             const tel = document.getElementById('pTel').value.trim();
             
-            if (ad.length < 5) {
-                alert("Lütfen geçerli bir ad soyad giriniz!");
-                return;
-            }
-            if (tel.length < 10) {
-                alert("Lütfen geçerli bir telefon numarası giriniz!");
+            if (ad.length < 3 || tel.length < 10) {
+                alert("Lütfen bilgileri geçerli bir şekilde doldurun!");
                 return;
             }
 
-            // Bilgileri localStorage'a mühürle
             localStorage.setItem('user_name', ad);
             localStorage.setItem('user_tel', tel);
             
-            // Başarılı uyarısı ve yönlendirme
-            alert("Kimliğiniz başarıyla mühürlendi! Hoş geldiniz.");
+            alert("Bilgileriniz başarıyla güncellendi!");
             window.location.href = "anamenu.html";
         }
 
