@@ -15,60 +15,34 @@
             width: 90%; max-width: 400px; padding: 30px; text-align: center;
             background: rgba(255,255,255,0.03); border-radius: 30px; border: 1px solid rgba(255,255,255,0.1);
         }
-        .logo-alan { margin-bottom: 25px; }
-        .logo-alan i { font-size: 50px; color: var(--vurgu); }
-        
         .secim-btn {
             width: 100%; padding: 18px; margin: 10px 0; border-radius: 20px;
             border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05);
-            color: white; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 15px;
-            font-weight: bold; font-size: 15px;
+            color: white; cursor: pointer; display: flex; align-items: center; gap: 15px;
+            font-weight: bold; font-size: 15px; justify-content: center;
         }
-        .secim-btn:hover { background: var(--vurgu); transform: translateY(-2px); }
-        .secim-btn i { font-size: 20px; width: 25px; color: var(--vurgu); }
-        .secim-btn:hover i { color: white; }
-
-        /* Sakin Giriş Formu */
-        #sakinForm { display: none; margin-top: 15px; }
         .input-box {
             width: 100%; padding: 14px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);
             background: #1e293b; color: white; margin-bottom: 12px; outline: none; text-align: center;
         }
-        .input-box:focus { border-color: var(--vurgu); }
-
-        .alt-yazi { font-size: 10px; color: var(--vurgu); font-weight: bold; letter-spacing: 1px; }
     </style>
 </head>
 <body>
 
-    <div class="giris-kart w3-animate-zoom">
-        <div class="logo-alan">
-            <i class="fa fa-university"></i>
-            <h2 style="font-weight: 900; letter-spacing: 1px; margin-top: 10px; font-size: 20px;">ALTINTAŞ ADALET SİTESİ</h2>
-            <p class="alt-yazi">DİJİTAL YÖNETİM SİSTEMİ</p>
-        </div>
-
+    <div class="giris-kart">
         <div id="anaSecim">
-            <button class="secim-btn" onclick="sakinPaneliAc()">
-                <i class="fa fa-key"></i>
-                <span>SİTE SAKİNİYİM</span>
-            </button>
-
-            <button class="secim-btn" onclick="window.location.href='ziyaretci.html'">
-                <i class="fa fa-car"></i>
-                <span>ZİYARETÇİYİM</span>
-            </button>
+            <i class="fa fa-university" style="font-size:50px; color:var(--vurgu)"></i>
+            <h2 style="font-weight: 900; font-size: 18px; margin-top:15px;">ALTINTAŞ ADALET SİTESİ</h2>
+            <br>
+            <button class="secim-btn" onclick="sakinPaneliAc()">SİTE SAKİNİYİM</button>
+            <button class="secim-btn" onclick="window.location.href='ziyaretci.html'">ZİYARETÇİYİM</button>
         </div>
 
-        <div id="sakinForm" class="w3-animate-opacity">
-            <input type="text" id="blokDaire" class="input-box" placeholder="Örn: A-1">
-            <input type="password" id="sifre" class="input-box" placeholder="Giriş Şifresi">
-            
-            <button class="secim-btn" onclick="sorgula()" style="background: var(--vurgu); justify-content: center;">
-                SİSTEME GİRİŞ YAP
-            </button>
-            
-            <p onclick="location.reload()" style="cursor:pointer; font-size:11px; opacity:0.5; margin-top:15px;">← Geri Dön</p>
+        <div id="sakinForm" style="display:none;">
+            <input type="text" id="blokDaire" class="input-box" placeholder="Blok-Daire (Örn: A-1)">
+            <input type="password" id="sifre" class="input-box" placeholder="Şifre">
+            <button class="secim-btn" onclick="sorgula()" style="background: var(--vurgu);">GİRİŞ YAP</button>
+            <p onclick="location.reload()" style="cursor:pointer; font-size:12px; opacity:0.5; margin-top:15px;">← Geri Dön</p>
         </div>
     </div>
 
@@ -80,25 +54,29 @@
 
         function sorgula() {
             const bd = document.getElementById('blokDaire').value.toUpperCase().trim();
-            const pw = document.getElementById('sifre').value;
+            const pw = document.getElementById('sifre').value.trim();
 
             if(!bd || !pw) {
-                alert("Lütfen Blok-Daire ve Şifre giriniz.");
+                alert("Lütfen tüm alanları doldurun!");
                 return;
             }
 
-            // Şifre kontrolü (Örnek: 1234 veya daire bazlı yapabilirsin)
+            // ŞİFRE BURADA (1234 olarak ayarladım)
             if(pw === "1234") { 
+                // Önce verileri kaydet
                 localStorage.setItem('user_bd', bd);
                 
-                // İsim kontrolü: Varsa ana menüye, yoksa profile
-                if(localStorage.getItem('user_name')) {
-                    window.location.href = "anamenu.html";
+                // İsim var mı kontrol et
+                const isimVarmi = localStorage.getItem('user_name');
+                
+                // KESİN YÖNLENDİRME
+                if(isimVarmi) {
+                    window.location.assign("anamenu.html");
                 } else {
-                    window.location.href = "profil.html";
+                    window.location.assign("profil.html");
                 }
             } else {
-                alert("Hatalı şifre! Lütfen site yönetiminden aldığınız şifreyi girin.");
+                alert("Hatalı şifre! (Şifre: 1234)");
             }
         }
     </script>
