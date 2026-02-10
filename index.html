@@ -11,7 +11,23 @@
         #cursor-ring { width: 35px; height: 35px; border: 1.5px solid var(--vurgu); border-radius: 50%; position: fixed; z-index: 99998; pointer-events: none; transition: 0.15s ease-out; }
         body { background: var(--bg); background-image: radial-gradient(#1e293b 1px, transparent 1px); background-size: 30px 30px; color: #fff; font-family: 'Segoe UI', sans-serif; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }
         .kart { background: var(--glass); backdrop-filter: blur(20px); padding: 40px; border-radius: 25px; width: 90%; max-width: 400px; text-align: center; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); }
+        
+        /* ŞİFRE ALANI İÇİN ÖZEL KAPLAYICI */
+        .sifre-container { position: relative; width: 100%; }
         .inp { width: 100%; padding: 15px; margin: 10px 0; border-radius: 12px; border: 1px solid #334155; background: #000; color: #fff; outline: none; box-sizing: border-box; }
+        
+        /* GÖZ SİMGESİ STİLİ */
+        .sifre-gorunur-btn { 
+            position: absolute; 
+            right: 15px; 
+            top: 50%; 
+            transform: translateY(-50%); 
+            color: var(--vurgu); /* İSTEDİĞİN TURUNCU RENK */
+            cursor: pointer; 
+            font-size: 18px; 
+            z-index: 10;
+        }
+
         .btn { width: 100%; padding: 16px; background: linear-gradient(135deg, #f39c12, #d35400); border: none; border-radius: 12px; color: #fff; font-weight: 900; margin-top: 10px; }
         .iban-kutu { background: rgba(0,0,0,0.4); padding: 15px; border-radius: 12px; margin: 20px 0; border: 1px dashed var(--vurgu); font-size: 13px; }
     </style>
@@ -22,8 +38,14 @@
     <div class="kart" id="girisEkrani">
         <h2 style="font-weight:900; margin-bottom:5px;">ALTINTAŞ <span style="color:var(--vurgu)">ADALET SİTESİ</span></h2>
         <p style="color:#94a3b8; font-size:13px; margin-bottom:25px;">Borç Sorgulama Sistemi</p>
+        
         <input type="text" id="blokDaire" class="inp" placeholder="Blok-Daire (Örn: A-1)">
-        <input type="password" id="sifre" class="inp" placeholder="Şifre">
+        
+        <div class="sifre-container">
+            <input type="password" id="sifre" class="inp" placeholder="Şifre">
+            <i class="fa fa-eye sifre-gorunur-btn" id="sifreGoz" onclick="sifreDegis()"></i>
+        </div>
+
         <button onclick="sorgula()" id="sorguBtn" class="btn">SORGULA</button>
     </div>
 
@@ -43,6 +65,19 @@
     <script>
         const scriptURL = "https://script.google.com/macros/s/AKfycbziTF1JO9CmX0RMt0QaAC_h_EgQColF6hS9jhgIvETHanl1pRZg0NCKnXb0pdEW-Gs/exec";
         
+        // ŞİFRE GÖSTER/GİZLE FONKSİYONU
+        function sifreDegis() {
+            const sifreInput = document.getElementById('sifre');
+            const gozIcon = document.getElementById('sifreGoz');
+            if (sifreInput.type === "password") {
+                sifreInput.type = "text";
+                gozIcon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                sifreInput.type = "password";
+                gozIcon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        }
+
         function sorgula() {
             const bd = document.getElementById('blokDaire').value.trim();
             const sf = document.getElementById('sifre').value.trim();
