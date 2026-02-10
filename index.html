@@ -2,91 +2,79 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Altıntaş Adalet Sitesi - Giriş</title>
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <title>Giriş - Altıntaş Adalet</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
-        :root { --ana-renk: #f39c12; --koyu-bg: #0f172a; --glass: rgba(255, 255, 255, 0.03); }
+        :root { --vurgu: #f39c12; --bg: #0f172a; --glass: rgba(255, 255, 255, 0.03); }
         * { cursor: none !important; }
-        #cursor { width: 8px; height: 8px; background: var(--ana-renk); border-radius: 50%; position: fixed; z-index: 99999; pointer-events: none; }
-        #cursor-ring { width: 35px; height: 35px; border: 1.5px solid var(--ana-renk); border-radius: 50%; position: fixed; z-index: 99998; pointer-events: none; transition: 0.15s ease-out; }
-        body { background: var(--koyu-bg); background-image: radial-gradient(circle at 2px 2px, rgba(255,255,255,0.05) 1px, transparent 0); background-size: 40px 40px; font-family: 'Segoe UI', sans-serif; margin: 0; color: #f1f5f9; overflow-x: hidden; }
-        #intro-ekrani { position: fixed; inset: 0; background: #0f172a; z-index: 10000; display: flex; justify-content: center; align-items: center; transition: 0.8s; }
-        .intro-gizle { opacity: 0; pointer-events: none; }
-        .navbar { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(15px); height: 75px; width: 100%; position: fixed; top: 0; display: flex; align-items: center; justify-content: space-between; padding: 0 30px; z-index: 1000; border-bottom: 1px solid rgba(243, 156, 18, 0.3); }
-        .main-container { display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
-        .resmi-kart { background: var(--glass); backdrop-filter: blur(25px); border-radius: 24px; padding: 45px; width: 100%; max-width: 420px; border: 1px solid rgba(255,255,255,0.1); text-align: center; }
-        .input-alan { width: 100%; padding: 16px; margin-bottom: 15px; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; color: #fff; outline: none; }
-        .btn-giris { width: 100%; padding: 18px; border: none; border-radius: 14px; background: linear-gradient(135deg, #f39c12, #e67e22); color: #fff; font-weight: 700; cursor: pointer; margin-bottom: 10px; }
-        .btn-iban { width: 100%; padding: 12px; border: 1px solid #334155; border-radius: 12px; background: rgba(30, 41, 59, 0.5); color: #94a3b8; font-weight: 600; cursor: pointer; transition: 0.3s; }
-        .btn-iban:hover { background: #1e293b; color: #fff; }
+        #cursor { width: 8px; height: 8px; background: var(--vurgu); border-radius: 50%; position: fixed; z-index: 99999; pointer-events: none; }
+        #cursor-ring { width: 35px; height: 35px; border: 1.5px solid var(--vurgu); border-radius: 50%; position: fixed; z-index: 99998; pointer-events: none; transition: 0.15s ease-out; }
+        body { background: var(--bg); background-image: radial-gradient(#1e293b 1px, transparent 1px); background-size: 30px 30px; color: #fff; font-family: 'Segoe UI', sans-serif; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }
+        .kart { background: var(--glass); backdrop-filter: blur(20px); padding: 40px; border-radius: 25px; width: 90%; max-width: 400px; text-align: center; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); }
+        .inp { width: 100%; padding: 15px; margin: 10px 0; border-radius: 12px; border: 1px solid #334155; background: #000; color: #fff; outline: none; box-sizing: border-box; }
+        .btn { width: 100%; padding: 16px; background: linear-gradient(135deg, #f39c12, #d35400); border: none; border-radius: 12px; color: #fff; font-weight: 900; margin-top: 10px; }
+        .iban-kutu { background: rgba(0,0,0,0.4); padding: 15px; border-radius: 12px; margin: 20px 0; border: 1px dashed var(--vurgu); font-size: 13px; }
     </style>
 </head>
-<body onload="setTimeout(()=>document.getElementById('intro-ekrani').classList.add('intro-gizle'), 1200)">
+<body>
     <div id="cursor"></div><div id="cursor-ring"></div>
-    <div id="intro-ekrani"><div style="color:var(--ana-renk); letter-spacing:5px; font-weight:900;">BAĞLANILIYOR...</div></div>
-    
-    <div class="navbar">
-        <div style="font-weight:900;">ALTINTAŞ <span style="color:var(--ana-renk)">ADALET SİTESİ</span></div>
-        <a href="anamenu.html" style="color:#fff;"><i class="fa fa-bars fa-lg"></i></a>
+
+    <div class="kart" id="girisEkrani">
+        <h2 style="font-weight:900; margin-bottom:5px;">ALTINTAŞ <span style="color:var(--vurgu)">ADALET SİTESİ</span></h2>
+        <p style="color:#94a3b8; font-size:13px; margin-bottom:25px;">Borç Sorgulama Sistemi</p>
+        <input type="text" id="blokDaire" class="inp" placeholder="Blok-Daire (Örn: A-1)">
+        <input type="password" id="sifre" class="inp" placeholder="Şifre">
+        <button onclick="sorgula()" id="sorguBtn" class="btn">SORGULA</button>
     </div>
 
-    <div class="main-container">
-        <div class="resmi-kart w3-animate-zoom">
-            <div id="girisEkrani">
-                <h2 style="font-weight:800; margin-bottom:25px;">BORÇ SORGULAMA</h2>
-                <input class="input-alan" type="text" id="blokDaire" placeholder="Blok-Daire (Örn: A-1)">
-                <input class="input-alan" type="password" id="sifre" placeholder="Sistem Şifresi">
-                <button onclick="sorgula()" id="sorguBtn" class="btn-giris">GİRİŞ YAP</button>
-            </div>
-            <div id="sonucEkrani" style="display:none">
-                <h3 id="daireBaslik" style="color:var(--ana-renk); font-weight:900;"></h3>
-                <div style="background:rgba(255,255,255,0.05); padding:25px; border-radius:20px; margin:20px 0;">
-                    <small style="color:#94a3b8">GÜNCEL BORÇ</small>
-                    <div id="borcMiktari" style="font-size:40px; font-weight:900;">0 TL</div>
-                </div>
-                <button class="btn-giris" onclick="window.location.href='anamenu.html'">ANA MENÜYE GİT</button>
-                <button class="btn-iban" onclick="copyIban()"><i class="fa fa-copy"></i> IBAN KOPYALA</button>
-            </div>
+    <div class="kart" id="sonucEkrani" style="display:none;">
+        <h3 id="daireBaslik" style="color:var(--vurgu); font-weight:900;"></h3>
+        <p style="font-size:14px; color:#94a3b8;">Güncel Borç Bakiyeniz:</p>
+        <h1 id="borcMiktari" style="font-size:48px; margin:15px 0;">0.00 TL</h1>
+        
+        <div class="iban-kutu">
+            <small style="color:#94a3b8; display:block;">Yönetim IBAN (Ziraat Bankası):</small>
+            <b id="ibanNo">TR43 0014 3000 0000 0026 7629 52</b><br>
+            <button onclick="kopya()" style="background:none; border:none; color:var(--vurgu); margin-top:10px; font-weight:bold;">KOPYALA</button>
         </div>
+        <button onclick="window.location.href='anamenu.html'" class="btn">MENÜYE GİRİŞ YAP</button>
     </div>
 
     <script>
         const scriptURL = "https://script.google.com/macros/s/AKfycbziTF1JO9CmX0RMt0QaAC_h_EgQColF6hS9jhgIvETHanl1pRZg0NCKnXb0pdEW-Gs/exec";
         
-        document.addEventListener('mousemove', (e) => { 
-            document.getElementById('cursor').style.left = e.clientX+'px'; document.getElementById('cursor').style.top = e.clientY+'px';
-            document.getElementById('cursor-ring').animate({left: e.clientX-17+'px', top: e.clientY-17+'px'}, {duration:400, fill:"forwards"});
-        });
-
-        function copyIban() { 
-            navigator.clipboard.writeText("TR430014300000000026762952"); 
-            alert("IBAN başarıyla kopyalandı."); 
-        }
-
         function sorgula() {
             const bd = document.getElementById('blokDaire').value.trim();
             const sf = document.getElementById('sifre').value.trim();
             if(!bd || !sf) return alert("Eksik bilgi!");
+            document.getElementById('sorguBtn').innerText = "BAĞLANILIYOR...";
 
-            document.getElementById('sorguBtn').innerText = "KONTROL EDİLİYOR...";
-            
             fetch(`${scriptURL}?blokDaire=${encodeURIComponent(bd)}&sifre=${encodeURIComponent(sf)}`)
             .then(res => res.json()).then(data => {
                 if(data.status === "success") {
-                    localStorage.setItem('user_bd', bd); 
-                    
+                    localStorage.setItem('user_bd', bd);
                     if(!localStorage.getItem('user_name')) {
                         window.location.href = "profil.html";
                     } else {
                         document.getElementById('girisEkrani').style.display = "none";
                         document.getElementById('sonucEkrani').style.display = "block";
-                        document.getElementById('daireBaslik').innerText = bd.toUpperCase();
+                        document.getElementById('daireBaslik').innerText = bd + " SAKİNİ";
                         document.getElementById('borcMiktari').innerText = data.borc + " TL";
                     }
                 } else { alert("Hatalı Giriş!"); location.reload(); }
-            }).catch(() => { alert("Bağlantı hatası!"); location.reload(); });
+            });
         }
+
+        function kopya() {
+            navigator.clipboard.writeText("TR430014300000000026762952");
+            alert("IBAN Kopyalandı!");
+        }
+
+        const cur = document.getElementById('cursor'); const ring = document.getElementById('cursor-ring');
+        document.addEventListener('mousemove', e => { 
+            cur.style.left = e.clientX+'px'; cur.style.top = e.clientY+'px'; 
+            ring.animate({left:e.clientX-17.5+'px', top:e.clientY-17.5+'px'}, {duration:400, fill:"forwards"}); 
+        });
     </script>
 </body>
 </html>

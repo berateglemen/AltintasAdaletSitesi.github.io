@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Site Paylaşımları</title>
+    <title>Site Akışı - Altıntaş Adalet</title>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
@@ -10,42 +10,67 @@
         * { cursor: none !important; }
         #cursor { width: 8px; height: 8px; background: var(--ana-renk); border-radius: 50%; position: fixed; z-index: 99999; pointer-events: none; }
         #cursor-ring { width: 35px; height: 35px; border: 1.5px solid var(--ana-renk); border-radius: 50%; position: fixed; z-index: 99998; pointer-events: none; transition: 0.15s ease-out; }
-        body { background: var(--koyu-bg); color: #fff; font-family: sans-serif; margin: 0; padding: 15px; }
         
-        .post-card { background: rgba(255,255,255,0.05); padding: 20px; border-radius: 20px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.1); position: relative; }
-        .input-box { width: 100%; background: #000; border: 1px solid #334155; color: #fff; padding: 15px; border-radius: 15px; resize: none; outline: none; margin-bottom: 10px; }
+        /* NOKTALI ARKA PLAN (DOT BACKGROUND) */
+        body { 
+            background-color: var(--koyu-bg);
+            background-image: radial-gradient(#1e293b 1px, transparent 1px);
+            background-size: 25px 25px;
+            color: #fff; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 15px; 
+        }
+        
+        .container { max-width: 600px; margin: 0 auto; padding-top: 10px; }
+
+        /* ÜST BAŞLIK ALANI */
+        .ust-header { text-align: center; margin-bottom: 25px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 20px; }
+        .site-logo { font-weight: 900; font-size: 22px; letter-spacing: 2px; color: #fff; margin: 0; }
+        .karsilama { color: var(--ana-renk); font-size: 13px; font-weight: bold; margin-top: 5px; opacity: 0.9; }
+
+        .post-card { background: rgba(255,255,255,0.05); padding: 20px; border-radius: 20px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.1); position: relative; backdrop-filter: blur(10px); }
+        .input-box { width: 100%; background: #000; border: 1px solid #334155; color: #fff; padding: 15px; border-radius: 15px; resize: none; outline: none; margin-bottom: 10px; font-size: 14px; }
         
         .btn-paylas { background: var(--ana-renk); color: #000; border: none; padding: 12px 25px; border-radius: 12px; font-weight: 900; float: right; cursor: pointer; }
-        .foto-ekle-btn { color: var(--ana-renk); cursor: pointer; font-size: 20px; display: inline-block; padding: 5px; }
         
-        #onizleme-alani { display: none; margin: 10px 0; position: relative; width: 100px; }
-        #onizleme-img { width: 100px; height: 100px; object-fit: cover; border-radius: 10px; border: 1px solid var(--ana-renk); }
-        .onizleme-sil { position: absolute; top: -10px; right: -10px; background: red; color: white; border-radius: 50%; width: 20px; height: 20px; text-align: center; font-size: 12px; cursor: pointer; }
+        .medya-ekle-btn { color: var(--ana-renk); cursor: pointer; font-size: 18px; display: inline-flex; align-items: center; gap: 8px; padding: 5px; }
         
-        .akis-img { width: 100%; border-radius: 15px; margin-top: 15px; border: 1px solid rgba(255,255,255,0.1); }
-        .muhur { position: absolute; top: 15px; right: 20px; font-size: 9px; color: var(--ana-renk); opacity: 0.7; }
+        #onizleme-alani { display: none; margin: 10px 0; position: relative; width: fit-content; }
+        .onizleme-medya { width: 100px; height: 100px; object-fit: cover; border-radius: 12px; border: 2px solid var(--ana-renk); }
+        .onizleme-sil { position: absolute; top: -8px; right: -8px; background: #e74c3c; color: white; border-radius: 50%; width: 22px; height: 22px; text-align: center; line-height: 22px; cursor: pointer; font-size: 12px; }
+        
+        .akis-medya { width: 100%; border-radius: 15px; margin-top: 15px; border: 1px solid rgba(255,255,255,0.1); }
+        .muhur { position: absolute; top: 15px; right: 20px; font-size: 9px; color: var(--ana-renk); opacity: 0.7; font-weight: bold; }
+        
+        .profil-satiri { display: flex; align-items: center; gap: 12px; margin-bottom: 15px; }
+        .pfp { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--ana-renk); object-fit: cover; }
     </style>
 </head>
-<body>
+<body onload="baslat()">
     <div id="cursor"></div><div id="cursor-ring"></div>
 
-    <div style="max-width:600px; margin:0 auto; padding-top:10px;">
-        <a href="anamenu.html" style="color:var(--ana-renk); text-decoration:none;"><i class="fa fa-arrow-left"></i> Geri Dön</a>
-        <h2 style="font-weight:900; margin: 20px 0;">SİTE AKIŞI</h2>
+    <div class="container">
+        <div class="ust-header">
+            <a href="anamenu.html" style="float:left; color:var(--ana-renk); text-decoration:none;"><i class="fa fa-arrow-left"></i></a>
+            <h1 class="site-logo">ALTINTAŞ <span style="color:var(--ana-renk)">ADALET SİTESİ</span></h1>
+            <div class="karsilama" id="ozelKarsilama">Hoş geldin, Yükleniyor...</div>
+        </div>
 
         <div class="post-card w3-animate-top">
-            <div style="margin-bottom:10px; font-weight:bold; font-size:14px;" id="yazar"></div>
-            <textarea id="metin" class="input-box" placeholder="Bir şeyler paylaş veya fotoğraf ekle..." rows="3"></textarea>
+            <div class="profil-satiri">
+                <img id="yazarPfp" class="pfp" src="https://cdn-icons-png.flaticon.com/512/149/149071.png">
+                <div style="font-weight:900; font-size:14px;" id="yazarAd"></div>
+            </div>
+            
+            <textarea id="metin" class="input-box" placeholder="Komşularına bir duyuru yap veya fotoğraf/video paylaş..." rows="3"></textarea>
             
             <div id="onizleme-alani">
-                <img id="onizleme-img" src="">
-                <div class="onizleme-sil" onclick="fotoIptal()">×</div>
+                <div id="medya-container"></div>
+                <div class="onizleme-sil" onclick="medyaIptal()">×</div>
             </div>
 
-            <input type="file" id="foto-input" accept="image/*" hidden onchange="fotoOnizle(this)">
+            <input type="file" id="medya-input" accept="image/*,video/*" hidden onchange="medyaOnizle(this)">
             
-            <label for="foto-input" class="foto-ekle-btn">
-                <i class="fa fa-camera"></i> <span style="font-size:14px;">Fotoğraf Ekle</span>
+            <label for="medya-input" class="medya-ekle-btn">
+                <i class="fa fa-camera"></i> <span style="font-size:14px; font-weight:bold;">Medya Ekle</span>
             </label>
 
             <button class="btn-paylas" onclick="paylas()">PAYLAŞ</button>
@@ -56,60 +81,83 @@
     </div>
 
     <script>
-        // Mouse efekti
-        document.addEventListener('mousemove', (e) => {
-            document.getElementById('cursor').style.left = e.clientX + 'px';
-            document.getElementById('cursor').style.top = e.clientY + 'px';
-            document.getElementById('cursor-ring').animate({ left: e.clientX-17+'px', top: e.clientY-17+'px' }, { duration: 400, fill: "forwards" });
-        });
+        function baslat() {
+            const ad = localStorage.getItem('user_name') || "Sakin";
+            const bd = localStorage.getItem('user_bd') || "A-60";
+            const foto = localStorage.getItem('user_avatar') || "https://cdn-icons-png.flaticon.com/512/149/149071.png";
+            
+            // İSTEDİĞİN ÖZEL KARŞILAMA
+            document.getElementById('ozelKarsilama').innerText = `Hoş geldin, ${ad} (${bd})`;
+            document.getElementById('yazarAd').innerText = ad.toUpperCase();
+            document.getElementById('yazarPfp').src = foto;
+        }
 
-        const ad = localStorage.getItem('user_name');
-        const bd = localStorage.getItem('user_bd');
-        let secilenFotoData = "";
+        let secilenMedyaData = "";
+        let medyaTuru = "";
 
-        if(!ad) window.location.href="index.html";
-        document.getElementById('yazar').innerText = "Kullanıcı: " + ad + " (" + bd + ")";
-
-        // Fotoğraf Seçildiğinde
-        function fotoOnizle(input) {
+        function medyaOnizle(input) {
             if (input.files && input.files[0]) {
+                const dosya = input.files[0];
+                medyaTuru = dosya.type.startsWith('image') ? 'image' : 'video';
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    secilenFotoData = e.target.result;
-                    document.getElementById('onizleme-img').src = secilenFotoData;
+                    secilenMedyaData = e.target.result;
+                    const container = document.getElementById('medya-container');
+                    container.innerHTML = medyaTuru === 'image' 
+                        ? `<img src="${secilenMedyaData}" class="onizleme-medya">` 
+                        : `<video src="${secilenMedyaData}" class="onizleme-medya" muted></video>`;
                     document.getElementById('onizleme-alani').style.display = "block";
                 };
-                reader.readAsDataURL(input.files[0]);
+                reader.readAsDataURL(dosya);
             }
         }
 
-        // Fotoğrafı İptal Et
-        function fotoIptal() {
-            secilenFotoData = "";
+        function medyaIptal() {
+            secilenMedyaData = "";
             document.getElementById('onizleme-alani').style.display = "none";
-            document.getElementById('foto-input').value = "";
+            document.getElementById('medya-input').value = "";
         }
 
         function paylas() {
             const txt = document.getElementById('metin').value.trim();
-            if(!txt && !secilenFotoData) return alert("Boş paylaşım yapılamaz!");
+            const ad = localStorage.getItem('user_name');
+            const bd = localStorage.getItem('user_bd');
+            const foto = localStorage.getItem('user_avatar') || "https://cdn-icons-png.flaticon.com/512/149/149071.png";
+
+            if(!txt && !secilenMedyaData) return;
+
+            let medyaHtml = "";
+            if(secilenMedyaData) {
+                medyaHtml = medyaTuru === 'image' 
+                    ? `<img src="${secilenMedyaData}" class="akis-medya">` 
+                    : `<video src="${secilenMedyaData}" controls class="akis-medya"></video>`;
+            }
 
             const html = `
                 <div class="post-card w3-animate-bottom">
-                    <div class="muhur">DOĞRULANMIŞ SAKİN</div>
-                    <b style="color:var(--ana-renk)">${ad}</b> <small style="color:#94a3b8">(${bd})</small><br>
-                    <small style="color:#475569">Az önce</small>
-                    <p style="margin-top:10px;">${txt}</p>
-                    ${secilenFotoData ? `<img src="${secilenFotoData}" class="akis-img">` : ""}
+                    <div class="muhur">DOĞRULANMIŞ GÖNDERİ</div>
+                    <div class="profil-satiri">
+                        <img src="${foto}" class="pfp" style="width:35px; height:35px;">
+                        <div>
+                            <b style="color:var(--ana-renk); font-size:13px;">${ad}</b>
+                            <small style="color:#94a3b8; font-size:10px; display:block;">${bd}. Blok • Az önce</small>
+                        </div>
+                    </div>
+                    <p style="font-size:14px; line-height:1.5;">${txt}</p>
+                    ${medyaHtml}
                 </div>
             `;
-            
             document.getElementById('akis').insertAdjacentHTML('afterbegin', html);
-            
-            // Formu Temizle
             document.getElementById('metin').value = "";
-            fotoIptal();
+            medyaIptal();
         }
+
+        // Mouse efekti
+        const cur = document.getElementById('cursor'); const ring = document.getElementById('cursor-ring');
+        document.addEventListener('mousemove', e => { 
+            cur.style.left = e.clientX+'px'; cur.style.top = e.clientY+'px'; 
+            ring.animate({left:e.clientX-17.5+'px', top:e.clientY-17.5+'px'}, {duration:400, fill:"forwards"}); 
+        });
     </script>
 </body>
 </html>
