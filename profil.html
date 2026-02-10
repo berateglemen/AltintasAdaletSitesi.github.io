@@ -13,10 +13,10 @@
         .inp { width: 100%; padding: 16px; margin: 10px 0; border-radius: 15px; border: 1px solid #334155; background: rgba(0,0,0,0.6); color: #fff; outline: none; box-sizing: border-box; font-size: 15px; }
         .btn { width: 100%; padding: 18px; background: linear-gradient(135deg, #f39c12, #d35400); border: none; border-radius: 15px; color: #fff; font-weight: 900; margin-top: 20px; cursor: pointer; }
         
-        /* Profil Resmi İçin Yeni Stiller */
+        /* Profil Resmi Stilleri */
         .profil-img-alan { position: relative; width: 100px; height: 100px; margin: 0 auto 20px; }
         #profilResmi { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 2px solid var(--vurgu); background: #334155; }
-        .resim-ekle-btn { position: absolute; bottom: 0; right: 0; background: var(--vurgu); width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; cursor: pointer; border: 2px solid var(--bg); }
+        .resim-ekle-btn { position: absolute; bottom: 0; right: 0; background: var(--vurgu); width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; cursor: pointer; border: 2px solid var(--bg); color: white; }
         #fileInput { display: none; }
     </style>
 </head>
@@ -42,7 +42,7 @@
     </div>
 
     <script>
-        let base64Image = "";
+        let currentImgBase64 = "";
 
         function yukle() {
             const bd = localStorage.getItem('user_bd');
@@ -57,19 +57,27 @@
             if(tel) document.getElementById('pTel').value = tel;
             if(resim) {
                 document.getElementById('profilResmi').src = resim;
-                base64Image = resim;
+                currentImgBase64 = resim;
             }
         }
 
-        // Seçilen resmi anlık olarak görmeyi sağlar
         function resimOnizle(input) {
             if (input.files && input.files[0]) {
+                const file = input.files[0];
+                
+                // 2MB Boyut Kontrolü
+                if (file.size > 2 * 1024 * 1024) {
+                    alert("Resim çok büyük! Lütfen 2MB'dan küçük bir görsel seçin.");
+                    input.value = "";
+                    return;
+                }
+
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     document.getElementById('profilResmi').src = e.target.result;
-                    base64Image = e.target.result; // Resmi kaydetmek için değişkene al
+                    currentImgBase64 = e.target.result;
                 };
-                reader.readAsDataURL(input.files[0]);
+                reader.readAsDataURL(file);
             }
         }
 
@@ -77,22 +85,40 @@
             const ad = document.getElementById('pAd').value.trim();
             const tel = document.getElementById('pTel').value.trim();
             
-            if(ad.length < 3 || tel.length < 10) return alert("Hata: Bilgiler çok kısa!");
-
-            localStorage.setItem('user_name', ad);
-            localStorage.setItem('user_tel', tel);
-            
-            // Eğer resim seçildiyse hafızaya kaydet
-            if(base64Image) {
-                localStorage.setItem('user_img', base64Image);
+            // Temel Doğrulama
+            if(ad.length < 3 || tel.length < 10) {
+                alert("Hata: Ad en az 3, telefon en az 10 karakter olmalıdır!");
+                return;
             }
 
-            alert("Mührünüz güncellendi!");
-            window.location.href = "anamenu.html";
+            // Değişiklik var mı kontrolü
+            const eskiAd = localStorage.getItem('user_name');
+            const eskiTel = localStorage.getItem('user_tel');
+            const eskiResim = localStorage.getItem('user_img');
+
+            if(ad === eskiAd && tel === eskiTel && currentImgBase64 === eskiResim) {
+                alert("Herhangi bir değişiklik yapmadınız.");
+                window.location.href = "anamenu.html";
+                return;
+            }
+
+            try {
+                localStorage.setItem('user_name', ad);
+                localStorage.setItem('user_tel', tel);
+                if(currentImgBase64) {
+                    localStorage.setItem('user_img', currentImgBase64);
+                }
+                alert("Profil başarıyla güncellendi!");
+                window.location.href = "anamenu.html";
+            } catch (e) {
+                alert("Kaydedilemedi! Hafıza dolu olabilir. Lütfen daha küçük bir resim deneyin.");
+                console.error("LocalStorage Hatası:", e);
+            }
         }
 
-        // Mouse imleci takibi
-        const cur = document.getElementById('cursor'); const ring = document.getElementById('cursor-ring');
+        // Mouse imleci efektleri
+        const cur = document.getElementById('cursor'); 
+        const ring = document.getElementById('cursor-ring');
         document.addEventListener('mousemove', e => { 
             cur.style.left = e.clientX+'px'; cur.style.top = e.clientY+'px'; 
             ring.animate({left:e.clientX-17.5+'px', top:e.clientY-17.5+'px'}, {duration:400, fill:"forwards"}); 
