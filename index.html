@@ -3,54 +3,116 @@
 <head>
     <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Giriş - Altıntaş Adalet</title>
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
         :root { --vurgu: #f39c12; --bg: #0f172a; --glass: rgba(255, 255, 255, 0.03); }
         * { cursor: none !important; }
         #cursor { width: 8px; height: 8px; background: var(--vurgu); border-radius: 50%; position: fixed; z-index: 99999; pointer-events: none; }
         #cursor-ring { width: 35px; height: 35px; border: 1.5px solid var(--vurgu); border-radius: 50%; position: fixed; z-index: 99998; pointer-events: none; transition: 0.15s ease-out; }
-        body { background: var(--bg); background-image: radial-gradient(#1e293b 1px, transparent 1px); background-size: 30px 30px; color: #fff; font-family: 'Segoe UI', sans-serif; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; overflow: hidden; }
-        .kart { background: var(--glass); backdrop-filter: blur(20px); padding: 40px; border-radius: 25px; width: 90%; max-width: 400px; text-align: center; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); }
-        .inp { width: 100%; padding: 15px; margin: 10px 0; border-radius: 12px; border: 1px solid #334155; background: #000; color: #fff; outline: none; box-sizing: border-box; transition: 0.3s; }
-        .inp:focus { border-color: var(--vurgu); box-shadow: 0 0 10px rgba(243, 156, 18, 0.2); }
-        .btn { width: 100%; padding: 16px; background: linear-gradient(135deg, #f39c12, #d35400); border: none; border-radius: 12px; color: #fff; font-weight: 900; margin-top: 10px; cursor: pointer; transition: 0.3s; }
-        .btn:hover { transform: scale(1.02); box-shadow: 0 5px 15px rgba(243, 156, 18, 0.4); }
-        .iban-kutu { background: rgba(0,0,0,0.4); padding: 15px; border-radius: 12px; margin: 20px 0; border: 1px dashed var(--vurgu); font-size: 13px; }
+        
+        /* NOKTALI ARKA PLAN GERİ GELDİ */
+        body { 
+            background: var(--bg); 
+            background-image: radial-gradient(#1e293b 1px, transparent 1px); 
+            background-size: 30px 30px; 
+            color: #fff; font-family: 'Segoe UI', sans-serif; 
+            display: flex; align-items: center; justify-content: center; 
+            min-height: 100vh; margin: 0; 
+        }
+
+        .kart { 
+            background: var(--glass); 
+            backdrop-filter: blur(25px); 
+            padding: 45px; 
+            border-radius: 30px; 
+            width: 90%; max-width: 420px; 
+            text-align: center; 
+            border: 1px solid rgba(255,255,255,0.1); 
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.7); 
+        }
+
+        .sifre-container { position: relative; width: 100%; margin: 10px 0; }
+        .inp { 
+            width: 100%; padding: 16px; border-radius: 15px; 
+            border: 1px solid #334155; background: rgba(0,0,0,0.6); 
+            color: #fff; outline: none; box-sizing: border-box; 
+            font-size: 15px; transition: 0.3s;
+        }
+        .inp:focus { border-color: var(--vurgu); }
+        
+        .sifre-gorunur-btn { 
+            position: absolute; right: 15px; top: 50%; 
+            transform: translateY(-50%); color: var(--vurgu); 
+            cursor: pointer; font-size: 18px; z-index: 10; 
+        }
+
+        .btn { 
+            width: 100%; padding: 18px; 
+            background: linear-gradient(135deg, #f39c12, #d35400); 
+            border: none; border-radius: 15px; color: #fff; 
+            font-weight: 900; margin-top: 20px; cursor: pointer; 
+            letter-spacing: 1px; transition: 0.3s;
+        }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(243, 156, 18, 0.3); }
+
+        .iban-kutu { 
+            background: rgba(0,0,0,0.5); padding: 20px; 
+            border-radius: 15px; margin: 25px 0; 
+            border: 1px dashed var(--vurgu); font-size: 13px; 
+        }
     </style>
 </head>
 <body>
     <div id="cursor"></div><div id="cursor-ring"></div>
 
-    <div class="kart w3-animate-zoom" id="girisEkrani">
-        <h2 style="font-weight:900; letter-spacing:1px;">ALTINTAŞ <span style="color:var(--vurgu)">ADALET</span></h2>
-        <p style="color:#94a3b8; font-size:12px; margin-bottom:20px;">BORÇ SORGULAMA SİSTEMİ</p>
-        <input type="text" id="blokDaire" class="inp" placeholder="Blok-Daire (A-1 gibi)">
-        <input type="password" id="sifre" class="inp" placeholder="Şifre">
+    <div class="kart" id="girisEkrani">
+        <h2 style="font-weight:900; margin-bottom:5px; letter-spacing:2px;">ALTINTAŞ <span style="color:var(--vurgu)">ADALET SİTESİ</span></h2>
+        <p style="color:#94a3b8; font-size:13px; margin-bottom:30px; font-weight:bold;">BORÇ SORGULAMA & YÖNETİM</p>
+        
+        <input type="text" id="blokDaire" class="inp" placeholder="Blok-Daire (Örn: A-1)">
+        
+        <div class="sifre-container">
+            <input type="password" id="sifre" class="inp" placeholder="Şifre">
+            <i class="fa fa-eye sifre-gorunur-btn" id="sifreGoz" onclick="sifreDegis()"></i>
+        </div>
+
         <button onclick="sorgula()" id="sorguBtn" class="btn">SORGULA</button>
     </div>
 
-    <div class="kart w3-animate-zoom" id="sonucEkrani" style="display:none;">
-        <h3 id="daireBaslik" style="color:var(--vurgu); font-weight:900;"></h3>
-        <p style="font-size:14px; color:#94a3b8;">Güncel Borç Bakiyeniz:</p>
-        <h1 id="borcMiktari" style="font-size:42px; margin:15px 0; font-weight:900;">0.00 TL</h1>
+    <div class="kart" id="sonucEkrani" style="display:none;">
+        <h3 id="daireBaslik" style="color:var(--vurgu); font-weight:900; margin-bottom:20px;"></h3>
+        <p style="font-size:14px; color:#94a3b8;">GÜNCEL BORÇ BAKİYENİZ</p>
+        <h1 id="borcMiktari" style="font-size:54px; margin:15px 0; font-weight:900; color:#fff;">0.00 TL</h1>
+        
         <div class="iban-kutu">
-            <small style="color:#94a3b8; display:block; margin-bottom:5px;">Yönetim Ziraat Bankası IBAN:</small>
-            <b id="ibanNo" style="font-size:12px;">TR43 0014 3000 0000 0026 7629 52</b><br>
-            <button onclick="kopya()" style="background:none; border:none; color:var(--vurgu); margin-top:10px; font-weight:bold; cursor:pointer;">KOPYALA</button>
+            <small style="color:#94a3b8; display:block; margin-bottom:10px;">Yönetim IBAN (Ziraat Bankası):</small>
+            <b id="ibanNo" style="letter-spacing:1px; font-size:14px;">TR43 0014 3000 0000 0026 7629 52</b><br>
+            <button onclick="kopya()" style="background:none; border:none; color:var(--vurgu); margin-top:15px; font-weight:900; cursor:pointer;">KOPYALA</button>
         </div>
-        <button onclick="window.location.href='profil.html'" class="btn">SİTE MENÜSÜNE GİRİŞ</button>
+        <button onclick="window.location.href='profil.html'" class="btn">ANA MENÜYE GİRİŞ YAP</button>
     </div>
 
     <script>
         const scriptURL = "https://script.google.com/macros/s/AKfycbziTF1JO9CmX0RMt0QaAC_h_EgQColF6hS9jhgIvETHanl1pRZg0NCKnXb0pdEW-Gs/exec";
         
+        function sifreDegis() {
+            const sifreInput = document.getElementById('sifre');
+            const gozIcon = document.getElementById('sifreGoz');
+            if (sifreInput.type === "password") {
+                sifreInput.type = "text";
+                gozIcon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                sifreInput.type = "password";
+                gozIcon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        }
+
         function sorgula() {
             const bd = document.getElementById('blokDaire').value.trim();
             const sf = document.getElementById('sifre').value.trim();
-            if(!bd || !sf) return alert("Lütfen boş alan bırakmayın!");
-            
+            if(!bd || !sf) return alert("Eksik bilgi!");
             document.getElementById('sorguBtn').innerText = "DOĞRULANIYOR...";
+
             fetch(`${scriptURL}?blokDaire=${encodeURIComponent(bd)}&sifre=${encodeURIComponent(sf)}`)
             .then(res => res.json()).then(data => {
                 if(data.status === "success") {
