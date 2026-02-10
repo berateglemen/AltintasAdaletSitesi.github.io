@@ -1,84 +1,199 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Giriş - Altıntaş Adalet Sitesi</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Giriş Sistemi - Altıntaş Adalet Sitesi</title>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
-        :root { --vurgu: #f39c12; --bg: #0f172a; }
+        :root { 
+            --vurgu: #f39c12; 
+            --bg: #0f172a; 
+            --kart-bg: rgba(30, 41, 59, 0.7);
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        * { cursor: none !important; box-sizing: border-box; }
+        #cursor { width: 8px; height: 8px; background: var(--vurgu); border-radius: 50%; position: fixed; z-index: 99999; pointer-events: none; }
+        #cursor-ring { width: 35px; height: 35px; border: 1.5px solid var(--vurgu); border-radius: 50%; position: fixed; z-index: 99998; pointer-events: none; transition: 0.15s ease-out; }
+
         body { 
-            background: var(--bg); color: white; font-family: sans-serif;
-            display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0;
+            background-color: var(--bg);
+            background-image: radial-gradient(var(--border) 1px, transparent 1px);
+            background-size: 30px 30px;
+            color: white; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0; height: 100vh; display: flex; align-items: center; justify-content: center;
+            overflow: hidden;
         }
+
         .giris-kart {
-            width: 90%; max-width: 400px; padding: 30px; text-align: center;
-            background: rgba(255,255,255,0.03); border-radius: 30px; border: 1px solid rgba(255,255,255,0.1);
+            background: var(--kart-bg);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--border);
+            border-radius: 40px;
+            padding: 40px;
+            width: 95%;
+            max-width: 420px;
+            text-align: center;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            position: relative;
         }
-        .secim-btn {
-            width: 100%; padding: 18px; margin: 10px 0; border-radius: 20px;
-            border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05);
-            color: white; cursor: pointer; display: flex; align-items: center; gap: 15px;
-            font-weight: bold; font-size: 15px; justify-content: center;
+
+        .logo-section i {
+            font-size: 60px;
+            color: var(--vurgu);
+            text-shadow: 0 0 20px rgba(243, 156, 18, 0.3);
+            margin-bottom: 15px;
         }
-        .input-box {
-            width: 100%; padding: 14px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);
-            background: #1e293b; color: white; margin-bottom: 12px; outline: none; text-align: center;
+
+        h1 { font-size: 22px; font-weight: 900; letter-spacing: 2px; margin: 0; color: #fff; }
+        .sub-text { font-size: 10px; color: var(--vurgu); letter-spacing: 3px; font-weight: bold; margin-top: 5px; text-transform: uppercase; }
+
+        .secenekler { margin-top: 35px; display: flex; flex-direction: column; gap: 15px; }
+
+        .ana-buton {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            padding: 18px;
+            border-radius: 20px;
+            color: white;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            text-decoration: none;
+            transition: 0.4s all;
+            cursor: pointer;
+        }
+
+        .ana-buton:hover {
+            background: var(--vurgu);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(243, 156, 18, 0.2);
+        }
+
+        .form-alan { display: none; margin-top: 25px; animation: fadeIn 0.5s; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .modern-input {
+            width: 100%;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--border);
+            padding: 15px;
+            border-radius: 15px;
+            color: white;
+            margin-bottom: 12px;
+            outline: none;
+            text-align: center;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        .modern-input:focus { border-color: var(--vurgu); background: rgba(15, 23, 42, 0.8); }
+
+        .login-btn {
+            width: 100%;
+            background: var(--vurgu);
+            border: none;
+            padding: 16px;
+            border-radius: 15px;
+            color: white;
+            font-weight: 900;
+            letter-spacing: 1px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .geri-link {
+            display: block;
+            margin-top: 20px;
+            color: #94a3b8;
+            font-size: 12px;
+            text-decoration: none;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
 
-    <div class="giris-kart">
-        <div id="anaSecim">
-            <i class="fa fa-university" style="font-size:50px; color:var(--vurgu)"></i>
-            <h2 style="font-weight: 900; font-size: 18px; margin-top:15px;">ALTINTAŞ ADALET SİTESİ</h2>
-            <br>
-            <button class="secim-btn" onclick="sakinPaneliAc()">SİTE SAKİNİYİM</button>
-            <button class="secim-btn" onclick="window.location.href='ziyaretci.html'">ZİYARETÇİYİM</button>
+    <div id="cursor"></div><div id="cursor-ring"></div>
+
+    <div class="giris-kart w3-animate-zoom">
+        <div class="logo-section">
+            <i class="fa fa-university"></i>
+            <h1>ALTINTAŞ ADALET SİTESİ</h1>
+            <div class="sub-text">Bina Yönetim Portalı</div>
         </div>
 
-        <div id="sakinForm" style="display:none;">
-            <input type="text" id="blokDaire" class="input-box" placeholder="Blok-Daire (Örn: A-1)">
-            <input type="password" id="sifre" class="input-box" placeholder="Şifre">
-            <button class="secim-btn" onclick="sorgula()" style="background: var(--vurgu);">GİRİŞ YAP</button>
-            <p onclick="location.reload()" style="cursor:pointer; font-size:12px; opacity:0.5; margin-top:15px;">← Geri Dön</p>
+        <div id="panelAna" class="secenekler">
+            <div class="ana-buton" onclick="formuAc()">
+                <i class="fa fa-user-circle-o"></i>
+                SİTE SAKİNİ GİRİŞİ
+            </div>
+            <div class="ana-buton" onclick="window.location.href='ziyaretci.html'">
+                <i class="fa fa-car"></i>
+                ZİYARETÇİ KAYDI
+            </div>
+        </div>
+
+        <div id="panelSakin" class="form-alan">
+            <input type="text" id="iptBlok" class="modern-input" placeholder="Blok ve Daire (Örn: A-1)">
+            <input type="password" id="iptSifre" class="modern-input" placeholder="Giriş Şifresi">
+            <button class="login-btn" onclick="sistemeGirisYap()">SİSTEMİ AÇ</button>
+            <span class="geri-link" onclick="anaPaneliAc()">← Ana Menüye Dön</span>
         </div>
     </div>
 
     <script>
-        function sakinPaneliAc() {
-            document.getElementById('anaSecim').style.display = 'none';
-            document.getElementById('sakinForm').style.display = 'block';
+        function formuAc() {
+            document.getElementById('panelAna').style.display = 'none';
+            document.getElementById('panelSakin').style.display = 'block';
         }
 
-        function sorgula() {
-            const bd = document.getElementById('blokDaire').value.toUpperCase().trim();
-            const pw = document.getElementById('sifre').value.trim();
+        function anaPaneliAc() {
+            document.getElementById('panelSakin').style.display = 'none';
+            document.getElementById('panelAna').style.display = 'flex';
+        }
 
-            if(!bd || !pw) {
-                alert("Lütfen tüm alanları doldurun!");
+        function sistemeGirisYap() {
+            const bdVal = document.getElementById('iptBlok').value.trim();
+            const pwVal = document.getElementById('iptSifre').value.trim();
+
+            // ŞİFREYİ BURADAN DEĞİŞTİREBİLİRSİN
+            const dogruSifre = "1234"; 
+
+            if (bdVal === "" || pwVal === "") {
+                alert("Eksik bilgi girdiniz!");
                 return;
             }
 
-            // ŞİFRE BURADA (1234 olarak ayarladım)
-            if(pw === "1234") { 
-                // Önce verileri kaydet
-                localStorage.setItem('user_bd', bd);
+            if (pwVal === dogruSifre) {
+                // Verileri Kaydet
+                localStorage.setItem('user_bd', bdVal.toUpperCase());
                 
-                // İsim var mı kontrol et
-                const isimVarmi = localStorage.getItem('user_name');
+                // Yönlendirme Mantığı
+                const kayitliIsim = localStorage.getItem('user_name');
                 
-                // KESİN YÖNLENDİRME
-                if(isimVarmi) {
-                    window.location.assign("anamenu.html");
+                if (kayitliIsim && kayitliIsim !== "") {
+                    window.location.href = "anamenu.html";
                 } else {
-                    window.location.assign("profil.html");
+                    window.location.href = "profil.html";
                 }
             } else {
-                alert("Hatalı şifre! (Şifre: 1234)");
+                alert("Hatalı Giriş! Lütfen şifrenizi kontrol ediniz.");
             }
         }
+
+        // Mouse Takip (Eski kodundaki gibi)
+        const cur = document.getElementById('cursor'); const ring = document.getElementById('cursor-ring');
+        document.addEventListener('mousemove', e => { 
+            cur.style.left = e.clientX+'px'; cur.style.top = e.clientY+'px'; 
+            ring.animate({left:e.clientX-17.5+'px', top:e.clientY-17.5+'px'}, {duration:400, fill:"forwards"}); 
+        });
     </script>
 </body>
 </html>
