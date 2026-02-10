@@ -2,79 +2,48 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Profil Mühürleme</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Profil Düzenle</title>
     <style>
-        :root { --ana-renk: #f39c12; --koyu-bg: #0f172a; --glass: rgba(255, 255, 255, 0.03); }
+        :root { --vurgu: #f39c12; --bg: #0f172a; }
         * { cursor: none !important; }
-        #cursor { width: 8px; height: 8px; background: var(--ana-renk); border-radius: 50%; position: fixed; z-index: 99999; pointer-events: none; }
-        #cursor-ring { width: 35px; height: 35px; border: 1.5px solid var(--ana-renk); border-radius: 50%; position: fixed; z-index: 99998; pointer-events: none; transition: 0.15s ease-out; }
-        body { background: var(--koyu-bg); background-image: radial-gradient(circle at 2px 2px, rgba(255,255,255,0.05) 1px, transparent 0); background-size: 40px 40px; font-family: 'Segoe UI', sans-serif; margin: 0; color: #f1f5f9; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
-        
-        .profil-kart { background: var(--glass); backdrop-filter: blur(20px); padding: 40px; border-radius: 25px; width: 90%; max-width: 400px; border: 1px solid rgba(255,255,255,0.1); text-align: center; }
-        .avatar-box { width: 120px; height: 120px; border-radius: 50%; border: 3px solid var(--ana-renk); margin: 0 auto 20px; position: relative; overflow: hidden; background: #000; }
-        .avatar-box img { width: 100%; height: 100%; object-fit: cover; }
-        .input-alan { width: 100%; padding: 14px; margin-bottom: 15px; border-radius: 12px; border: 1px solid #334155; background: #000; color: #fff; outline: none; }
-        .input-alan:disabled { opacity: 0.6; cursor: not-allowed; }
-        .btn-muhur { width: 100%; padding: 16px; background: var(--ana-renk); border: none; border-radius: 12px; font-weight: 900; color: #000; cursor: pointer; }
+        #cursor { width: 8px; height: 8px; background: var(--vurgu); border-radius: 50%; position: fixed; z-index: 99999; pointer-events: none; }
+        #cursor-ring { width: 35px; height: 35px; border: 1.5px solid var(--vurgu); border-radius: 50%; position: fixed; z-index: 99998; pointer-events: none; transition: 0.15s ease-out; }
+        body { background: var(--bg); background-image: radial-gradient(#1e293b 1px, transparent 1px); background-size: 30px 30px; color: #fff; font-family: sans-serif; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }
+        .kart { background: rgba(255,255,255,0.05); backdrop-filter: blur(25px); padding: 40px; border-radius: 30px; width: 90%; max-width: 400px; text-align: center; border: 1px solid rgba(255,255,255,0.1); }
+        .inp { width: 100%; padding: 16px; margin: 10px 0; border-radius: 12px; border: 1px solid #334155; background: #000; color: #fff; outline: none; box-sizing: border-box; }
+        .btn { width: 100%; padding: 18px; background: var(--vurgu); border: none; border-radius: 15px; color: #000; font-weight: 900; cursor: pointer; }
     </style>
 </head>
 <body onload="yukle()">
     <div id="cursor"></div><div id="cursor-ring"></div>
-    <div class="profil-kart">
-        <h2 id="baslik" style="margin-bottom:10px;">PROFİL KURULUMU</h2>
-        <p style="font-size:12px; color:#94a3b8; margin-bottom:20px;">İsim ve Telefon mühürlendikten sonra değiştirilemez.</p>
-        
-        <div class="avatar-box" onclick="document.getElementById('fileInp').click()">
-            <img id="pfp" src="https://cdn-icons-png.flaticon.com/512/149/149071.png">
-            <div style="position:absolute; bottom:0; background:rgba(0,0,0,0.6); width:100%; font-size:10px; padding:3px;">DEĞİŞTİR</div>
-        </div>
-        <input type="file" id="fileInp" hidden accept="image/*" onchange="fotoDegistir(this)">
-
-        <input type="text" id="pAd" class="input-alan" placeholder="Ad Soyad">
-        <input type="tel" id="pTel" class="input-alan" placeholder="Telefon (05xx)">
-        <button class="btn-muhur" id="saveBtn" onclick="kaydet()">MÜHÜRLE VE DEVAM ET</button>
+    <div class="kart">
+        <h2 style="font-weight:900">PROFİL <span style="color:var(--vurgu)">MÜHÜRÜ</span></h2>
+        <input type="text" id="pAd" class="inp" placeholder="Ad Soyad">
+        <input type="tel" id="pTel" class="inp" placeholder="Telefon">
+        <input type="text" id="pBD" class="inp" readonly style="opacity:0.5;">
+        <button class="btn" onclick="kaydet()">BİLGİLERİ GÜNCELLE</button>
     </div>
-
     <script>
-        const cur = document.getElementById('cursor'); const ring = document.getElementById('cursor-ring');
-        document.addEventListener('mousemove', e => { cur.style.left = e.clientX+'px'; cur.style.top = e.clientY+'px'; ring.animate({left:e.clientX-17.5+'px', top:e.clientY-17.5+'px'}, {duration:400, fill:"forwards"}); });
-
-        function fotoDegistir(input) {
-            if(input.files && input.files[0]) {
-                const reader = new FileReader();
-                reader.onload = e => {
-                    document.getElementById('pfp').src = e.target.result;
-                    localStorage.setItem('user_avatar', e.target.result);
-                }
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-
         function yukle() {
-            const ad = localStorage.getItem('user_name');
-            const tel = localStorage.getItem('user_tel');
-            const img = localStorage.getItem('user_avatar');
-            if(ad) {
-                document.getElementById('pAd').value = ad; document.getElementById('pAd').disabled = true;
-                document.getElementById('pTel').value = tel; document.getElementById('pTel').disabled = true;
-                document.getElementById('baslik').innerText = "PROFİLİ DÜZENLE";
-                document.getElementById('saveBtn').innerText = "FOTOĞRAFI GÜNCELLE";
-            }
-            if(img) document.getElementById('pfp').src = img;
+            const bd = localStorage.getItem('user_bd');
+            if(!bd) { window.location.href="index.html"; return; }
+            document.getElementById('pBD').value = "DAİRE: " + bd;
+            document.getElementById('pAd').value = localStorage.getItem('user_name') || "";
+            document.getElementById('pTel').value = localStorage.getItem('user_tel') || "";
         }
-
         function kaydet() {
-            if(!localStorage.getItem('user_name')) {
-                const ad = document.getElementById('pAd').value.trim();
-                const tel = document.getElementById('pTel').value.trim();
-                if(ad.length < 5 || tel.length < 10) return alert("Bilgiler eksik!");
-                localStorage.setItem('user_name', ad);
-                localStorage.setItem('user_tel', tel);
-                alert("Bilgileriniz Mühürlendi!");
-            }
+            const ad = document.getElementById('pAd').value.trim();
+            const tel = document.getElementById('pTel').value.trim();
+            if(ad.length < 3 || tel.length < 10) return alert("Hatalı veri!");
+            localStorage.setItem('user_name', ad);
+            localStorage.setItem('user_tel', tel);
             window.location.href = "anamenu.html";
         }
+        const cur = document.getElementById('cursor'); const ring = document.getElementById('cursor-ring');
+        document.addEventListener('mousemove', e => { 
+            cur.style.left = e.clientX+'px'; cur.style.top = e.clientY+'px'; 
+            ring.animate({left:e.clientX-17.5+'px', top:e.clientY-17.5+'px'}, {duration:400, fill:"forwards"}); 
+        });
     </script>
 </body>
 </html>
