@@ -15,7 +15,7 @@
             background-color: var(--bg);
             background-image: radial-gradient(#1e293b 1px, transparent 1px);
             background-size: 25px 25px;
-            color: #fff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #fff; font-family: 'Segoe UI', sans-serif;
             margin: 0; display: flex; align-items: center; justify-content: center; min-height: 100vh;
         }
 
@@ -31,7 +31,6 @@
             text-align: center;
         }
 
-        /* Profil Resmi ve Başlık Alanı */
         .profil-alan { margin-bottom: 25px; }
         #anaPfp { 
             width: 90px; height: 90px; 
@@ -64,6 +63,13 @@
         }
         .menu-item i { color: var(--vurgu); font-size: 20px; width: 25px; }
 
+        /* Borç Sorgulama Özel Stil */
+        .borc-vurgu {
+            background: rgba(243, 156, 18, 0.15) !important;
+            border: 1px solid var(--vurgu) !important;
+            box-shadow: 0 0 15px rgba(243, 156, 18, 0.2);
+        }
+
         .cikis-btn {
             background: none; border: 1px solid #e74c3c; color: #e74c3c;
             padding: 12px 25px; border-radius: 12px; margin-top: 25px;
@@ -78,34 +84,34 @@
     <div class="ana-kart w3-animate-zoom">
         <div class="profil-alan">
             <img id="anaPfp" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Profil">
-            <h2 id="kullaniciAd" style="font-weight: 900; letter-spacing: 1px; margin: 0; font-size: 18px;">YÜKLENİYOR...</h2>
+            <h2 id="kullaniciAd" style="font-weight: 900; letter-spacing: 1px; margin: 0; font-size: 18px;">...</h2>
             <p style="color: var(--vurgu); font-size: 10px; font-weight: bold; margin-top: 5px;">ALTINTAŞ ADALET SİTESİ SAKİNİ</p>
         </div>
 
         <div class="menu-liste">
-            <a href="duyurular.html" class="menu-item w3-animate-left">
+            <a href="index.html" class="menu-item w3-animate-left borc-vurgu">
+                <i class="fa fa-credit-card"></i>
+                <span style="color: var(--vurgu);">AİDAT VE BORÇ SORGULA</span>
+            </a>
+
+            <a href="duyurular.html" class="menu-item w3-animate-right">
                 <i class="fa fa-bullhorn"></i>
                 <span>SİTE DUYURULARI</span>
             </a>
 
-            <a href="gonderiler.html" class="menu-item w3-animate-right">
+            <a href="gonderiler.html" class="menu-item w3-animate-left">
                 <i class="fa fa-users"></i>
                 <span>SİTE AKIŞI / GÖNDERİLER</span>
             </a>
 
-            <a href="galeri.html" class="menu-item w3-animate-left">
+            <a href="galeri.html" class="menu-item w3-animate-right">
                 <i class="fa fa-camera"></i>
                 <span>GALERİ VE ÇALIŞMALAR</span>
             </a>
 
-            <a href="site-kurallari.html" class="menu-item w3-animate-right">
+            <a href="site-kurallari.html" class="menu-item w3-animate-left">
                 <i class="fa fa-gavel"></i>
                 <span>SİTE KURALLARI</span>
-            </a>
-
-            <a href="index.html" class="menu-item w3-animate-left" style="border-left: 4px solid var(--vurgu);">
-                <i class="fa fa-credit-card"></i>
-                <span>AİDAT VE BORÇ SORGULA</span>
             </a>
 
             <a href="profil.html" class="menu-item w3-animate-right">
@@ -119,15 +125,25 @@
 
     <script>
         function yukle() {
-            const ad = localStorage.getItem('user_name') || "Sakin";
+            const ad = localStorage.getItem('user_name');
             const bd = localStorage.getItem('user_bd');
-            const foto = localStorage.getItem('user_img'); // Burayı güncelledik (profil.html ile uyumlu)
+            const foto = localStorage.getItem('user_img');
 
-            if(!bd) { window.location.href = "index.html"; return; }
+            // Eğer hiç giriş yapılmamışsa index'e at
+            if(!bd) { 
+                window.location.href = "index.html"; 
+                return; 
+            }
 
+            // EĞER İSİM YOKSA (İLK GİRİŞSE) PROFİLE YÖNLENDİR
+            if(!ad) {
+                window.location.href = "profil.html";
+                return;
+            }
+
+            // Bilgileri yazdır
             document.getElementById('kullaniciAd').innerText = ad.toUpperCase() + " (" + bd + ")";
             
-            // Eğer profil.html'den resim yüklendiyse onu göster, yoksa varsayılan kalsın
             if(foto) {
                 document.getElementById('anaPfp').src = foto;
             }
@@ -140,7 +156,6 @@
             }
         }
 
-        // Mouse imleci takibi
         const cur = document.getElementById('cursor'); const ring = document.getElementById('cursor-ring');
         document.addEventListener('mousemove', e => { 
             cur.style.left = e.clientX+'px'; cur.style.top = e.clientY+'px'; 
