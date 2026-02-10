@@ -2,24 +2,33 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Profil Mühürleme</title>
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <title>Profil Kurulumu - Altıntaş Adalet</title>
     <style>
         :root { --vurgu: #f39c12; --bg: #0f172a; }
-        body { background: var(--bg); color: #fff; font-family: sans-serif; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }
-        .kart { background: rgba(255,255,255,0.05); padding: 40px; border-radius: 25px; width: 90%; max-width: 380px; text-align: center; border: 1px solid rgba(255,255,255,0.1); }
-        .inp { width: 100%; padding: 14px; margin: 10px 0; border-radius: 12px; border: 1px solid #334155; background: #000; color: #fff; outline: none; box-sizing: border-box; }
+        * { cursor: none !important; }
+        body { 
+            background: var(--bg); 
+            background-image: radial-gradient(#1e293b 1px, transparent 1px); 
+            background-size: 30px 30px; 
+            color: #fff; font-family: sans-serif; 
+            display: flex; align-items: center; justify-content: center; 
+            min-height: 100vh; margin: 0; 
+        }
+        .kart { background: rgba(255,255,255,0.05); backdrop-filter: blur(20px); padding: 40px; border-radius: 25px; width: 90%; max-width: 400px; text-align: center; border: 1px solid rgba(255,255,255,0.1); }
+        .inp { width: 100%; padding: 15px; margin: 10px 0; border-radius: 12px; border: 1px solid #334155; background: #000; color: #fff; outline: none; box-sizing: border-box; }
         .btn { width: 100%; padding: 16px; background: var(--vurgu); border: none; border-radius: 12px; color: #000; font-weight: 900; cursor: pointer; margin-top: 10px; }
     </style>
 </head>
 <body onload="check()">
-    <div class="kart w3-animate-top">
+    <div class="kart">
         <h2 style="font-weight:900">KİMLİK MÜHÜRLE</h2>
-        <p style="font-size:12px; color:#94a3b8">Bu bilgiler akışta görünecektir.</p>
+        <p style="font-size:12px; color:#94a3b8; margin-bottom:20px;">Bu bilgiler paylaşımlarda mühür olarak kullanılacaktır.</p>
+        
         <input type="text" id="pAd" class="inp" placeholder="Ad Soyad">
         <input type="tel" id="pTel" class="inp" placeholder="Telefon (05xx)">
-        <input type="text" id="pBD" class="inp" readonly style="opacity:0.5;">
-        <button class="btn" onclick="save()">MÜHÜRLE VE DEVAM ET</button>
+        <input type="text" id="pBD" class="inp" readonly style="opacity:0.5; cursor:not-allowed;">
+
+        <button class="btn" onclick="save()">MÜHÜRLE VE GİRİŞ YAP</button>
     </div>
 
     <script>
@@ -30,7 +39,7 @@
 
             if(!bd) { window.location.href="index.html"; return; }
             
-            // AD VE TEL VARSA PROFİLİ ATLA!
+            // Mühürler zaten varsa profil sayfasını hiç göstermeden geç!
             if(ad && tel) {
                 window.location.href = "anamenu.html";
                 return;
@@ -41,7 +50,8 @@
         function save() {
             const ad = document.getElementById('pAd').value.trim();
             const tel = document.getElementById('pTel').value.trim();
-            if(ad.length < 3 || tel.length < 10) return alert("Lütfen eksiksiz doldurun!");
+            if(ad.length < 3 || tel.length < 10) return alert("Bilgileri tam giriniz!");
+
             localStorage.setItem('user_name', ad);
             localStorage.setItem('user_tel', tel);
             window.location.href = "anamenu.html";
