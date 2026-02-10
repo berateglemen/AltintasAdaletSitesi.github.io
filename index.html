@@ -2,142 +2,88 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Giriş - Altıntaş Adalet Sitesi</title>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
-        :root { --vurgu: #f39c12; --bg: #0f172a; --kart: rgba(30, 41, 59, 0.9); --border: rgba(255, 255, 255, 0.1); }
-        * { cursor: none !important; box-sizing: border-box; }
-        #cursor { width: 8px; height: 8px; background: var(--vurgu); border-radius: 50%; position: fixed; z-index: 99999; pointer-events: none; }
-        #cursor-ring { width: 35px; height: 35px; border: 1.5px solid var(--vurgu); border-radius: 50%; position: fixed; z-index: 99998; pointer-events: none; transition: 0.15s ease-out; }
-
-        body { 
-            background: var(--bg) radial-gradient(var(--border) 1px, transparent 1px) 0 0 / 30px 30px;
-            color: white; font-family: 'Segoe UI', sans-serif;
-            margin: 0; height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden;
-        }
-
-        .giris-kart {
-            background: var(--kart); backdrop-filter: blur(15px); border: 1px solid var(--border);
-            border-radius: 40px; padding: 35px; width: 95%; max-width: 420px; text-align: center;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-        }
-
-        .btn-ana {
-            width: 100%; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border); 
-            padding: 16px; border-radius: 20px; color: white; font-weight: 600; cursor: pointer; 
-            transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 12px;
-        }
-        .btn-ana:hover { background: var(--vurgu); transform: translateY(-3px); }
-
-        .m-input {
-            width: 100%; background: rgba(15, 23, 42, 0.6); border: 1px solid var(--border);
-            padding: 14px; border-radius: 15px; color: white; margin-bottom: 10px; outline: none; text-align: center; font-size: 16px;
-        }
-
-        .sonuc-ekrani { display: none; background: #fff; color: #1e293b; border-radius: 25px; padding: 20px; margin-top: 20px; text-align: left; }
-        .loader { display: none; color: var(--vurgu); font-size: 12px; margin: 15px 0; }
-        #debugLog { font-size: 10px; color: #ff4444; margin-top: 10px; display: none; }
+        :root { --vurgu: #f39c12; --bg: #0f172a; --kart: rgba(30, 41, 59, 0.95); --border: rgba(255, 255, 255, 0.1); }
+        body { background: var(--bg); color: white; font-family: sans-serif; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }
+        .giris-kart { background: var(--kart); border: 1px solid var(--border); border-radius: 40px; padding: 40px; width: 90%; max-width: 400px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
+        .m-input { width: 100%; background: rgba(15, 23, 42, 0.8); border: 1px solid var(--border); padding: 15px; border-radius: 15px; color: white; margin-bottom: 12px; outline: none; text-align: center; font-size: 16px; }
+        .btn { width: 100%; padding: 16px; border-radius: 15px; border: none; font-weight: bold; cursor: pointer; transition: 0.3s; background: var(--vurgu); color: white; }
     </style>
 </head>
 <body>
 
-    <div id="cursor"></div><div id="cursor-ring"></div>
-
     <div class="giris-kart w3-animate-zoom">
-        <div style="margin-bottom:20px;">
-            <i class="fa fa-university" style="font-size: 50px; color: var(--vurgu);"></i>
-            <h1 style="font-size: 18px; font-weight: 900; margin: 10px 0 0 0;">ALTINTAŞ ADALET SİTESİ</h1>
-            <small style="color:var(--vurgu); letter-spacing:2px;">ÖDEME TAKİP SİSTEMİ</small>
-        </div>
+        <i class="fa fa-university" style="font-size: 50px; color: var(--vurgu);"></i>
+        <h2 style="font-weight: 900; margin: 15px 0;">ALTINTAŞ ADALET SİTESİ</h2>
 
         <div id="panelAna">
-            <button class="btn-ana" onclick="sakinPaneliAc()">SİTE SAKİNİ GİRİŞİ</button>
-            <button class="btn-ana" onclick="window.location.href='ziyaretci.html'">ZİYARETÇİ KAYDI</button>
+            <button class="btn" style="background:rgba(255,255,255,0.1); margin-bottom:10px;" onclick="sakinAc()">SİTE SAKİNİ</button>
+            <button class="btn" style="background:rgba(255,255,255,0.1);" onclick="window.location.href='ziyaretci.html'">ZİYARETÇİ</button>
         </div>
 
-        <div id="panelSakin" style="display:none;" class="w3-animate-opacity">
-            <input type="text" id="iptBlok" class="m-input" placeholder="Daire (Örn: A-1)">
-            <input type="password" id="iptSifre" class="m-input" placeholder="Şifre">
-            <button class="btn-ana" style="background:var(--vurgu); border:none;" onclick="sorgulaVeGiris()">BORÇ SORGULA & GİRİŞ</button>
+        <div id="panelSakin" style="display:none;">
+            <input type="text" id="daireInput" class="m-input" placeholder="Daire No (Örn: A-1)">
+            <input type="text" id="sifreInput" class="m-input" placeholder="Şifre (1234)">
+            <button class="btn" onclick="girisYap()">BORÇ SORGULA VE GİRİŞ</button>
+            <div id="yukleniyor" style="display:none; margin-top:10px; color:var(--vurgu); font-size:12px;"><i class="fa fa-spinner fa-spin"></i> Bilgiler çekiliyor...</div>
             
-            <div id="loader" class="loader"><i class="fa fa-refresh fa-spin"></i> Tabloya bağlanılıyor...</div>
-            <div id="debugLog"></div>
-
-            <div id="sonuc" class="sonuc-ekrani w3-animate-bottom">
-                <h4 id="s_daire" style="margin:0; font-weight:900; font-size:14px;"></h4>
-                <hr style="border-top:1px solid #eee; margin:10px 0;">
-                <p style="margin:0; font-size:12px; color:#64748b;">Borç Durumu:</p>
-                <div id="s_borc" style="color:#e11d48; font-size:24px; font-weight:900;"></div>
-                <button class="btn-ana" style="background:#0f172a; margin-top:15px;" onclick="siteyeGir()">SİTEYE GİRİŞ</button>
+            <div id="sonucPaneli" style="display:none; background:white; color:black; border-radius:20px; padding:20px; margin-top:20px; text-align:left;">
+                <b id="resDaire"></b><br>
+                Borç: <span id="resBorc" style="color:red; font-weight:bold;"></span> TL<br>
+                <button class="btn" style="margin-top:15px; padding:10px;" onclick="sayfayaGit()">SİTEYE GİR</button>
             </div>
-            <p onclick="location.reload()" style="cursor:pointer; font-size:11px; opacity:0.5; margin-top:15px;">← Geri Dön</p>
+            <p onclick="location.reload()" style="font-size:11px; margin-top:15px; opacity:0.5; cursor:pointer;">← Geri</p>
         </div>
     </div>
 
     <script>
-        // Görseldeki URL'yi buraya tam olarak sabitledim
+        // Görseldeki URL:
         const scriptURL = "https://script.google.com/macros/s/AKfycbxgHg97R_u6BgK4c7YjKeGr4tFWZOiaQt9Zm9Uh1BNul7el-it4vRxBQlnMJRxBYRVD/exec";
 
-        function sakinPaneliAc() {
+        function sakinAc() {
             document.getElementById('panelAna').style.display = 'none';
             document.getElementById('panelSakin').style.display = 'block';
         }
 
-        function sorgulaVeGiris() {
-            const bd = document.getElementById('iptBlok').value.toUpperCase().trim();
-            const pw = document.getElementById('iptSifre').value.trim();
-            const debug = document.getElementById('debugLog');
-            
-            debug.style.display = "none";
-            debug.innerText = "";
+        function girisYap() {
+            const bd = document.getElementById('daireInput').value.trim().toUpperCase();
+            const pw = document.getElementById('sifreInput').value.trim();
 
-            if(pw !== "1234") { alert("Şifre Yanlış!"); return; }
-            if(!bd) { alert("Daire numaranızı yazın!"); return; }
-
-            document.getElementById('loader').style.display = 'block';
-            document.getElementById('sonuc').style.display = 'none';
-
-            fetch(scriptURL)
+            // Şifre kontrolü (Boşlukları ve büyük/küçük harfi yok sayar)
+            if (pw == "1234") {
+                document.getElementById('yukleniyor').style.display = 'block';
+                
+                fetch(scriptURL)
                 .then(res => res.json())
                 .then(data => {
-                    document.getElementById('loader').style.display = 'none';
+                    document.getElementById('yukleniyor').style.display = 'none';
+                    const kisi = data.find(i => (i.DAIRE || i.daire || "").toString().toUpperCase() === bd);
                     
-                    // Tablodaki sütun isimlerini kontrol et (BÜYÜK/küçük harf duyarlı olabilir)
-                    // Veriyi ararken hem "DAIRE" hem de "daire" sütununa bakarız
-                    const kisi = data.find(item => 
-                        (item.DAIRE && item.DAIRE.toString().toUpperCase() === bd) || 
-                        (item.daire && item.daire.toString().toUpperCase() === bd)
-                    );
-                    
-                    if(kisi) {
+                    if (kisi) {
                         localStorage.setItem('user_bd', bd);
-                        document.getElementById('sonuc').style.display = 'block';
-                        document.getElementById('s_daire').innerText = bd + " - " + (kisi.AD || kisi.ad || "Sakin");
-                        document.getElementById('s_borc').innerText = (kisi.BORC || kisi.borc || "0") + " TL";
+                        document.getElementById('sonucPaneli').style.display = 'block';
+                        document.getElementById('resDaire').innerText = bd + " - " + (kisi.AD || "Sakin");
+                        document.getElementById('resBorc').innerText = kisi.BORC || "0";
                     } else {
-                        debug.style.display = "block";
-                        debug.innerText = "Hata: '" + bd + "' numaralı daire tabloda bulunamadı. Lütfen tablodaki DAIRE sütununu kontrol edin.";
+                        alert("Daire bulunamadı. Tabloyu kontrol edin.");
                     }
                 })
-                .catch(err => {
-                    document.getElementById('loader').style.display = 'none';
-                    debug.style.display = "block";
-                    debug.innerText = "Bağlantı Hatası: Google Sheets'e erişilemedi. İnterneti kontrol edin veya Script URL'sini tekrar yayınlayın.";
+                .catch(e => {
+                    alert("Tabloya bağlanılamadı!");
+                    document.getElementById('yukleniyor').style.display = 'none';
                 });
+            } else {
+                alert("ŞİFRE YANLIŞ! Lütfen sadece 1234 yazın.");
+            }
         }
 
-        function siteyeGir() {
+        function sayfayaGit() {
             window.location.href = localStorage.getItem('user_name') ? "anamenu.html" : "profil.html";
         }
-
-        const cur = document.getElementById('cursor'); const ring = document.getElementById('cursor-ring');
-        document.addEventListener('mousemove', e => { 
-            cur.style.left = e.clientX+'px'; cur.style.top = e.clientY+'px'; 
-            ring.animate({left:e.clientX-17.5+'px', top:e.clientY-17.5+'px'}, {duration:400, fill:"forwards"}); 
-        });
     </script>
 </body>
-    </html>
-    
+</html>
