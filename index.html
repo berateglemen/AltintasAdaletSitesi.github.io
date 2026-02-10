@@ -2,139 +2,91 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Giriş - Altıntaş Adalet</title>
+    <title>Giriş - Altıntaş Adalet Sitesi</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
-        :root { --vurgu: #f39c12; --bg: #0f172a; --glass: rgba(255, 255, 255, 0.03); }
-        * { cursor: none !important; }
-        #cursor { width: 8px; height: 8px; background: var(--vurgu); border-radius: 50%; position: fixed; z-index: 99999; pointer-events: none; }
-        #cursor-ring { width: 35px; height: 35px; border: 1.5px solid var(--vurgu); border-radius: 50%; position: fixed; z-index: 99998; pointer-events: none; transition: 0.15s ease-out; }
-        
-        /* NOKTALI ARKA PLAN GERİ GELDİ */
+        :root { --vurgu: #f39c12; --bg: #0f172a; }
         body { 
-            background: var(--bg); 
-            background-image: radial-gradient(#1e293b 1px, transparent 1px); 
-            background-size: 30px 30px; 
-            color: #fff; font-family: 'Segoe UI', sans-serif; 
-            display: flex; align-items: center; justify-content: center; 
-            min-height: 100vh; margin: 0; 
+            background: var(--bg); color: white; font-family: sans-serif;
+            display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0;
         }
-
-        .kart { 
-            background: var(--glass); 
-            backdrop-filter: blur(25px); 
-            padding: 45px; 
-            border-radius: 30px; 
-            width: 90%; max-width: 420px; 
-            text-align: center; 
-            border: 1px solid rgba(255,255,255,0.1); 
-            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.7); 
+        .giris-kart {
+            width: 90%; max-width: 400px; padding: 30px; text-align: center;
+            background: rgba(255,255,255,0.03); border-radius: 30px; border: 1px solid rgba(255,255,255,0.1);
         }
-
-        .sifre-container { position: relative; width: 100%; margin: 10px 0; }
-        .inp { 
-            width: 100%; padding: 16px; border-radius: 15px; 
-            border: 1px solid #334155; background: rgba(0,0,0,0.6); 
-            color: #fff; outline: none; box-sizing: border-box; 
-            font-size: 15px; transition: 0.3s;
-        }
-        .inp:focus { border-color: var(--vurgu); }
+        .logo-alan { margin-bottom: 30px; }
+        .logo-alan i { font-size: 50px; color: var(--vurgu); }
         
-        .sifre-gorunur-btn { 
-            position: absolute; right: 15px; top: 50%; 
-            transform: translateY(-50%); color: var(--vurgu); 
-            cursor: pointer; font-size: 18px; z-index: 10; 
+        .secim-btn {
+            width: 100%; padding: 20px; margin: 10px 0; border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05);
+            color: white; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 15px;
+            font-weight: bold; font-size: 16px;
         }
+        .secim-btn:hover { background: var(--vurgu); transform: scale(1.02); }
+        .secim-btn i { font-size: 24px; width: 30px; color: var(--vurgu); }
+        .secim-btn:hover i { color: white; }
 
-        .btn { 
-            width: 100%; padding: 18px; 
-            background: linear-gradient(135deg, #f39c12, #d35400); 
-            border: none; border-radius: 15px; color: #fff; 
-            font-weight: 900; margin-top: 20px; cursor: pointer; 
-            letter-spacing: 1px; transition: 0.3s;
-        }
-        .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(243, 156, 18, 0.3); }
-
-        .iban-kutu { 
-            background: rgba(0,0,0,0.5); padding: 20px; 
-            border-radius: 15px; margin: 25px 0; 
-            border: 1px dashed var(--vurgu); font-size: 13px; 
+        /* Sakin Giriş Formu (Başta Gizli) */
+        #sakinForm { display: none; margin-top: 20px; }
+        input { 
+            width: 100%; padding: 15px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);
+            background: #1e293b; color: white; margin-bottom: 15px; outline: none;
         }
     </style>
 </head>
 <body>
-    <div id="cursor"></div><div id="cursor-ring"></div>
 
-    <div class="kart" id="girisEkrani">
-        <h2 style="font-weight:900; margin-bottom:5px; letter-spacing:2px;">ALTINTAŞ <span style="color:var(--vurgu)">ADALET SİTESİ</span></h2>
-        <p style="color:#94a3b8; font-size:13px; margin-bottom:30px; font-weight:bold;">BORÇ SORGULAMA & YÖNETİM</p>
-        
-        <input type="text" id="blokDaire" class="inp" placeholder="Blok-Daire (Örn: A-1)">
-        
-        <div class="sifre-container">
-            <input type="password" id="sifre" class="inp" placeholder="Şifre">
-            <i class="fa fa-eye sifre-gorunur-btn" id="sifreGoz" onclick="sifreDegis()"></i>
+    <div class="giris-kart w3-animate-zoom">
+        <div class="logo-alan">
+            <i class="fa fa-university"></i>
+            <h2 style="font-weight: 900; letter-spacing: 2px; margin-top: 10px;">ALTINTAŞ ADALET SİTESİ</h2>
+            <p style="font-size: 10px; color: var(--vurgu);">DİJİTAL YÖNETİM SİSTEMİ</p>
         </div>
 
-        <button onclick="sorgula()" id="sorguBtn" class="btn">SORGULA</button>
-    </div>
+        <div id="anaSecim">
+            <button class="secim-btn" onclick="sakinModuAc()">
+                <i class="fa fa-key"></i>
+                <span>SİTE SAKİNİYİM</span>
+            </button>
 
-    <div class="kart" id="sonucEkrani" style="display:none;">
-        <h3 id="daireBaslik" style="color:var(--vurgu); font-weight:900; margin-bottom:20px;"></h3>
-        <p style="font-size:14px; color:#94a3b8;">GÜNCEL BORÇ BAKİYENİZ</p>
-        <h1 id="borcMiktari" style="font-size:54px; margin:15px 0; font-weight:900; color:#fff;">0.00 TL</h1>
-        
-        <div class="iban-kutu">
-            <small style="color:#94a3b8; display:block; margin-bottom:10px;">Yönetim IBAN (Ziraat Bankası):</small>
-            <b id="ibanNo" style="letter-spacing:1px; font-size:14px;">TR43 0014 3000 0000 0026 7629 52</b><br>
-            <button onclick="kopya()" style="background:none; border:none; color:var(--vurgu); margin-top:15px; font-weight:900; cursor:pointer;">KOPYALA</button>
+            <button class="secim-btn" onclick="window.location.href='ziyaretci.html'">
+                <i class="fa fa-car"></i>
+                <span>ZİYARETÇİYİM</span>
+            </button>
         </div>
-        <button onclick="window.location.href='profil.html'" class="btn">ANA MENÜYE GİRİŞ YAP</button>
+
+        <div id="sakinForm">
+            <p style="font-size: 13px; opacity: 0.7;">Lütfen daire numaranızı girin</p>
+            <input type="number" id="daireNo" placeholder="Daire No (Örn: 5)">
+            <button class="secim-btn" onclick="sakinGiris()" style="background: var(--vurgu); justify-content: center;">
+                SORGULA VE GİRİŞ YAP
+            </button>
+            <button onclick="location.reload()" style="background:none; border:none; color:white; font-size:11px; margin-top:10px; opacity:0.5;">Geri Dön</button>
+        </div>
     </div>
 
     <script>
-        const scriptURL = "https://script.google.com/macros/s/AKfycbziTF1JO9CmX0RMt0QaAC_h_EgQColF6hS9jhgIvETHanl1pRZg0NCKnXb0pdEW-Gs/exec";
-        
-        function sifreDegis() {
-            const sifreInput = document.getElementById('sifre');
-            const gozIcon = document.getElementById('sifreGoz');
-            if (sifreInput.type === "password") {
-                sifreInput.type = "text";
-                gozIcon.classList.replace('fa-eye', 'fa-eye-slash');
+        function sakinModuAc() {
+            document.getElementById('anaSecim').style.display = 'none';
+            document.getElementById('sakinForm').style.display = 'block';
+        }
+
+        function sakinGiris() {
+            const no = document.getElementById('daireNo').value;
+            if(!no) return alert("Daire no giriniz!");
+            
+            // Daire numarasını hafızaya al ve ana menüye yolla
+            localStorage.setItem('user_bd', no);
+            
+            // Eğer daha önce isim kaydetmemişse profile, etmişse ana menüye
+            if(localStorage.getItem('user_name')) {
+                window.location.href = "anamenu.html";
             } else {
-                sifreInput.type = "password";
-                gozIcon.classList.replace('fa-eye-slash', 'fa-eye');
+                window.location.href = "profil.html";
             }
         }
-
-        function sorgula() {
-            const bd = document.getElementById('blokDaire').value.trim();
-            const sf = document.getElementById('sifre').value.trim();
-            if(!bd || !sf) return alert("Eksik bilgi!");
-            document.getElementById('sorguBtn').innerText = "DOĞRULANIYOR...";
-
-            fetch(`${scriptURL}?blokDaire=${encodeURIComponent(bd)}&sifre=${encodeURIComponent(sf)}`)
-            .then(res => res.json()).then(data => {
-                if(data.status === "success") {
-                    localStorage.setItem('user_bd', bd);
-                    document.getElementById('girisEkrani').style.display = "none";
-                    document.getElementById('sonucEkrani').style.display = "block";
-                    document.getElementById('daireBaslik').innerText = bd + " SAKİNİ";
-                    document.getElementById('borcMiktari').innerText = data.borc + " TL";
-                } else { alert("Hatalı Giriş!"); location.reload(); }
-            });
-        }
-
-        function kopya() {
-            navigator.clipboard.writeText("TR430014300000000026762952");
-            alert("IBAN Kopyalandı!");
-        }
-
-        const cur = document.getElementById('cursor'); const ring = document.getElementById('cursor-ring');
-        document.addEventListener('mousemove', e => { 
-            cur.style.left = e.clientX+'px'; cur.style.top = e.clientY+'px'; 
-            ring.animate({left:e.clientX-17.5+'px', top:e.clientY-17.5+'px'}, {duration:400, fill:"forwards"}); 
-        });
     </script>
 </body>
 </html>
