@@ -2,11 +2,11 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Giriş - Altıntaş Adalet Sitesi</title>
+    <title>Giriş - Altıntaş Adalet</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
         :root { --vurgu: #f39c12; --bg: #0f172a; --glass: rgba(255, 255, 255, 0.03); }
-        * { cursor: none !important; box-sizing: border-box; }
+        * { cursor: none !important; }
         #cursor { width: 8px; height: 8px; background: var(--vurgu); border-radius: 50%; position: fixed; z-index: 99999; pointer-events: none; }
         #cursor-ring { width: 35px; height: 35px; border: 1.5px solid var(--vurgu); border-radius: 50%; position: fixed; z-index: 99998; pointer-events: none; transition: 0.15s ease-out; }
         
@@ -21,25 +21,32 @@
 
         .kart { 
             background: var(--glass); backdrop-filter: blur(25px); 
-            padding: 40px; border-radius: 30px; 
-            width: 95%; max-width: 420px; text-align: center; 
+            padding: 45px; border-radius: 30px; 
+            width: 90%; max-width: 420px; text-align: center; 
             border: 1px solid rgba(255,255,255,0.1); 
             box-shadow: 0 25px 50px -12px rgba(0,0,0,0.7); 
         }
 
+        .sifre-container { position: relative; width: 100%; margin: 10px 0; }
         .inp { 
             width: 100%; padding: 16px; border-radius: 15px; 
             border: 1px solid #334155; background: rgba(0,0,0,0.6); 
-            color: #fff; outline: none; margin-bottom: 12px;
+            color: #fff; outline: none; box-sizing: border-box; 
             font-size: 15px; transition: 0.3s; text-align: center;
         }
         .inp:focus { border-color: var(--vurgu); }
+        
+        .sifre-gorunur-btn { 
+            position: absolute; right: 15px; top: 50%; 
+            transform: translateY(-50%); color: var(--vurgu); 
+            cursor: pointer; font-size: 18px; z-index: 10; 
+        }
 
         .btn { 
             width: 100%; padding: 18px; 
             background: linear-gradient(135deg, #f39c12, #d35400); 
             border: none; border-radius: 15px; color: #fff; 
-            font-weight: 900; cursor: pointer; margin-bottom: 10px;
+            font-weight: 900; margin-top: 20px; cursor: pointer; 
             letter-spacing: 1px; transition: 0.3s;
         }
         .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(243, 156, 18, 0.3); }
@@ -47,75 +54,72 @@
         .iban-kutu { 
             background: rgba(0,0,0,0.5); padding: 20px; 
             border-radius: 15px; margin: 25px 0; 
-            border: 1px dashed var(--vurgu); font-size: 13px; 
+            border: 1px dashed var(--vurgu); font-size: 13px; text-align: left;
         }
-
-        #loader { display: none; color: var(--vurgu); margin: 10px 0; font-weight: bold; }
     </style>
 </head>
 <body>
     <div id="cursor"></div><div id="cursor-ring"></div>
 
-    <div class="kart" id="anaPanel">
-        <h2 style="font-weight:900; margin-bottom:5px; letter-spacing:1px;">ALTINTAŞ <span style="color:var(--vurgu)">ADALET SİTESİ</span></h2>
-        <p style="color:#94a3b8; font-size:11px; margin-bottom:30px; font-weight:bold; letter-spacing: 2px;">DİJİTAL YÖNETİM PORTALI</p>
-        
-        <button onclick="sakinModu()" class="btn">SİTE SAKİNİ GİRİŞİ</button>
-        <button onclick="window.location.href='ziyaretci.html'" class="btn" style="background: rgba(255,255,255,0.1);">ZİYARETÇİ KAYDI</button>
-    </div>
-
-    <div class="kart" id="girisEkrani" style="display:none;">
-        <h3 style="color:var(--vurgu); font-weight:900;">SAKİN DOĞRULAMA</h3>
-        <p style="font-size:12px; color:#94a3b8; margin-bottom:20px;">Lütfen bilgilerinizi giriniz.</p>
+    <div class="kart" id="girisEkrani">
+        <h2 style="font-weight:900; margin-bottom:5px; letter-spacing:2px;">ALTINTAŞ <span style="color:var(--vurgu)">ADALET SİTESİ</span></h2>
+        <p style="color:#94a3b8; font-size:13px; margin-bottom:30px; font-weight:bold;">BORÇ SORGULAMA & YÖNETİM</p>
         
         <input type="text" id="blokDaire" class="inp" placeholder="Blok-Daire (Örn: A-1)">
-        <input type="password" id="sifre" class="inp" placeholder="Şifre">
         
-        <div id="loader"><i class="fa fa-spinner fa-spin"></i> Bilgiler Sorgulanıyor...</div>
-        
-        <button onclick="sorgula()" id="sorguBtn" class="btn">SORGULA & GİRİŞ</button>
-        <p onclick="location.reload()" style="cursor:pointer; font-size:11px; opacity:0.5; margin-top:15px;">← Geri Dön</p>
+        <div class="sifre-container">
+            <input type="password" id="sifre" class="inp" placeholder="Şifre">
+            <i class="fa fa-eye sifre-gorunur-btn" id="sifreGoz" onclick="sifreDegis()"></i>
+        </div>
+
+        <button onclick="sorgula()" id="sorguBtn" class="btn">SORGULA</button>
     </div>
 
     <div class="kart" id="sonucEkrani" style="display:none;">
         <h3 id="daireBaslik" style="color:var(--vurgu); font-weight:900; margin-bottom:20px;"></h3>
         <p style="font-size:14px; color:#94a3b8;">GÜNCEL BORÇ BAKİYENİZ</p>
-        <h1 id="borcMiktari" style="font-size:48px; margin:15px 0; font-weight:900; color:#fff;">0.00 TL</h1>
+        <h1 id="borcMiktari" style="font-size:54px; margin:15px 0; font-weight:900; color:#fff;">0.00 TL</h1>
         
         <div class="iban-kutu">
             <small style="color:#94a3b8; display:block; margin-bottom:10px;">Yönetim IBAN (Ziraat Bankası):</small>
-            <b style="letter-spacing:1px; font-size:13px;">TR43 0014 3000 0000 0026 7629 52</b><br>
-            <button onclick="kopya()" style="background:none; border:none; color:var(--vurgu); margin-top:15px; font-weight:900; cursor:pointer;">IBAN KOPYALA</button>
+            <b id="ibanNo" style="letter-spacing:1px; font-size:14px;">TR43 0014 3000 0000 0026 7629 52</b><br>
+            <button onclick="kopya()" style="background:none; border:none; color:var(--vurgu); margin-top:15px; font-weight:900; cursor:pointer;">KOPYALA</button>
         </div>
-        <button onclick="siteyeGir()" class="btn">SİTEYE DEVAM ET</button>
+        <button onclick="window.location.href='profil.html'" class="btn">ANA MENÜYE GİRİŞ YAP</button>
     </div>
 
     <script>
         // Görseldeki güncel Script URL
         const scriptURL = "https://script.google.com/macros/s/AKfycbxgHg97R_u6BgK4c7YjKeGr4tFWZOiaQt9Zm9Uh1BNul7el-it4vRxBQlnMJRxBYRVD/exec";
-
-        function sakinModu() {
-            document.getElementById('anaPanel').style.display = "none";
-            document.getElementById('girisEkrani').style.display = "block";
+        
+        function sifreDegis() {
+            const sifreInput = document.getElementById('sifre');
+            const gozIcon = document.getElementById('sifreGoz');
+            if (sifreInput.type === "password") {
+                sifreInput.type = "text";
+                gozIcon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                sifreInput.type = "password";
+                gozIcon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
         }
 
         function sorgula() {
             const bd = document.getElementById('blokDaire').value.trim().toUpperCase();
             const sf = document.getElementById('sifre').value.trim();
-            
-            if(!bd || !sf) return alert("Eksik bilgi!");
-            if(sf !== "1234") return alert("Şifre Hatalı!");
 
-            document.getElementById('sorguBtn').style.display = "none";
-            document.getElementById('loader').style.display = "block";
+            if(!bd || !sf) return alert("Eksik bilgi!");
+            
+            // Sabit giriş şifresi kontrolü
+            if(sf !== "1234") return alert("Hatalı Şifre!");
+
+            document.getElementById('sorguBtn').innerText = "DOĞRULANIYOR...";
 
             fetch(scriptURL)
             .then(res => res.json())
             .then(data => {
                 const kisi = data.find(i => (i.DAIRE || i.daire || "").toString().toUpperCase() === bd);
-                document.getElementById('loader').style.display = "none";
-                document.getElementById('sorguBtn').style.display = "block";
-
+                
                 if(kisi) {
                     localStorage.setItem('user_bd', bd);
                     document.getElementById('girisEkrani').style.display = "none";
@@ -123,20 +127,14 @@
                     document.getElementById('daireBaslik').innerText = bd + " SAKİNİ";
                     document.getElementById('borcMiktari').innerText = (kisi.BORC || kisi.borc || "0") + " TL";
                 } else { 
-                    alert("Daire bulunamadı! Lütfen kontrol edin.");
-                    document.getElementById('sorguBtn').innerText = "TEKRAR DENE";
+                    alert("Daire bulunamadı!"); 
+                    document.getElementById('sorguBtn').innerText = "SORGULA";
                 }
             })
-            .catch(e => {
-                alert("Veritabanı bağlantı hatası!");
-                document.getElementById('loader').style.display = "none";
-                document.getElementById('sorguBtn').style.display = "block";
+            .catch(err => {
+                alert("Bağlantı hatası!");
+                document.getElementById('sorguBtn').innerText = "SORGULA";
             });
-        }
-
-        function siteyeGir() {
-            const isimVar = localStorage.getItem('user_name');
-            window.location.href = isimVar ? 'anamenu.html' : 'profil.html';
         }
 
         function kopya() {
@@ -151,5 +149,5 @@
         });
     </script>
 </body>
-                </html>
-                
+                                                                                                 </html>
+                                                                                                 
