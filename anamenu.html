@@ -6,156 +6,71 @@
     <title>Ana Menü - Altıntaş Adalet Sitesi</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
-        :root { 
-            --vurgu: #f39c12; 
-            --bg: #0f172a; 
-            --glass: rgba(255, 255, 255, 0.03); 
-            --glass-border: rgba(255, 255, 255, 0.1); 
-        }
-
+        :root { --vurgu: #f39c12; --bg: #0f172a; --glass: rgba(255, 255, 255, 0.03); --glass-border: rgba(255, 255, 255, 0.1); }
         * { cursor: none !important; box-sizing: border-box; }
-        
-        /* Özel Mouse */
         #cursor { width: 8px; height: 8px; background: var(--vurgu); border-radius: 50%; position: fixed; z-index: 99999; pointer-events: none; }
         #cursor-ring { width: 35px; height: 35px; border: 1.5px solid var(--vurgu); border-radius: 50%; position: fixed; z-index: 99998; pointer-events: none; transition: 0.15s ease-out; }
-        
-        body { 
-            background: var(--bg) radial-gradient(#1e293b 1px, transparent 1px) 0 0 / 30px 30px; 
-            color: #fff; font-family: 'Segoe UI', sans-serif; 
-            display: flex; flex-direction: column; align-items: center; justify-content: center; 
-            min-height: 100vh; margin: 0; overflow: hidden;
-        }
+        body { background: var(--bg) radial-gradient(#1e293b 1px, transparent 1px) 0 0 / 30px 30px; color: #fff; font-family: 'Segoe UI', sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; margin: 0; overflow: hidden; }
 
-        /* Profil Bölümü (Yeni Eklendi) */
-        .profil-alani {
-            text-align: center;
-            margin-bottom: 25px;
-            animation: profilGiris 1s cubic-bezier(0.17, 0.67, 0.83, 0.67);
-        }
+        /* Profil Bölümü */
+        .profil-header { text-align: center; margin-bottom: 25px; animation: profilGiris 0.8s ease-out; }
+        .pp-cerceve { width: 95px; height: 95px; border-radius: 50%; border: 3px solid var(--vurgu); padding: 3px; margin: 0 auto 10px; box-shadow: 0 0 20px rgba(243, 156, 18, 0.3); }
+        .pp-cerceve img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; background: #1e293b; }
+        .bilgi h3 { margin: 0; font-size: 19px; letter-spacing: 1px; }
+        .bilgi span { color: var(--vurgu); font-size: 13px; font-weight: 900; }
 
-        .pp-daire {
-            width: 90px; height: 90px;
-            border-radius: 50%;
-            border: 3px solid var(--vurgu);
-            padding: 3px;
-            margin: 0 auto 10px;
-            position: relative;
-            box-shadow: 0 0 20px rgba(243, 156, 18, 0.2);
-        }
+        /* Kartlar ve Animasyon */
+        .menu-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; width: 90%; max-width: 450px; }
+        .kart { background: var(--glass); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); padding: 25px 15px; border-radius: 25px; text-align: center; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); text-decoration: none; color: #fff; animation: kartBelir 0.5s backwards; }
+        .kart:hover { border-color: var(--vurgu); transform: translateY(-8px) scale(1.03); background: rgba(255,255,255,0.07); box-shadow: 0 10px 30px rgba(0,0,0,0.4); }
+        .kart i { font-size: 30px; color: var(--vurgu); margin-bottom: 10px; display: block; }
+        .kart span { font-weight: 800; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
 
-        .pp-daire img {
-            width: 100%; height: 100%;
-            border-radius: 50%;
-            object-fit: cover;
-            background: #1e293b;
-        }
+        @keyframes profilGiris { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
+        @keyframes kartBelir { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 
-        .kullanici-bilgi h3 { margin: 0; font-size: 18px; letter-spacing: 1px; }
-        .kullanici-bilgi p { margin: 3px 0 0; color: #94a3b8; font-size: 12px; font-weight: bold; }
+        /* Sıralı Animasyon */
+        .kart:nth-child(1) { animation-delay: 0.1s; } .kart:nth-child(2) { animation-delay: 0.2s; }
+        .kart:nth-child(3) { animation-delay: 0.3s; } .kart:nth-child(4) { animation-delay: 0.4s; }
+        .kart:nth-child(5) { animation-delay: 0.5s; } .kart:nth-child(6) { animation-delay: 0.6s; }
 
-        /* Menü Kartları ve Animasyonlar */
-        .menu-konteyner { 
-            display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            gap: 15px; 
-            width: 90%; 
-            max-width: 450px; 
-        }
-
-        .menu-kart { 
-            background: var(--glass); 
-            backdrop-filter: blur(20px); 
-            border: 1px solid var(--glass-border); 
-            padding: 25px 15px; 
-            border-radius: 25px; 
-            text-align: center; 
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-            text-decoration: none; 
-            color: #fff; 
-            display: block;
-            animation: kartBelir 0.6s backwards;
-        }
-
-        .menu-kart:hover { 
-            border-color: var(--vurgu); 
-            transform: translateY(-10px) scale(1.05); 
-            background: rgba(255,255,255,0.08);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
-        }
-
-        .menu-kart i { font-size: 32px; color: var(--vurgu); margin-bottom: 12px; display: block; }
-        .menu-kart span { font-weight: 800; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
-
-        /* Animasyon Tanımları */
-        @keyframes profilGiris { from { opacity: 0; transform: scale(0.5); } to { opacity: 1; transform: scale(1); } }
-        @keyframes kartBelir { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* Kartların sırayla gelmesi için delay */
-        .menu-kart:nth-child(1) { animation-delay: 0.1s; }
-        .menu-kart:nth-child(2) { animation-delay: 0.2s; }
-        .menu-kart:nth-child(3) { animation-delay: 0.3s; }
-        .menu-kart:nth-child(4) { animation-delay: 0.4s; }
-        .menu-kart:nth-child(5) { animation-delay: 0.5s; }
-        .menu-kart:nth-child(6) { animation-delay: 0.6s; }
-
-        .cikis-btn { 
-            margin-top: 30px; 
-            color: #64748b; 
-            text-decoration: none; 
-            font-weight: bold; 
-            font-size: 11px; 
-            border: 1px solid #334155; 
-            padding: 10px 25px; 
-            border-radius: 50px; 
-            transition: 0.3s;
-        }
-        .cikis-btn:hover { border-color: #ff4757; color: #ff4757; background: rgba(255,71,87,0.05); }
+        .cikis-btn { margin-top: 30px; color: #64748b; text-decoration: none; font-weight: bold; font-size: 11px; border: 1px solid #334155; padding: 10px 25px; border-radius: 50px; transition: 0.3s; }
+        .cikis-btn:hover { border-color: #ff4757; color: #ff4757; }
     </style>
 </head>
 <body>
-    <div id="cursor"></div>
-    <div id="cursor-ring"></div>
+    <div id="cursor"></div><div id="cursor-ring"></div>
 
-    <div class="profil-alani">
-        <div class="pp-daire">
-            <img id="userPP" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Profil">
+    <div class="profil-header">
+        <div class="pp-cerceve">
+            <img id="mainPP" src="https://cdn-icons-png.flaticon.com/512/149/149071.png">
         </div>
-        <div class="kullanici-bilgi">
-            <h3 id="userName">Sakin Paneli</h3>
-            <p id="userBD">Altıntaş Adalet Sitesi</p>
+        <div class="bilgi">
+            <h3 id="mainAd">Yükleniyor...</h3>
+            <span id="mainDaire">DAİRE: --</span>
         </div>
     </div>
     
-    <div class="menu-konteyner">
-        <a href="index.html" class="menu-kart"><i class="fa fa-calculator"></i><span>Borç Sorgula</span></a>
-        <a href="duyurular.html" class="menu-kart"><i class="fa fa-bullhorn"></i><span>Duyurular</span></a>
-        <a href="site-kurallari.html" class="menu-kart"><i class="fa fa-gavel"></i><span>Kurallar</span></a>
-        <a href="galeri.html" class="menu-kart"><i class="fa fa-image"></i><span>Galeri</span></a>
-        <a href="gonderiler.html" class="menu-kart"><i class="fa fa-comments"></i><span>Site Akışı</span></a>
-        <a href="profil.html" class="menu-kart"><i class="fa fa-user-circle"></i><span>Profil Düzenle</span></a>
+    <div class="menu-grid">
+        <a href="index.html" class="kart"><i class="fa fa-calculator"></i><span>Borç Sorgula</span></a>
+        <a href="duyurular.html" class="kart"><i class="fa fa-bullhorn"></i><span>Duyurular</span></a>
+        <a href="site-kurallari.html" class="kart"><i class="fa fa-gavel"></i><span>Kurallar</span></a>
+        <a href="galeri.html" class="kart"><i class="fa fa-image"></i><span>Galeri</span></a>
+        <a href="gonderiler.html" class="kart"><i class="fa fa-rss"></i><span>Site Akışı</span></a>
+        <a href="profil.html" class="kart"><i class="fa fa-cog"></i><span>Profil Ayarları</span></a>
     </div>
 
-    <a href="index.html" class="cikis-btn">GÜVENLİ ÇIKIŞ</a>
+    <a href="index.html" class="cikis-btn">SİSTEMDEN ÇIK</a>
 
     <script>
-        // LocalStorage'dan profil verilerini çek
         window.onload = function() {
-            const savedName = localStorage.getItem('user_name');
-            const savedBD = localStorage.getItem('user_bd');
-            const savedImg = localStorage.getItem('user_img');
-
-            if(savedName) document.getElementById('userName').innerText = savedName;
-            if(savedBD) document.getElementById('userBD').innerText = savedBD;
-            if(savedImg) document.getElementById('userPP').src = savedImg;
+            document.getElementById('mainAd').innerText = localStorage.getItem('user_name') || "Site Sakini";
+            document.getElementById('mainDaire').innerText = "DAİRE: " + (localStorage.getItem('user_bd') || "Belirtilmedi");
+            if(localStorage.getItem('user_img')) document.getElementById('mainPP').src = localStorage.getItem('user_img');
         }
-
-        // Mouse imleci
-        const cursor = document.getElementById('cursor');
-        const ring = document.getElementById('cursor-ring');
         document.addEventListener('mousemove', e => { 
-            cursor.style.left = e.clientX + 'px'; 
-            cursor.style.top = e.clientY + 'px'; 
-            ring.animate({ left: e.clientX - 17.5 + 'px', top: e.clientY - 17.5 + 'px' }, {duration: 400, fill: "forwards"}); 
+            document.getElementById('cursor').style.left = e.clientX + 'px'; document.getElementById('cursor').style.top = e.clientY + 'px'; 
+            document.getElementById('cursor-ring').animate({ left: e.clientX - 17.5 + 'px', top: e.clientY - 17.5 + 'px' }, {duration: 400, fill: "forwards"}); 
         });
     </script>
 </body>
