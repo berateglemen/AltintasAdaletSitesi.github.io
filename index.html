@@ -28,50 +28,65 @@
         .inp { 
             width: 100%; padding: 16px; border-radius: 15px; 
             border: 1px solid #334155; background: rgba(0,0,0,0.6); 
-            color: #fff; outline: none; margin-bottom: 10px;
-            font-size: 15px; text-align: center;
+            color: #fff; outline: none; margin-bottom: 12px;
+            font-size: 15px; text-align: center; transition: 0.3s;
         }
+        .inp:focus { border-color: var(--vurgu); }
 
         .btn { 
             width: 100%; padding: 18px; 
             background: linear-gradient(135deg, #f39c12, #d35400); 
             border: none; border-radius: 15px; color: #fff; 
             font-weight: 900; margin-top: 20px; cursor: pointer; 
+            letter-spacing: 1px; transition: 0.3s;
         }
-        
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(243, 156, 18, 0.3); }
+
         #loader { display: none; color: var(--vurgu); margin: 15px 0; font-size: 13px; }
+        
+        .iban-kutu { 
+            background: rgba(0,0,0,0.5); padding: 20px; 
+            border-radius: 15px; margin: 25px 0; 
+            border: 1px dashed var(--vurgu); font-size: 13px; text-align: left;
+        }
     </style>
 </head>
 <body>
     <div id="cursor"></div><div id="cursor-ring"></div>
 
     <div class="kart" id="girisEkrani">
-        <h2 style="font-weight:900; margin-bottom:5px;">ALTINTAŞ <span style="color:var(--vurgu)">ADALET SİTESİ</span></h2>
-        <p style="color:#94a3b8; font-size:12px; margin-bottom:30px;">SAKİN GİRİŞ PANELİ</p>
+        <h2 style="font-weight:900; margin-bottom:5px; letter-spacing:2px;">ALTINTAŞ <span style="color:var(--vurgu)">ADALET SİTESİ</span></h2>
+        <p style="color:#94a3b8; font-size:12px; margin-bottom:30px; font-weight:bold;">SAKİN GİRİŞ PANELİ</p>
         
         <input type="text" id="blokDaire" class="inp" placeholder="Daire (Örn: A-1)">
-        <input type="password" id="sifre" class="inp" placeholder="Size Özel Şifre">
+        <input type="password" id="sifre" class="inp" placeholder="Şifre">
         
         <div id="loader"><i class="fa fa-spinner fa-spin"></i> Tablodan Doğrulanıyor...</div>
         <button onclick="sorgula()" id="sorguBtn" class="btn">GİRİŞ YAP</button>
     </div>
 
     <div class="kart" id="sonucEkrani" style="display:none;">
-        <h3 id="daireBaslik" style="color:var(--vurgu); font-weight:900;"></h3>
-        <p style="font-size:14px; color:#94a3b8;">GÜNCEL BORÇ</p>
-        <h1 id="borcMiktari" style="font-size:50px; margin:15px 0; font-weight:900;">0.00 TL</h1>
-        <button onclick="window.location.href='profil.html'" class="btn">ANA MENÜ</button>
+        <h3 id="daireBaslik" style="color:var(--vurgu); font-weight:900; margin-bottom:20px;"></h3>
+        <p style="font-size:14px; color:#94a3b8;">GÜNCEL BORÇ BAKİYENİZ</p>
+        <h1 id="borcMiktari" style="font-size:54px; margin:15px 0; font-weight:900; color:#fff;">0.00 TL</h1>
+        
+        <div class="iban-kutu">
+            <small style="color:#94a3b8; display:block; margin-bottom:10px;">Yönetim IBAN (Ziraat Bankası):</small>
+            <b style="letter-spacing:1px; font-size:14px;">TR43 0014 3000 0000 0026 7629 52</b><br>
+            <button onclick="alert('IBAN Kopyalandı!')" style="background:none; border:none; color:var(--vurgu); margin-top:15px; font-weight:900; cursor:pointer;">KOPYALA</button>
+        </div>
+        <button onclick="window.location.href='profil.html'" class="btn">ANA MENÜYE GİRİŞ YAP</button>
     </div>
 
     <script>
-        // Görseldeki URL:
+        // Görseldeki URL
         const scriptURL = "https://script.google.com/macros/s/AKfycbxgHg97R_u6BgK4c7YjKeGr4tFWZOiaQt9Zm9Uh1BNul7el-it4vRxBQlnMJRxBYRVD/exec";
 
         function sorgula() {
             const bd = document.getElementById('blokDaire').value.trim().toUpperCase();
             const sf = document.getElementById('sifre').value.trim();
 
-            if(!bd || !sf) return alert("Lütfen daire ve şifrenizi girin!");
+            if(!bd || !sf) return alert("Lütfen tüm alanları doldurun!");
 
             document.getElementById('sorguBtn').style.display = "none";
             document.getElementById('loader').style.display = "block";
@@ -79,14 +94,14 @@
             fetch(scriptURL)
             .then(res => res.json())
             .then(data => {
-                // Tabloda Daireyi bul (DAIRE sütunu)
+                // Tabloda Daireyi bul (Daire isimlerini büyük harf yaparak karşılaştırır)
                 const kisi = data.find(i => (i.DAIRE || i.daire || "").toString().toUpperCase() === bd);
                 
                 document.getElementById('loader').style.display = "none";
                 document.getElementById('sorguBtn').style.display = "block";
 
                 if(kisi) {
-                    // Şifreyi E-Tablo'daki SIFRE sütunundan kontrol et
+                    // Şifreyi E-Tablo'daki SIFRE sütunundan kontrol eder
                     const tabloSifresi = (kisi.SIFRE || kisi.sifre || "").toString().trim();
                     
                     if(sf === tabloSifresi) {
@@ -96,23 +111,24 @@
                         document.getElementById('daireBaslik').innerText = bd + " SAKİNİ";
                         document.getElementById('borcMiktari').innerText = (kisi.BORC || kisi.borc || "0") + " TL";
                     } else {
-                        alert("Hatalı Şifre! Lütfen size tanımlanan şifreyi girin.");
+                        alert("Hatalı Şifre! Lütfen tablodaki şifrenizi girin.");
                     }
                 } else { 
-                    alert("Daire bulunamadı! Yazım şeklini (A-1 gibi) kontrol edin."); 
+                    alert("Daire bulunamadı! Yazım şeklini (Örn: A-1) kontrol edin."); 
                 }
             })
             .catch(err => {
-                alert("Bağlantı Hatası! Lütfen internetinizi veya tablo izinlerini kontrol edin.");
+                alert("Bağlantı Hatası! Lütfen Google Script ayarlarından 'Anyone' (Herkes) erişimini açtığınızdan emin olun.");
                 document.getElementById('loader').style.display = "none";
                 document.getElementById('sorguBtn').style.display = "block";
             });
         }
 
-        const cur = document.getElementById('cursor'); const ring = document.getElementById('cursor-ring');
+        // Mouse imleci
         document.addEventListener('mousemove', e => { 
-            cur.style.left = e.clientX+'px'; cur.style.top = e.clientY+'px'; 
-            ring.animate({left:e.clientX-17.5+'px', top:e.clientY-17.5+'px'}, {duration:400, fill:"forwards"}); 
+            document.getElementById('cursor').style.left = e.clientX+'px'; 
+            document.getElementById('cursor').style.top = e.clientY+'px'; 
+            document.getElementById('cursor-ring').animate({left:e.clientX-17.5+'px', top:e.clientY-17.5+'px'}, {duration:400, fill:"forwards"}); 
         });
     </script>
 </body>
