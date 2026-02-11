@@ -6,108 +6,252 @@
     <title>Ana Menü - Altıntaş Adalet Sitesi</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
-        :root { --vurgu: #f39c12; --bg: #0f172a; --glass: rgba(255, 255, 255, 0.03); --glass-border: rgba(255, 255, 255, 0.1); }
-        * { cursor: none !important; box-sizing: border-box; }
-        
-        /* Mouse Efekti */
-        #cursor { width: 8px; height: 8px; background: var(--vurgu); border-radius: 50%; position: fixed; z-index: 99999; pointer-events: none; }
-        #cursor-ring { width: 35px; height: 35px; border: 1.5px solid var(--vurgu); border-radius: 50%; position: fixed; z-index: 99998; pointer-events: none; transition: 0.15s ease-out; }
-        
-        body { 
-            background: var(--bg) radial-gradient(#1e293b 1px, transparent 1px) 0 0 / 30px 30px; 
-            color: #fff; font-family: 'Segoe UI', sans-serif; 
-            display: flex; flex-direction: column; align-items: center; justify-content: center; 
-            min-height: 100vh; margin: 0; overflow: hidden;
+        /* --- GELİŞMİŞ CSS DEĞİŞKENLERİ --- */
+        :root { 
+            --vurgu: #f39c12; 
+            --vurgu-rgb: 243, 156, 18;
+            --bg: #0f172a; 
+            --glass: rgba(255, 255, 255, 0.03); 
+            --glass-border: rgba(255, 255, 255, 0.1); 
+            --card-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            --transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        .header { text-align: center; margin-bottom: 40px; animation: yukariGiris 0.8s ease-out; }
-        .header h2 { font-weight: 900; letter-spacing: 2px; margin: 0; }
-        .header p { color: var(--vurgu); font-size: 12px; font-weight: bold; letter-spacing: 4px; margin-top: 5px; }
+        /* --- TEMEL AYARLAR --- */
+        * { 
+            box-sizing: border-box; 
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
 
-        /* Menü Grid Yapısı */
-        .menu-grid { 
+        body { 
+            background: var(--bg);
+            color: #fff; 
+            font-family: 'Poppins', 'Segoe UI', system-ui, -apple-system, sans-serif; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            min-height: 100vh; 
+            margin: 0; 
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* --- CANLI ARKA PLAN EFEKTİ (MÜQ CSS) --- */
+        body::before {
+            content: "";
+            position: absolute;
+            width: 150%;
+            height: 150%;
+            background: radial-gradient(circle, rgba(var(--vurgu-rgb), 0.05) 0%, transparent 70%);
+            animation: pulseBg 10s infinite alternate;
+            z-index: -1;
+        }
+
+        @keyframes pulseBg {
+            0% { transform: translate(-10%, -10%); }
+            100% { transform: translate(10%, 10%); }
+        }
+
+        /* --- HOŞGELDİN MESAJI ALANI --- */
+        .welcome-section {
+            text-align: center;
+            margin-bottom: 50px;
+            z-index: 10;
+        }
+
+        .welcome-section h1 {
+            font-size: 42px;
+            font-weight: 900;
+            margin: 0;
+            letter-spacing: -1px;
+            background: linear-gradient(to right, #fff, var(--vurgu));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: slideDown 1s ease-out;
+        }
+
+        .welcome-section p {
+            color: #94a3b8;
+            font-size: 14px;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            margin-top: 10px;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        .site-name-box {
+            display: inline-block;
+            padding: 5px 15px;
+            border: 1px solid var(--vurgu);
+            border-radius: 50px;
+            font-size: 12px;
+            margin-top: 15px;
+            color: var(--vurgu);
+            font-weight: bold;
+            animation: fadeIn 2s ease-out;
+        }
+
+        /* --- MENÜ GRID YAPISI --- */
+        .menu-container { 
             display: grid; 
             grid-template-columns: repeat(2, 1fr); 
-            gap: 20px; 
+            gap: 25px; 
             width: 90%; 
-            max-width: 450px; 
+            max-width: 500px; 
+            z-index: 10;
         }
 
-        .kart { 
+        .menu-card { 
+            position: relative;
             background: var(--glass); 
-            backdrop-filter: blur(20px); 
+            backdrop-filter: blur(25px); 
+            -webkit-backdrop-filter: blur(25px);
             border: 1px solid var(--glass-border); 
-            padding: 35px 20px; 
-            border-radius: 30px; 
+            padding: 40px 20px; 
+            border-radius: 35px; 
             text-align: center; 
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            transition: var(--transition); 
             text-decoration: none; 
             color: #fff; 
-            display: block;
-            animation: kartBelir 0.6s backwards;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            animation: cardPop 0.6s backwards;
         }
 
-        .kart:hover { 
+        /* Kart Parlama Efekti */
+        .menu-card::after {
+            content: "";
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+            transition: 0.5s;
+        }
+
+        .menu-card:hover::after {
+            left: 100%;
+        }
+
+        .menu-card:hover { 
             border-color: var(--vurgu); 
-            transform: translateY(-10px); 
-            background: rgba(255,255,255,0.08);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+            transform: translateY(-15px) scale(1.02); 
+            background: rgba(255, 255, 255, 0.07);
+            box-shadow: var(--card-shadow);
         }
 
-        .kart i { font-size: 35px; color: var(--vurgu); margin-bottom: 15px; display: block; }
-        .kart span { font-weight: 800; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; }
+        .menu-card i { 
+            font-size: 40px; 
+            color: var(--vurgu); 
+            margin-bottom: 20px; 
+            transition: var(--transition);
+        }
 
-        /* Tekli buton (alt kısım için) */
-        .kart.full { grid-column: span 2; padding: 25px; }
+        .menu-card:hover i {
+            transform: scale(1.2) rotate(5deg);
+            text-shadow: 0 0 15px rgba(var(--vurgu-rgb), 0.5);
+        }
 
-        @keyframes yukariGiris { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes kartBelir { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+        .menu-card span { 
+            font-weight: 800; 
+            font-size: 13px; 
+            text-transform: uppercase; 
+            letter-spacing: 1.5px; 
+        }
 
-        .cikis-btn { 
-            margin-top: 40px; 
+        /* --- ÖZEL ANİMASYONLAR --- */
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes cardPop {
+            0% { opacity: 0; transform: scale(0.8) translateY(30px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        /* Kartların Sırayla Gelmesi */
+        .menu-card:nth-child(1) { animation-delay: 0.2s; }
+        .menu-card:nth-child(2) { animation-delay: 0.3s; }
+        .menu-card:nth-child(3) { animation-delay: 0.4s; }
+        .menu-card:nth-child(4) { animation-delay: 0.5s; }
+
+        /* --- ALT BUTON --- */
+        .logout-container {
+            margin-top: 50px;
+            animation: fadeIn 2.5s ease-out;
+        }
+
+        .logout-btn { 
             color: #64748b; 
             text-decoration: none; 
             font-weight: bold; 
-            border: 1px solid #334155; 
-            padding: 10px 30px; 
-            border-radius: 50px; 
-            font-size: 11px;
+            font-size: 12px; 
+            border: 1.5px solid #334155; 
+            padding: 12px 35px; 
+            border-radius: 100px; 
             transition: 0.3s;
+            letter-spacing: 2px;
         }
-        .cikis-btn:hover { border-color: #f39c12; color: #fff; }
+
+        .logout-btn:hover { 
+            border-color: #ff4757; 
+            color: #ff4757; 
+            background: rgba(255, 71, 87, 0.05);
+            box-shadow: 0 0 20px rgba(255, 71, 87, 0.2);
+        }
+
+        /* --- MOBİL UYUMLULUK --- */
+        @media (max-width: 480px) {
+            .welcome-section h1 { font-size: 32px; }
+            .menu-container { gap: 15px; }
+            .menu-card { padding: 30px 15px; border-radius: 25px; }
+            .menu-card i { font-size: 32px; }
+        }
     </style>
 </head>
 <body>
-    <div id="cursor"></div><div id="cursor-ring"></div>
 
-    <div class="header">
-        <h2>ALTINTAŞ <span style="color:var(--vurgu)">ADALET</span></h2>
-        <p>SİTE YÖNETİMİ</p>
+    <div class="welcome-section">
+        <p>Dijital Yönetim Paneli</p>
+        <h1>Hoş Geldiniz</h1>
+        <div class="site-name-box">ALTINTAŞ ADALET SİTESİ</div>
     </div>
     
-    <div class="menu-grid">
-        <a href="index.html" class="kart" style="animation-delay: 0.1s;">
-            <i class="fa fa-calculator"></i><span>Borç Sorgula</span>
+    <div class="menu-container">
+        <a href="index.html" class="menu-card">
+            <i class="fa fa-calculator"></i>
+            <span>Borç Sorgula</span>
         </a>
-        <a href="duyurular.html" class="kart" style="animation-delay: 0.2s;">
-            <i class="fa fa-bullhorn"></i><span>Duyurular</span>
+
+        <a href="duyurular.html" class="menu-card">
+            <i class="fa fa-bullhorn"></i>
+            <span>Duyurular</span>
         </a>
-        <a href="galeri.html" class="kart" style="animation-delay: 0.3s;">
-            <i class="fa fa-image"></i><span>Galeri</span>
+
+        <a href="galeri.html" class="menu-card">
+            <i class="fa fa-image"></i>
+            <span>Galeri</span>
         </a>
-        <a href="site-kurallari.html" class="kart" style="animation-delay: 0.4s;">
-            <i class="fa fa-gavel"></i><span>Site Kuralları</span>
+
+        <a href="site-kurallari.html" class="menu-card">
+            <i class="fa fa-gavel"></i>
+            <span>Kurallar</span>
         </a>
     </div>
 
-    <a href="index.html" class="cikis-btn">GÜVENLİ ÇIKIŞ</a>
+    <div class="logout-container">
+        <a href="index.html" class="logout-btn">SİSTEMİ KAPAT</a>
+    </div>
 
-    <script>
-        document.addEventListener('mousemove', e => { 
-            document.getElementById('cursor').style.left = e.clientX + 'px'; 
-            document.getElementById('cursor-ring').animate({ left: e.clientX - 17.5 + 'px', top: e.clientY - 17.5 + 'px' }, {duration: 400, fill: "forwards"}); 
-            document.getElementById('cursor').style.top = e.clientY + 'px'; 
-        });
-    </script>
 </body>
 </html>
