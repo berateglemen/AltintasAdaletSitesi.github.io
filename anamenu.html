@@ -6,131 +6,37 @@
     <title>Ana Menü - Altıntaş Adalet Sitesi</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
-        :root { 
-            --vurgu: #f39c12; 
-            --bg: #0f172a; 
-            --glass: rgba(255, 255, 255, 0.03); 
-            --glass-border: rgba(255, 255, 255, 0.1);
-        }
-
+        :root { --vurgu: #f39c12; --bg: #0f172a; --glass: rgba(255, 255, 255, 0.03); --glass-border: rgba(255, 255, 255, 0.1); }
         * { cursor: none !important; box-sizing: border-box; }
-        
         #cursor { width: 8px; height: 8px; background: var(--vurgu); border-radius: 50%; position: fixed; z-index: 99999; pointer-events: none; }
         #cursor-ring { width: 35px; height: 35px; border: 1.5px solid var(--vurgu); border-radius: 50%; position: fixed; z-index: 99998; pointer-events: none; transition: 0.15s ease-out; }
-        
-        body { 
-            background: var(--bg) radial-gradient(#1e293b 1px, transparent 1px) 0 0 / 30px 30px; 
-            color: #fff; font-family: 'Segoe UI', sans-serif; 
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            min-height: 100vh; margin: 0; overflow: hidden;
-        }
-
-        .menu-konteyner {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-            width: 95%;
-            max-width: 500px;
-            animation: sayfaGiris 0.8s ease-out;
-        }
-
-        @keyframes sayfaGiris {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        .menu-kart {
-            background: var(--glass);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            padding: 30px 20px;
-            border-radius: 25px;
-            text-align: center;
-            transition: 0.3s;
-            text-decoration: none;
-            color: #fff;
-        }
-
-        .menu-kart:hover {
-            background: rgba(255, 255, 255, 0.07);
-            transform: translateY(-5px);
-            border-color: var(--vurgu);
-        }
-
-        .menu-kart i {
-            font-size: 35px;
-            color: var(--vurgu);
-            margin-bottom: 15px;
-            display: block;
-        }
-
-        .menu-kart span {
-            font-weight: 800;
-            font-size: 13px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .header h2 { font-weight: 900; margin: 0; letter-spacing: 2px; }
-        .header p { color: #94a3b8; font-size: 12px; font-weight: bold; }
-
-        .cikis-btn {
-            margin-top: 40px;
-            color: #64748b;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 12px;
-            border: 1px solid #334155;
-            padding: 10px 25px;
-            border-radius: 50px;
-            transition: 0.3s;
-        }
-        .cikis-btn:hover { color: #ff4757; border-color: #ff4757; }
+        body { background: var(--bg) radial-gradient(#1e293b 1px, transparent 1px) 0 0 / 30px 30px; color: #fff; font-family: 'Segoe UI', sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; margin: 0; overflow: hidden; }
+        .header { text-align: center; margin-bottom: 30px; }
+        .menu-konteyner { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; width: 90%; max-width: 450px; }
+        .menu-kart { background: var(--glass); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); padding: 25px 15px; border-radius: 25px; text-align: center; transition: 0.3s; text-decoration: none; color: #fff; display: block; }
+        .menu-kart:hover { border-color: var(--vurgu); transform: translateY(-5px); background: rgba(255,255,255,0.08); }
+        .menu-kart i { font-size: 30px; color: var(--vurgu); margin-bottom: 10px; display: block; }
+        .menu-kart span { font-weight: 800; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; }
+        .cikis-btn { margin-top: 30px; color: #64748b; text-decoration: none; font-weight: bold; font-size: 11px; border: 1px solid #334155; padding: 8px 20px; border-radius: 50px; }
     </style>
 </head>
 <body>
-    <div id="cursor"></div>
-    <div id="cursor-ring"></div>
-
+    <div id="cursor"></div><div id="cursor-ring"></div>
     <div class="header">
-        <h2>ALTINTAŞ ADALET <span style="color:var(--vurgu)">SİTESİ</span></h2>
-        <p>YÖNETİM VE SAKİN PANELİ</p>
+        <h2 style="font-weight:900; letter-spacing:1px;">ALTINTAŞ<span style="color:var(--vurgu)">ADALET SİTESİ</span></h2>
+        <p style="color:#94a3b8; font-size:11px; font-weight:bold;">YÖNETİM SAKİN PANELİ</p>
     </div>
-
     <div class="menu-konteyner">
-        <a href="index.html" class="menu-kart">
-            <i class="fa fa-calculator"></i>
-            <span>Borç Sorgula</span>
-        </a>
-        <a href="#" class="menu-kart">
-            <i class="fa fa-bullhorn"></i>
-            <span>Duyurular</span>
-        </a>
-        <a href="#" class="menu-kart">
-            <i class="fa fa-file-text"></i>
-            <span>Kararlar</span>
-        </a>
-        <a href="#" class="menu-kart">
-            <i class="fa fa-phone"></i>
-            <span>İletişim</span>
-        </a>
+        <a href="index.html" class="menu-kart"><i class="fa fa-calculator"></i><span>Borç Sorgula</span></a>
+        <a href="#" class="menu-kart"><i class="fa fa-bullhorn"></i><span>Duyurular</span></a>
+        <a href="#" class="menu-kart"><i class="fa fa-file-text"></i><span>Kararlar</span></a>
+        <a href="#" class="menu-kart"><i class="fa fa-phone"></i><span>İletişim</span></a>
     </div>
-
     <a href="index.html" class="cikis-btn">GÜVENLİ ÇIKIŞ</a>
-
     <script>
-        // Özel İmleç
-        const cursor = document.getElementById('cursor');
-        const ring = document.getElementById('cursor-ring');
         document.addEventListener('mousemove', e => { 
-            cursor.style.left = e.clientX + 'px'; 
-            cursor.style.top = e.clientY + 'px'; 
-            ring.animate({ left: e.clientX - 17.5 + 'px', top: e.clientY - 17.5 + 'px' }, {duration: 400, fill: "forwards"}); 
+            document.getElementById('cursor').style.left = e.clientX + 'px'; document.getElementById('cursor').style.top = e.clientY + 'px'; 
+            document.getElementById('cursor-ring').animate({ left: e.clientX - 17.5 + 'px', top: e.clientY - 17.5 + 'px' }, {duration: 400, fill: "forwards"}); 
         });
     </script>
 </body>
