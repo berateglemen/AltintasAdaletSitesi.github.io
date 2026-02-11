@@ -3,240 +3,256 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Ana Menü - Altıntaş Adalet Sitesi</title>
+    <title>Altıntaş Adalet Sitesi - Kontrol Paneli</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Poppins:wght@300;600;800&display=swap" rel="stylesheet">
     <style>
-        /* --- GELİŞMİŞ DEĞİŞKENLER --- */
+        /* --- MÜQ CSS DEĞİŞKENLERİ --- */
         :root { 
             --vurgu: #f39c12; 
-            --bg: #0b0f1a; 
-            --glass: rgba(255, 255, 255, 0.02); 
-            --glass-border: rgba(255, 255, 255, 0.08); 
-            --text-glow: 0 0 15px rgba(243, 156, 18, 0.4);
+            --vurgu-soft: rgba(243, 156, 18, 0.2);
+            --bg: #050810; 
+            --card-bg: rgba(255, 255, 255, 0.02);
+            --border: rgba(255, 255, 255, 0.1);
+            --glow: 0 0 20px rgba(243, 156, 18, 0.3);
         }
 
-        * { box-sizing: border-box; outline: none; transition: all 0.3s ease; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body { 
             background: var(--bg);
             color: #fff; 
-            font-family: 'Montserrat', sans-serif; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: center; 
-            min-height: 100vh; 
-            margin: 0; 
-            overflow: hidden;
-            background-image: 
-                radial-gradient(circle at 20% 30%, rgba(243, 156, 18, 0.05) 0%, transparent 50%),
-                radial-gradient(circle at 80% 70%, rgba(243, 156, 18, 0.05) 0%, transparent 50%);
-        }
-
-        /* --- ÜST BİLGİ PANELİ (SAAT & TARİH) --- */
-        .top-info {
-            position: absolute;
-            top: 20px;
+            font-family: 'Poppins', sans-serif; 
+            min-height: 100vh;
             display: flex;
-            gap: 20px;
-            font-size: 12px;
-            letter-spacing: 2px;
-            color: #64748b;
-            animation: fadeIn 2s ease;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background-image: radial-gradient(circle at 50% 50%, #1a1f35 0%, #050810 100%);
         }
 
-        /* --- BAŞLIK ALANI --- */
-        .header {
-            text-align: center;
-            margin-bottom: 40px;
+        /* --- ARKA PLAN HAREKETLİ IŞIKLAR --- */
+        .bg-glow {
+            position: absolute;
+            width: 400px; height: 400px;
+            background: var(--vurgu);
+            filter: blur(150px);
+            opacity: 0.05;
+            border-radius: 50%;
+            z-index: 0;
+            animation: moveGlow 15s infinite alternate;
+        }
+
+        @keyframes moveGlow {
+            from { transform: translate(-50%, -50%); }
+            to { transform: translate(50%, 50%); }
+        }
+
+        /* --- ÜST BİLGİ PANELİ --- */
+        .status-bar {
+            position: absolute;
+            top: 30px;
+            width: 90%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             z-index: 10;
         }
 
-        .header h1 {
-            font-size: 48px;
-            font-weight: 900;
-            margin: 0;
-            line-height: 1;
-            text-transform: uppercase;
+        .weather-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--card-bg);
+            padding: 10px 20px;
+            border-radius: 50px;
+            border: 1px solid var(--border);
+            font-size: 13px;
+            font-weight: 600;
         }
 
-        .header .part1 { color: #ffffff; letter-spacing: 2px; }
-        .header .part2 { 
+        .weather-box i { color: var(--vurgu); font-size: 18px; }
+
+        /* --- ANA BAŞLIK (İSTEDİĞİN GİBİ) --- */
+        .main-header {
+            text-align: center;
+            margin-bottom: 60px;
+            z-index: 10;
+        }
+
+        .main-header h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(24px, 8vw, 55px);
+            line-height: 1.1;
+        }
+
+        .main-header .altintas { color: #ffffff; letter-spacing: 2px; }
+        .main-header .adalet { 
             color: var(--vurgu); 
             display: block; 
-            font-size: 32px; 
-            letter-spacing: 8px;
+            font-weight: 900;
+            text-shadow: var(--glow);
+            letter-spacing: 5px;
             margin-top: 5px;
-            text-shadow: var(--text-glow);
         }
 
-        /* --- HOŞGELDİN MESAJI --- */
-        .welcome-msg {
-            background: rgba(243, 156, 18, 0.1);
-            padding: 8px 25px;
-            border-radius: 50px;
-            font-size: 13px;
-            color: var(--vurgu);
-            font-weight: bold;
+        .welcome-badge {
+            display: inline-block;
             margin-top: 20px;
-            border: 1px solid rgba(243, 156, 18, 0.2);
-            animation: bounceIn 1s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            padding: 5px 20px;
+            background: var(--vurgu-soft);
+            border: 1px solid var(--vurgu);
+            border-radius: 100px;
+            color: var(--vurgu);
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 3px;
         }
 
-        /* --- MENÜ GRID --- */
-        .menu-wrapper {
+        /* --- MÜQ KARTLAR --- */
+        .menu-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
+            gap: 25px;
             width: 90%;
-            max-width: 480px;
-            perspective: 1000px;
+            max-width: 550px;
+            z-index: 10;
         }
 
-        .card {
-            background: var(--glass);
-            border: 1px solid var(--glass-border);
-            backdrop-filter: blur(15px);
-            padding: 35px 20px;
-            border-radius: 25px;
+        .mega-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            backdrop-filter: blur(20px);
+            padding: 45px 20px;
+            border-radius: 40px;
+            text-align: center;
             text-decoration: none;
             color: #fff;
-            text-align: center;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
             overflow: hidden;
-            animation: slideUp 0.8s backwards;
         }
 
-        .card:hover {
-            background: rgba(255, 255, 255, 0.05);
+        .mega-card::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle, var(--vurgu-soft) 0%, transparent 70%);
+            opacity: 0;
+            transition: 0.5s;
+        }
+
+        .mega-card:hover {
+            transform: translateY(-15px) scale(1.03);
             border-color: var(--vurgu);
-            transform: translateY(-10px) rotateX(5deg);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.6);
         }
 
-        .card i {
-            font-size: 38px;
+        .mega-card:hover::before { opacity: 1; }
+
+        .mega-card i {
+            font-size: 45px;
             color: var(--vurgu);
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             display: block;
+            text-shadow: var(--glow);
         }
 
-        .card span {
-            font-weight: 700;
-            font-size: 12px;
+        .mega-card span {
+            font-weight: 800;
+            font-size: 13px;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
             display: block;
         }
 
-        .card .desc {
-            font-size: 10px;
+        .mega-card small {
             color: #64748b;
-            margin-top: 5px;
+            font-size: 10px;
+            margin-top: 8px;
+            display: block;
             font-weight: 400;
         }
 
-        /* --- ALT BAR / DUYURU BANDI --- */
-        .announcement-bar {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            background: rgba(0,0,0,0.5);
-            padding: 10px;
-            font-size: 11px;
-            color: #94a3b8;
-            text-align: center;
-            border-top: 1px solid var(--glass-border);
-        }
-
-        /* --- ANİMASYONLAR --- */
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes slideUp { 
-            from { opacity: 0; transform: translateY(50px); } 
-            to { opacity: 1; transform: translateY(0); } 
-        }
-        @keyframes bounceIn {
-            0% { transform: scale(0.3); opacity: 0; }
-            50% { transform: scale(1.05); opacity: 1; }
-            70% { transform: scale(0.9); }
-            100% { transform: scale(1); }
-        }
-
-        .card:nth-child(1) { animation-delay: 0.1s; }
-        .card:nth-child(2) { animation-delay: 0.2s; }
-        .card:nth-child(3) { animation-delay: 0.3s; }
-        .card:nth-child(4) { animation-delay: 0.4s; }
-
-        .btn-exit {
-            margin-top: 30px;
-            font-size: 11px;
+        /* --- ÇIKIŞ BUTONU --- */
+        .exit-link {
+            margin-top: 50px;
             color: #475569;
             text-decoration: none;
-            letter-spacing: 3px;
+            font-size: 11px;
+            font-weight: bold;
+            letter-spacing: 4px;
             border-bottom: 1px solid transparent;
+            z-index: 10;
         }
-        .btn-exit:hover { color: #ff4757; border-color: #ff4757; }
+        .exit-link:hover { color: #f39c12; border-color: #f39c12; }
+
+        /* --- MOBİL --- */
+        @media (max-width: 480px) {
+            .menu-grid { gap: 15px; }
+            .mega-card { padding: 30px 10px; border-radius: 30px; }
+            .mega-card i { font-size: 35px; }
+        }
     </style>
 </head>
 <body>
 
-    <div class="top-info">
-        <span id="dateText">YÜKLENİYOR...</span>
-        <span id="timeText">00:00</span>
+    <div class="bg-glow"></div>
+
+    <div class="status-bar">
+        <div class="weather-box">
+            <i class="fa fa-cloud"></i>
+            <span id="weather">Antalya: 18°C</span>
+        </div>
+        <div class="weather-box">
+            <i class="fa fa-clock-o"></i>
+            <span id="clock">00:00</span>
+        </div>
     </div>
 
-    <div class="header">
+    <div class="main-header">
         <h1>
-            <span class="part1">ALTINTAŞ</span>
-            <span class="part2">ADALET SİTESİ</span>
+            <span class="altintas">ALTINTAŞ</span>
+            <span class="adalet">ADALET SİTESİ</span>
         </h1>
-        <div class="welcome-msg">SİSTEME HOŞ GELDİNİZ</div>
+        <div class="welcome-badge">Hoş Geldiniz Sakinimiz</div>
     </div>
-    
-    <div class="menu-wrapper">
-        <a href="index.html" class="card">
-            <i class="fa fa-credit-card-alt"></i>
+
+    <div class="menu-grid">
+        <a href="index.html" class="mega-card">
+            <i class="fa fa-credit-card"></i>
             <span>BORÇ SORGULA</span>
-            <div class="desc">Güncel bakiyeni kontrol et</div>
+            <small>Anlık Aidat & Gider</small>
         </a>
-
-        <a href="duyurular.html" class="card">
-            <i class="fa fa-bell-o"></i>
+        <a href="duyurular.html" class="mega-card">
+            <i class="fa fa-bullhorn"></i>
             <span>DUYURULAR</span>
-            <div class="desc">Siteden son haberler</div>
+            <small>Siteden Güncel Haberler</small>
         </a>
-
-        <a href="galeri.html" class="card">
-            <i class="fa fa-camera-retro"></i>
+        <a href="galeri.html" class="mega-card">
+            <i class="fa fa-image"></i>
             <span>GALERİ</span>
-            <div class="desc">Çalışmalar ve görüntüler</div>
+            <small>Site Görselleri</small>
         </a>
-
-        <a href="site-kurallari.html" class="card">
-            <i class="fa fa-balance-scale"></i>
+        <a href="site-kurallari.html" class="mega-card">
+            <i class="fa fa-gavel"></i>
             <span>KURALLAR</span>
-            <div class="desc">Huzurlu bir yaşam için</div>
+            <small>Yönetim İlkelerimiz</small>
         </a>
     </div>
 
-    <a href="index.html" class="btn-exit">OTURUMU KAPAT</a>
-
-    <div class="announcement-bar">
-        <marquee scrollamount="5">Değerli sakinlerimiz, • İyi günler dileriz.</marquee>
-    </div>
+    <a href="index.html" class="exit-link">GÜVENLİ ÇIKIŞ YAP</a>
 
     <script>
-        function updateClock() {
+        function updateUI() {
             const now = new Date();
-            const time = now.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
-            const date = now.toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' });
-            document.getElementById('timeText').innerText = time;
-            document.getElementById('dateText').innerText = date.toUpperCase();
+            document.getElementById('clock').innerText = now.toLocaleTimeString('tr-TR', {hour: '2-digit', minute:'2-digit'});
         }
-        setInterval(updateClock, 1000);
-        updateClock();
+        setInterval(updateUI, 1000);
+        updateUI();
     </script>
 </body>
 </html>
-
