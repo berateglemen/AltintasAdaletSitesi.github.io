@@ -31,7 +31,7 @@
             width: 95%; max-width: 420px; text-align: center; 
             border: 1px solid var(--glass-border); 
             box-shadow: 0 25px 50px -12px rgba(0,0,0,0.7);
-            animation: formGiris 1s ease-out;
+            animation: formGiris 0.8s ease-out;
         }
 
         @keyframes formGiris {
@@ -56,6 +56,7 @@
             font-weight: 900; margin-top: 5px; cursor: pointer; 
             letter-spacing: 1px; transition: 0.3s;
             text-transform: uppercase;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
         }
         .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(243, 156, 18, 0.3); }
 
@@ -77,7 +78,7 @@
     <div id="cursor-ring"></div>
 
     <div class="kart" id="girisEkrani">
-        <h2 style="font-weight:900; margin-bottom:5px; letter-spacing:2px;">ALTINTAŞ <span style="color:var(--vurgu)">ADALET</span></h2>
+        <h2 style="font-weight:900; margin-bottom:5px; letter-spacing:1px; font-size: 22px;">ALTINTAŞ ADALET <span style="color:var(--vurgu)">SİTESİ</span></h2>
         <p style="color:#94a3b8; font-size:12px; margin-bottom:30px; font-weight:bold; letter-spacing: 1px;">BORÇ SORGULAMA PANELİ</p>
         
         <div class="input-konteyner">
@@ -87,16 +88,12 @@
         
         <div id="loader"><i class="fa fa-spinner fa-spin"></i> VERİLER ÇEKİLİYOR...</div>
         <button onclick="sorgula()" id="sorguBtn" class="btn">SORGULA</button>
-        
-        <div style="margin-top: 25px;">
-            <a href="anamenu.html" style="text-decoration:none; color:#64748b; font-size:11px; font-weight:bold; border-bottom: 1px solid #334155; padding-bottom: 2px;">ANA MENÜYE DÖN</a>
-        </div>
     </div>
 
     <div class="kart" id="sonucEkrani" style="display:none;">
         <h3 id="daireBaslik" style="color:var(--vurgu); font-weight:900; margin-bottom:10px; text-transform: uppercase;"></h3>
         <p style="font-size:12px; color:#94a3b8; font-weight: bold; letter-spacing: 1px;">GÜNCEL TOPLAM BORÇ</p>
-        <h1 id="borcMiktari" style="font-size:54px; margin:15px 0; font-weight:900; color:#fff; text-shadow: 0 0 20px rgba(255,255,255,0.1);">0 TL</h1>
+        <h1 id="borcMiktari" style="font-size:54px; margin:10px 0; font-weight:900; color:#fff; text-shadow: 0 0 20px rgba(255,255,255,0.1);">0 TL</h1>
         
         <div class="iban-kutu">
             <small style="color:#94a3b8; display:block; margin-bottom:8px;">Ziraat Bankası IBAN:</small>
@@ -104,17 +101,18 @@
             <button onclick="copyIban()" class="copy-link">IBAN'I KOPYALA</button>
         </div>
         
-        <button onclick="window.location.href='anamenu.html'" class="btn" style="margin-bottom: 10px;">
+        <button onclick="gitAnaMenu()" class="btn">
             <i class="fa fa-home"></i> ANA MENÜYE GİT
-        </button>
-        
-        <button onclick="window.location.reload()" style="background: none; border: none; color: #64748b; font-size: 11px; font-weight: bold; cursor: pointer; text-decoration: underline;">
-            Yeni Sorgulama Yap
         </button>
     </div>
 
     <script>
         const scriptURL = "https://script.google.com/macros/s/AKfycbzyrb8EIBMdiB4Mi3Niib_UcNiRqEsqEhie_hPzgdVD93IkKsiAa7mJl6EHluH52XVl/exec";
+
+        // Sayfa geçişini garantiye alan fonksiyon
+        function gitAnaMenu() {
+            window.location.replace("anamenu.html");
+        }
 
         function sorgula() {
             const bd = document.getElementById('blokDaire').value.trim().toUpperCase();
