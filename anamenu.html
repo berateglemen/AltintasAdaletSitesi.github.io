@@ -1,165 +1,136 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Ana Menü - Altıntaş Adalet Sitesi</title>
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
-        :root { --vurgu: #f39c12; --bg: #0f172a; }
-        * { cursor: none !important; }
+        :root { 
+            --vurgu: #f39c12; 
+            --bg: #0f172a; 
+            --glass: rgba(255, 255, 255, 0.03); 
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * { cursor: none !important; box-sizing: border-box; }
+        
         #cursor { width: 8px; height: 8px; background: var(--vurgu); border-radius: 50%; position: fixed; z-index: 99999; pointer-events: none; }
         #cursor-ring { width: 35px; height: 35px; border: 1.5px solid var(--vurgu); border-radius: 50%; position: fixed; z-index: 99998; pointer-events: none; transition: 0.15s ease-out; }
         
         body { 
-            background-color: var(--bg);
-            background-image: radial-gradient(#1e293b 1px, transparent 1px);
-            background-size: 25px 25px;
-            color: #fff; font-family: 'Segoe UI', sans-serif;
-            margin: 0; display: flex; align-items: center; justify-content: center; min-height: 100vh;
+            background: var(--bg) radial-gradient(#1e293b 1px, transparent 1px) 0 0 / 30px 30px; 
+            color: #fff; font-family: 'Segoe UI', sans-serif; 
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            min-height: 100vh; margin: 0; overflow: hidden;
         }
 
-        .ana-kart {
-            background: rgba(255, 255, 255, 0.02);
+        .menu-konteyner {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            width: 95%;
+            max-width: 500px;
+            animation: sayfaGiris 0.8s ease-out;
+        }
+
+        @keyframes sayfaGiris {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .menu-kart {
+            background: var(--glass);
             backdrop-filter: blur(20px);
-            border-radius: 35px;
-            padding: 40px;
-            width: 90%;
-            max-width: 450px;
-            border: 1px solid rgba(255,255,255,0.1);
-            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+            border: 1px solid var(--glass-border);
+            padding: 30px 20px;
+            border-radius: 25px;
             text-align: center;
-        }
-
-        .profil-alan { margin-bottom: 25px; }
-        #anaPfp { 
-            width: 90px; height: 90px; 
-            border-radius: 50%; 
-            border: 3px solid var(--vurgu); 
-            object-fit: cover; 
-            margin-bottom: 10px;
-            background: #1e293b;
-        }
-
-        .menu-liste { display: flex; flex-direction: column; gap: 12px; }
-        .menu-item {
-            background: rgba(255,255,255,0.05);
-            padding: 18px;
-            border-radius: 20px;
+            transition: 0.3s;
             text-decoration: none;
             color: #fff;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            transition: 0.3s;
-            border: 1px solid transparent;
-            font-size: 14px;
-            font-weight: 600;
         }
-        .menu-item:hover {
-            background: rgba(243, 156, 18, 0.1);
-            border-color: var(--vurgu);
-            transform: scale(1.02);
-        }
-        .menu-item i { color: var(--vurgu); font-size: 20px; width: 25px; }
 
-        /* Borç Sorgulama Özel Stil */
-        .borc-vurgu {
-            background: rgba(243, 156, 18, 0.15) !important;
-            border: 1px solid var(--vurgu) !important;
-            box-shadow: 0 0 15px rgba(243, 156, 18, 0.2);
+        .menu-kart:hover {
+            background: rgba(255, 255, 255, 0.07);
+            transform: translateY(-5px);
+            border-color: var(--vurgu);
         }
+
+        .menu-kart i {
+            font-size: 35px;
+            color: var(--vurgu);
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .menu-kart span {
+            font-weight: 800;
+            font-size: 13px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h2 { font-weight: 900; margin: 0; letter-spacing: 2px; }
+        .header p { color: #94a3b8; font-size: 12px; font-weight: bold; }
 
         .cikis-btn {
-            background: none; border: 1px solid #e74c3c; color: #e74c3c;
-            padding: 12px 25px; border-radius: 12px; margin-top: 25px;
-            cursor: pointer; font-weight: bold; font-size: 12px; transition: 0.3s;
+            margin-top: 40px;
+            color: #64748b;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 12px;
+            border: 1px solid #334155;
+            padding: 10px 25px;
+            border-radius: 50px;
+            transition: 0.3s;
         }
-        .cikis-btn:hover { background: #e74c3c; color: #fff; }
+        .cikis-btn:hover { color: #ff4757; border-color: #ff4757; }
     </style>
 </head>
-<body onload="yukle()">
-    <div id="cursor"></div><div id="cursor-ring"></div>
+<body>
+    <div id="cursor"></div>
+    <div id="cursor-ring"></div>
 
-    <div class="ana-kart w3-animate-zoom">
-        <div class="profil-alan">
-            <img id="anaPfp" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Profil">
-            <h2 id="kullaniciAd" style="font-weight: 900; letter-spacing: 1px; margin: 0; font-size: 18px;">...</h2>
-            <p style="color: var(--vurgu); font-size: 10px; font-weight: bold; margin-top: 5px;">ALTINTAŞ ADALET SİTESİ SAKİNİ</p>
-        </div>
-
-        <div class="menu-liste">
-            <a href="index.html" class="menu-item w3-animate-left borc-vurgu">
-                <i class="fa fa-credit-card"></i>
-                <span style="color: var(--vurgu);">AİDAT VE BORÇ SORGULA</span>
-            </a>
-
-            <a href="duyurular.html" class="menu-item w3-animate-right">
-                <i class="fa fa-bullhorn"></i>
-                <span>SİTE DUYURULARI</span>
-            </a>
-
-            <a href="gonderiler.html" class="menu-item w3-animate-left">
-                <i class="fa fa-users"></i>
-                <span>SİTE AKIŞI / GÖNDERİLER</span>
-            </a>
-
-            <a href="galeri.html" class="menu-item w3-animate-right">
-                <i class="fa fa-camera"></i>
-                <span>GALERİ VE ÇALIŞMALAR</span>
-            </a>
-
-            <a href="site-kurallari.html" class="menu-item w3-animate-left">
-                <i class="fa fa-gavel"></i>
-                <span>SİTE KURALLARI</span>
-            </a>
-
-            <a href="profil.html" class="menu-item w3-animate-right">
-                <i class="fa fa-user-circle"></i>
-                <span>PROFİLİMİ DÜZENLE</span>
-            </a>
-        </div>
-
-        <button class="cikis-btn" onclick="cikis()">GÜVENLİ ÇIKIŞ YAP</button>
+    <div class="header">
+        <h2>ALTINTAŞ ADALET <span style="color:var(--vurgu)">SİTESİ</span></h2>
+        <p>YÖNETİM VE SAKİN PANELİ</p>
     </div>
 
+    <div class="menu-konteyner">
+        <a href="index.html" class="menu-kart">
+            <i class="fa fa-calculator"></i>
+            <span>Borç Sorgula</span>
+        </a>
+        <a href="#" class="menu-kart">
+            <i class="fa fa-bullhorn"></i>
+            <span>Duyurular</span>
+        </a>
+        <a href="#" class="menu-kart">
+            <i class="fa fa-file-text"></i>
+            <span>Kararlar</span>
+        </a>
+        <a href="#" class="menu-kart">
+            <i class="fa fa-phone"></i>
+            <span>İletişim</span>
+        </a>
+    </div>
+
+    <a href="index.html" class="cikis-btn">GÜVENLİ ÇIKIŞ</a>
+
     <script>
-        function yukle() {
-            const ad = localStorage.getItem('user_name');
-            const bd = localStorage.getItem('user_bd');
-            const foto = localStorage.getItem('user_img');
-
-            // Eğer hiç giriş yapılmamışsa index'e at
-            if(!bd) { 
-                window.location.href = "index.html"; 
-                return; 
-            }
-
-            // EĞER İSİM YOKSA (İLK GİRİŞSE) PROFİLE YÖNLENDİR
-            if(!ad) {
-                window.location.href = "profil.html";
-                return;
-            }
-
-            // Bilgileri yazdır
-            document.getElementById('kullaniciAd').innerText = ad.toUpperCase() + " (" + bd + ")";
-            
-            if(foto) {
-                document.getElementById('anaPfp').src = foto;
-            }
-        }
-
-        function cikis() {
-            if(confirm("Çıkış yapılıyor? (Mühürleriniz korunacaktır)")) {
-                localStorage.removeItem('user_bd');
-                window.location.href = "index.html";
-            }
-        }
-
-        const cur = document.getElementById('cursor'); const ring = document.getElementById('cursor-ring');
+        // Özel İmleç
+        const cursor = document.getElementById('cursor');
+        const ring = document.getElementById('cursor-ring');
         document.addEventListener('mousemove', e => { 
-            cur.style.left = e.clientX+'px'; cur.style.top = e.clientY+'px'; 
-            ring.animate({left:e.clientX-17.5+'px', top:e.clientY-17.5+'px'}, {duration:400, fill:"forwards"}); 
+            cursor.style.left = e.clientX + 'px'; 
+            cursor.style.top = e.clientY + 'px'; 
+            ring.animate({ left: e.clientX - 17.5 + 'px', top: e.clientY - 17.5 + 'px' }, {duration: 400, fill: "forwards"}); 
         });
     </script>
 </body>
