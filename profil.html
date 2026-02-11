@@ -2,127 +2,60 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Profil Düzenle - Altıntaş Adalet</title>
+    <title>Profil Düzenle</title>
     <style>
         :root { --vurgu: #f39c12; --bg: #0f172a; }
-        * { cursor: none !important; }
-        #cursor { width: 8px; height: 8px; background: var(--vurgu); border-radius: 50%; position: fixed; z-index: 99999; pointer-events: none; }
-        #cursor-ring { width: 35px; height: 35px; border: 1.5px solid var(--vurgu); border-radius: 50%; position: fixed; z-index: 99998; pointer-events: none; transition: 0.15s ease-out; }
-        body { background: var(--bg); background-image: radial-gradient(#1e293b 1px, transparent 1px); background-size: 30px 30px; color: #fff; font-family: sans-serif; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }
-        .kart { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(25px); padding: 40px; border-radius: 30px; width: 90%; max-width: 400px; text-align: center; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 25px 50px -12px rgba(0,0,0,0.7); }
-        .inp { width: 100%; padding: 16px; margin: 10px 0; border-radius: 15px; border: 1px solid #334155; background: rgba(0,0,0,0.6); color: #fff; outline: none; box-sizing: border-box; font-size: 15px; }
-        .btn { width: 100%; padding: 18px; background: linear-gradient(135deg, #f39c12, #d35400); border: none; border-radius: 15px; color: #fff; font-weight: 900; margin-top: 20px; cursor: pointer; }
-        
-        /* Profil Resmi Stilleri */
-        .profil-img-alan { position: relative; width: 100px; height: 100px; margin: 0 auto 20px; }
-        #profilResmi { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 2px solid var(--vurgu); background: #334155; }
-        .resim-ekle-btn { position: absolute; bottom: 0; right: 0; background: var(--vurgu); width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; cursor: pointer; border: 2px solid var(--bg); color: white; }
-        #fileInput { display: none; }
+        * { cursor: none !important; box-sizing: border-box; }
+        body { background: var(--bg); color: #fff; font-family: sans-serif; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }
+        .kart { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px); padding: 30px; border-radius: 25px; width: 90%; max-width: 380px; text-align: center; border: 1px solid rgba(255,255,255,0.1); }
+        .pp-secim { width: 100px; height: 100px; border-radius: 50%; border: 2px solid var(--vurgu); margin: 0 auto 20px; cursor: pointer; overflow: hidden; }
+        .pp-secim img { width: 100%; height: 100%; object-fit: cover; }
+        input { width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 10px; border: 1px solid #334155; background: #000; color: #fff; text-align: center; }
+        input[readonly] { background: #1e293b; color: #64748b; border-style: dashed; cursor: not-allowed !important; }
+        .kaydet-btn { width: 100%; padding: 15px; background: var(--vurgu); border: none; border-radius: 10px; color: #fff; font-weight: bold; cursor: pointer; }
     </style>
 </head>
-<body onload="yukle()">
-    <div id="cursor"></div><div id="cursor-ring"></div>
+<body>
     <div class="kart">
-        <h2 style="font-weight:900;">PROFİL <span style="color:var(--vurgu)">DÜZENLE</span></h2>
-        
-        <div class="profil-img-alan">
-            <img id="profilResmi" src="https://via.placeholder.com/100" alt="Profil">
-            <label for="fileInput" class="resim-ekle-btn">+</label>
-            <input type="file" id="fileInput" accept="image/*" onchange="resimOnizle(this)">
+        <div class="pp-secim" onclick="document.getElementById('fileInp').click()">
+            <img id="preview" src="https://cdn-icons-png.flaticon.com/512/149/149071.png">
         </div>
-
-        <p style="font-size:12px; color:#94a3b8; margin-bottom:20px;">Bilgilerinizi buradan güncelleyebilirsiniz.</p>
+        <input type="file" id="fileInp" hidden onchange="resimOnizle(this)">
         
-        <input type="text" id="pAd" class="inp" placeholder="Ad Soyad">
-        <input type="tel" id="pTel" class="inp" placeholder="Telefon">
-        <input type="text" id="pBD" class="inp" readonly style="opacity:0.5;">
-
-        <button class="btn" onclick="kaydet()">GÜNCELLE VE KAYDET</button>
-        <button onclick="window.location.href='anamenu.html'" style="background:none; border:none; color:#94a3b8; margin-top:15px; cursor:pointer;">Vazgeç</button>
+        <label style="font-size: 11px; color: var(--vurgu); display: block; margin-bottom: 5px;">AD SOYAD</label>
+        <input type="text" id="pAd" placeholder="Adınız Soyadınız">
+        
+        <label style="font-size: 11px; color: #64748b; display: block; margin-bottom: 5px;">DAİRE NO (DEĞİŞTİRİLEMEZ)</label>
+        <input type="text" id="pDaire" readonly>
+        
+        <button class="kaydet-btn" onclick="kaydet()">DEĞİŞİKLİKLERİ KAYDET</button>
+        <br><br>
+        <a href="anamenu.html" style="color:#64748b; text-decoration:none; font-size:12px;">Vazgeç ve Dön</a>
     </div>
 
     <script>
-        let currentImgBase64 = "";
-
-        function yukle() {
-            const bd = localStorage.getItem('user_bd');
-            const ad = localStorage.getItem('user_name');
-            const tel = localStorage.getItem('user_tel');
-            const resim = localStorage.getItem('user_img');
-
-            if(!bd) { window.location.href="index.html"; return; }
-            
-            document.getElementById('pBD').value = "DAİRE: " + bd;
-            if(ad) document.getElementById('pAd').value = ad;
-            if(tel) document.getElementById('pTel').value = tel;
-            if(resim) {
-                document.getElementById('profilResmi').src = resim;
-                currentImgBase64 = resim;
-            }
+        let base64Img = "";
+        window.onload = function() {
+            document.getElementById('pAd').value = localStorage.getItem('user_name') || "";
+            document.getElementById('pDaire').value = localStorage.getItem('user_bd') || "A-1"; // indexten gelen veri
+            if(localStorage.getItem('user_img')) document.getElementById('preview').src = localStorage.getItem('user_img');
         }
 
         function resimOnizle(input) {
-            if (input.files && input.files[0]) {
-                const file = input.files[0];
-                
-                // 2MB Boyut Kontrolü
-                if (file.size > 2 * 1024 * 1024) {
-                    alert("Resim çok büyük! Lütfen 2MB'dan küçük bir görsel seçin.");
-                    input.value = "";
-                    return;
-                }
-
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    document.getElementById('profilResmi').src = e.target.result;
-                    currentImgBase64 = e.target.result;
-                };
-                reader.readAsDataURL(file);
-            }
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('preview').src = e.target.result;
+                base64Img = e.target.result;
+            };
+            reader.readAsDataURL(input.files[0]);
         }
 
         function kaydet() {
-            const ad = document.getElementById('pAd').value.trim();
-            const tel = document.getElementById('pTel').value.trim();
-            
-            // Temel Doğrulama
-            if(ad.length < 3 || tel.length < 10) {
-                alert("Hata: Ad en az 3, telefon en az 10 karakter olmalıdır!");
-                return;
-            }
-
-            // Değişiklik var mı kontrolü
-            const eskiAd = localStorage.getItem('user_name');
-            const eskiTel = localStorage.getItem('user_tel');
-            const eskiResim = localStorage.getItem('user_img');
-
-            if(ad === eskiAd && tel === eskiTel && currentImgBase64 === eskiResim) {
-                alert("Herhangi bir değişiklik yapmadınız.");
-                window.location.href = "anamenu.html";
-                return;
-            }
-
-            try {
-                localStorage.setItem('user_name', ad);
-                localStorage.setItem('user_tel', tel);
-                if(currentImgBase64) {
-                    localStorage.setItem('user_img', currentImgBase64);
-                }
-                alert("Profil başarıyla güncellendi!");
-                window.location.href = "anamenu.html";
-            } catch (e) {
-                alert("Kaydedilemedi! Hafıza dolu olabilir. Lütfen daha küçük bir resim deneyin.");
-                console.error("LocalStorage Hatası:", e);
-            }
+            localStorage.setItem('user_name', document.getElementById('pAd').value);
+            if(base64Img) localStorage.setItem('user_img', base64Img);
+            alert("Profil güncellendi!");
+            window.location.href = "anamenu.html";
         }
-
-        // Mouse imleci efektleri
-        const cur = document.getElementById('cursor'); 
-        const ring = document.getElementById('cursor-ring');
-        document.addEventListener('mousemove', e => { 
-            cur.style.left = e.clientX+'px'; cur.style.top = e.clientY+'px'; 
-            ring.animate({left:e.clientX-17.5+'px', top:e.clientY-17.5+'px'}, {duration:400, fill:"forwards"}); 
-        });
     </script>
 </body>
 </html>
