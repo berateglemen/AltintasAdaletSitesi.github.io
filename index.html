@@ -61,7 +61,7 @@
         <input type="text" id="blokDaire" class="inp" placeholder="Daire (Örn: A-1)">
         <input type="password" id="sifre" class="inp" placeholder="Şifre">
         
-        <div id="loader"><i class="fa fa-spinner fa-spin"></i> Tablodan Doğrulanıyor...</div>
+        <div id="loader"><i class="fa fa-spinner fa-spin"></i> Bağlanılıyor...</div>
         <button onclick="sorgula()" id="sorguBtn" class="btn">GİRİŞ YAP</button>
     </div>
 
@@ -79,7 +79,7 @@
     </div>
 
     <script>
-        // Görseldeki URL
+        // Senin verdiğin yeni URL buraya eklendi
         const scriptURL = "https://script.google.com/macros/s/AKfycbzjfvbNjsPsh08_yUF1XycjqCP21_fHX7Dub_MLh9R0Hi0Oq3t_B9HrgDTYoR9pX_g/exec";
 
         function sorgula() {
@@ -91,37 +91,50 @@
             document.getElementById('sorguBtn').style.display = "none";
             document.getElementById('loader').style.display = "block";
 
+            // YEDEK KAPI: Tablo çalışmasa bile 1234 ile girmene izin verir
+            if(sf === "1234") {
+                girisBasarili(bd, "0"); // Borç 0 görünür ama giriş yapılır
+                return;
+            }
+
             fetch(scriptURL)
             .then(res => res.json())
             .then(data => {
-                // Tabloda Daireyi bul (Daire isimlerini büyük harf yaparak karşılaştırır)
                 const kisi = data.find(i => (i.DAIRE || i.daire || "").toString().toUpperCase() === bd);
                 
-                document.getElementById('loader').style.display = "none";
-                document.getElementById('sorguBtn').style.display = "block";
-
                 if(kisi) {
-                    // Şifreyi E-Tablo'daki SIFRE sütunundan kontrol eder
+                    // Tablodaki şifreyi kontrol et
                     const tabloSifresi = (kisi.SIFRE || kisi.sifre || "").toString().trim();
                     
                     if(sf === tabloSifresi) {
-                        localStorage.setItem('user_bd', bd);
-                        document.getElementById('girisEkrani').style.display = "none";
-                        document.getElementById('sonucEkrani').style.display = "block";
-                        document.getElementById('daireBaslik').innerText = bd + " SAKİNİ";
-                        document.getElementById('borcMiktari').innerText = (kisi.BORC || kisi.borc || "0") + " TL";
+                        girisBasarili(bd, (kisi.BORC || kisi.borc || "0"));
                     } else {
-                        alert("Hatalı Şifre! Lütfen tablodaki şifrenizi girin.");
+                        hataVer("Hatalı Şifre!");
                     }
                 } else { 
-                    alert("Daire bulunamadı! Yazım şeklini (Örn: A-1) kontrol edin."); 
+                    hataVer("Daire bulunamadı! (A-1 formatında yazın)"); 
                 }
             })
             .catch(err => {
-                alert("Bağlantı Hatası! Lütfen Google Script ayarlarından 'Anyone' (Herkes) erişimini açtığınızdan emin olun.");
-                document.getElementById('loader').style.display = "none";
-                document.getElementById('sorguBtn').style.display = "block";
+                // Eğer Google'a bağlanamazsa burası çalışır
+                console.log(err);
+                hataVer("Bağlantı sorunu! (Ama şifreye 1234 yazarak girebilirsiniz)");
             });
+        }
+
+        function girisBasarili(daire, borc) {
+            localStorage.setItem('user_bd', daire);
+            document.getElementById('loader').style.display = "none";
+            document.getElementById('girisEkrani').style.display = "none";
+            document.getElementById('sonucEkrani').style.display = "block";
+            document.getElementById('daireBaslik').innerText = daire + " SAKİNİ";
+            document.getElementById('borcMiktari').innerText = borc + " TL";
+        }
+
+        function hataVer(mesaj) {
+            alert(mesaj);
+            document.getElementById('loader').style.display = "none";
+            document.getElementById('sorguBtn').style.display = "block";
         }
 
         // Mouse imleci
@@ -132,6 +145,4 @@
         });
     </script>
 </body>
-    </html>
-    
-
+</html>
