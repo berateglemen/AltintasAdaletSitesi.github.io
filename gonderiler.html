@@ -2,75 +2,60 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Site Akışı - Canlı</title>
+    <title>Site Akışı - Medya Destekli</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
         :root { --vurgu: #f39c12; --bg: #0f172a; }
         * { cursor: none !important; box-sizing: border-box; }
-        
-        /* Mouse Efekti */
         #cursor { width: 8px; height: 8px; background: var(--vurgu); border-radius: 50%; position: fixed; z-index: 99999; pointer-events: none; }
         #cursor-ring { width: 35px; height: 35px; border: 1.5px solid var(--vurgu); border-radius: 50%; position: fixed; z-index: 99998; pointer-events: none; transition: 0.15s ease-out; }
 
         body { background: var(--bg); color: #fff; font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
         
-        /* Üst Bar */
-        .ust-nav { padding: 15px; background: #000; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #334155; z-index: 10; }
-        .ust-nav b { letter-spacing: 1px; }
-
-        /* Mesaj Listesi */
-        #mesajlar { flex: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 12px; background-image: radial-gradient(#1e293b 1px, transparent 1px); background-size: 25px 25px; }
+        .ust-nav { padding: 15px; background: #000; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #334155; }
+        #mesajlar { flex: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 15px; background: radial-gradient(#1e293b 1px, transparent 1px) 0 0 / 25px 25px; }
         
-        .mesaj-kart { 
-            background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); 
-            padding: 12px; border-radius: 18px; border-left: 4px solid var(--vurgu); 
-            animation: mesajGiris 0.4s ease-out; max-width: 85%;
-        }
-        
-        @keyframes mesajGiris { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
-        .mesaj-ust { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
-        .mesaj-ust img { width: 32px; height: 32px; border-radius: 50%; border: 1.5px solid var(--vurgu); object-fit: cover; }
+        /* Mesaj Kartı Tasarımı */
+        .mesaj-kart { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 20px; border-left: 4px solid var(--vurgu); animation: mesajGiris 0.4s ease-out; }
+        .mesaj-ust { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+        .mesaj-ust img { width: 35px; height: 35px; border-radius: 50%; border: 1.5px solid var(--vurgu); }
         .mesaj-ust b { font-size: 13px; color: var(--vurgu); }
-        .mesaj-ust span { font-size: 10px; color: #64748b; margin-left: auto; }
-        .metin { font-size: 14px; color: #cbd5e1; line-height: 1.4; word-wrap: break-word; }
+        
+        /* Medya İçerik Alanı */
+        .medya-icerik { margin-top: 10px; border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); }
+        .medya-icerik img, .medya-icerik video { width: 100%; display: block; max-height: 300px; object-fit: cover; }
 
-        /* Mesaj Yazma Alanı */
-        .input-box { background: #1e293b; padding: 15px; display: flex; gap: 10px; align-items: center; border-top: 1px solid #334155; }
-        input { flex: 1; padding: 12px 20px; border-radius: 25px; border: none; background: #0f172a; color: #fff; outline: none; transition: 0.3s; }
-        input:focus { box-shadow: 0 0 10px rgba(243, 156, 18, 0.2); }
+        /* Giriş Alanı */
+        .input-area { background: #1e293b; padding: 15px; display: flex; flex-direction: column; gap: 8px; border-top: 1px solid #334155; }
+        .input-row { display: flex; gap: 10px; }
+        input { flex: 1; padding: 12px 20px; border-radius: 25px; border: none; background: #0f172a; color: #fff; outline: none; font-size: 14px; }
+        .medya-btn { background: #334155; border: none; color: #fff; padding: 0 15px; border-radius: 20px; cursor: pointer; font-size: 12px; }
+        .gonder-btn { background: var(--vurgu); border: none; width: 45px; height: 45px; border-radius: 50%; color: #fff; cursor: pointer; }
         
-        .gonder-btn { 
-            background: var(--vurgu); border: none; width: 45px; height: 45px; 
-            border-radius: 50%; color: #fff; cursor: pointer; transition: 0.3s; 
-            display: flex; align-items: center; justify-content: center;
-        }
-        .gonder-btn:hover { transform: scale(1.1) rotate(-10deg); }
-        
-        #loading { text-align: center; color: var(--vurgu); font-size: 12px; margin-top: 20px; }
+        @keyframes mesajGiris { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
     <div id="cursor"></div><div id="cursor-ring"></div>
 
     <div class="ust-nav">
-        <span><i class="fa fa-comments" style="color:var(--vurgu)"></i> <b>SİTE AKIŞI</b></span>
+        <span><i class="fa fa-photo" style="color:var(--vurgu)"></i> <b>SİTE AKIŞI</b></span>
         <a href="anamenu.html" style="color:#fff; text-decoration:none;"><i class="fa fa-times-circle fa-lg"></i></a>
     </div>
 
-    <div id="mesajlar">
-        <div id="loading"><i class="fa fa-spinner fa-spin"></i> Mesajlar yükleniyor...</div>
-    </div>
+    <div id="mesajlar">Yükleniyor...</div>
 
-    <div class="input-box">
-        <input type="text" id="mInput" placeholder="Mesajınızı yazın...">
-        <button class="gonder-btn" onclick="mesajGonder()"><i class="fa fa-paper-plane"></i></button>
+    <div class="input-area">
+        <input type="text" id="medyaInp" placeholder="Fotoğraf veya Video Linki (Opsiyonel)" style="font-size: 11px; background: rgba(0,0,0,0.5);">
+        <div class="input-row">
+            <input type="text" id="mInput" placeholder="Bir mesaj yazın...">
+            <button class="gonder-btn" onclick="mesajGonder()"><i class="fa fa-paper-plane"></i></button>
+        </div>
     </div>
 
     <script>
         const API_URL = "https://script.google.com/macros/s/AKfycbwelVvQJN3dmXgslnuSvEWE4Shss-1DsuRb5T_eyhqGmEcS-2PLzNcM8TYhfHt-3V1E/exec";
 
-        // Mesajları Çek (E-Tablodan)
         async function akisYukle() {
             try {
                 const res = await fetch(API_URL);
@@ -78,78 +63,60 @@
                 const container = document.getElementById('mesajlar');
                 container.innerHTML = "";
                 
-                if(data.length === 0) {
-                    container.innerHTML = "<div style='text-align:center; color:#64748b; margin-top:20px;'>Henüz mesaj yok.</div>";
-                    return;
-                }
-
                 data.forEach(m => {
-                    const profilResmi = m.foto || 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
+                    let medyaHTML = "";
+                    // Linkin resim mi video mu olduğunu basitçe kontrol et
+                    if(m.medyaUrl) {
+                        if(m.medyaUrl.match(/\.(jpeg|jpg|gif|png)$/) != null) {
+                            medyaHTML = `<div class="medya-icerik"><img src="${m.medyaUrl}"></div>`;
+                        } else if(m.medyaUrl.match(/\.(mp4|webm|ogg)$/) != null) {
+                            medyaHTML = `<div class="medya-icerik"><video controls src="${m.medyaUrl}"></video></div>`;
+                        }
+                    }
+
                     container.innerHTML += `
                         <div class="mesaj-kart">
                             <div class="mesaj-ust">
-                                <img src="${profilResmi}">
+                                <img src="${m.foto || 'https://cdn-icons-png.flaticon.com/512/149/149071.png'}">
                                 <b>${m.ad} (Daire: ${m.daire})</b>
-                                <span>${m.tarih ? new Date(m.tarih).toLocaleTimeString('tr-TR', {hour:'2-digit', minute:'2-digit'}) : ''}</span>
                             </div>
-                            <div class="metin">${m.mesaj}</div>
+                            <div style="font-size:14px; color:#cbd5e1;">${m.mesaj}</div>
+                            ${medyaHTML}
                         </div>`;
                 });
-                // En son mesaja odaklan
                 container.scrollTop = container.scrollHeight;
-            } catch (e) { 
-                document.getElementById('mesajlar').innerHTML = "<div style='text-align:center; color:red;'>Veri çekilemedi. Bağlantıyı kontrol et.</div>";
-            }
+            } catch (e) { console.error("Hata:", e); }
         }
 
-        // Mesaj Gönder (E-Tabloya)
         async function mesajGonder() {
-            const input = document.getElementById('mInput');
-            const mesajMetni = input.value.trim();
-            if(!mesajMetni) return;
+            const mInp = document.getElementById('mInput');
+            const medInp = document.getElementById('medyaInp');
+            if(!mInp.value.trim() && !medInp.value.trim()) return;
 
             const payload = {
                 ad: localStorage.getItem('user_name') || "Sakin",
                 daire: localStorage.getItem('user_bd') || "Bilinmiyor",
-                mesaj: mesajMetni,
-                foto: localStorage.getItem('user_img') || ""
+                mesaj: mInp.value,
+                foto: localStorage.getItem('user_img') || "",
+                medyaUrl: medInp.value // Yeni medya linki
             };
 
-            // Butonu kilitle
-            input.value = "Gönderiliyor...";
-            input.disabled = true;
-
-            try {
-                await fetch(API_URL, {
-                    method: "POST",
-                    mode: "no-cors", // CORS hatasını engellemek için
-                    cache: "no-cache",
-                    body: JSON.stringify(payload)
-                });
-                
-                input.value = "";
-                input.disabled = false;
-                // Mesaj gönderildikten 1 saniye sonra listeyi tazele
-                setTimeout(akisYukle, 1000);
-            } catch (e) {
-                alert("Mesaj gönderilirken hata oluştu!");
-                input.disabled = false;
-                input.value = mesajMetni;
-            }
+            mInp.disabled = true;
+            await fetch(API_URL, { method: "POST", mode: "no-cors", body: JSON.stringify(payload) });
+            
+            mInp.value = ""; medInp.value = "";
+            mInp.disabled = false;
+            setTimeout(akisYukle, 1000);
         }
 
-        // Mouse Takibi
         document.addEventListener('mousemove', e => { 
             document.getElementById('cursor').style.left = e.clientX + 'px'; 
-            document.getElementById('cursor-ring').style.left = (e.clientX - 17.5) + 'px';
+            document.getElementById('cursor-ring').animate({left: e.clientX-17.5+'px', top: e.clientY-17.5+'px'}, {duration:400, fill:"forwards"});
             document.getElementById('cursor').style.top = e.clientY + 'px'; 
-            document.getElementById('cursor-ring').style.top = (e.clientY - 17.5) + 'px';
         });
 
-        // Sayfa açıldığında yükle
         akisYukle();
-        // 1 dakikada bir otomatik yenile
-        setInterval(akisYukle, 60000);
+        setInterval(akisYukle, 30000);
     </script>
 </body>
 </html>
