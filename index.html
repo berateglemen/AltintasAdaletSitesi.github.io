@@ -13,7 +13,6 @@
             --glass-border: rgba(255, 255, 255, 0.1);
         }
 
-        /* BOX SIZING: Kutuların sağa kaymasını engeller */
         * { cursor: none !important; box-sizing: border-box; }
         
         #cursor { width: 8px; height: 8px; background: var(--vurgu); border-radius: 50%; position: fixed; z-index: 99999; pointer-events: none; }
@@ -29,7 +28,7 @@
         .kart { 
             background: var(--glass); backdrop-filter: blur(25px); 
             padding: 40px; border-radius: 30px; 
-            width: 90%; max-width: 400px; text-align: center; 
+            width: 95%; max-width: 420px; text-align: center; 
             border: 1px solid var(--glass-border); 
             box-shadow: 0 25px 50px -12px rgba(0,0,0,0.7);
             animation: formGiris 1s ease-out;
@@ -40,15 +39,13 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* INPUT GRUBU: Ortalama garantisi */
         .input-konteyner { width: 100%; display: flex; flex-direction: column; align-items: center; }
 
         .inp { 
-            width: 100%; max-width: 100%; padding: 16px; border-radius: 15px; 
+            width: 100%; padding: 16px; border-radius: 15px; 
             border: 1px solid #334155; background: rgba(0,0,0,0.4); 
             color: #fff; outline: none; margin-bottom: 15px;
             font-size: 15px; text-align: center; transition: 0.3s;
-            display: block; /* Yanlardaki hayalet boşlukları siler */
         }
         .inp:focus { border-color: var(--vurgu); background: rgba(0,0,0,0.6); box-shadow: 0 0 15px rgba(243, 156, 18, 0.1); }
 
@@ -58,10 +55,11 @@
             border: none; border-radius: 15px; color: #fff; 
             font-weight: 900; margin-top: 5px; cursor: pointer; 
             letter-spacing: 1px; transition: 0.3s;
+            text-transform: uppercase;
         }
         .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(243, 156, 18, 0.3); }
 
-        #loader { display: none; color: var(--vurgu); margin: 15px 0; font-size: 13px; font-weight: bold; }
+        #loader { display: none; color: var(--vurgu); margin: 15px 0; font-size: 13px; font-weight: bold; letter-spacing: 1px; }
         
         .iban-kutu { 
             background: rgba(0,0,0,0.3); padding: 20px; 
@@ -79,7 +77,7 @@
     <div id="cursor-ring"></div>
 
     <div class="kart" id="girisEkrani">
-        <h2 style="font-weight:900; margin-bottom:5px; letter-spacing:2px;">ALTINTAŞ <span style="color:var(--vurgu)">ADALET SİTESİ</span></h2>
+        <h2 style="font-weight:900; margin-bottom:5px; letter-spacing:2px;">ALTINTAŞ <span style="color:var(--vurgu)">ADALET</span></h2>
         <p style="color:#94a3b8; font-size:12px; margin-bottom:30px; font-weight:bold; letter-spacing: 1px;">BORÇ SORGULAMA PANELİ</p>
         
         <div class="input-konteyner">
@@ -96,9 +94,9 @@
     </div>
 
     <div class="kart" id="sonucEkrani" style="display:none;">
-        <h3 id="daireBaslik" style="color:var(--vurgu); font-weight:900; margin-bottom:10px;"></h3>
-        <p style="font-size:12px; color:#94a3b8; font-weight: bold;">GÜNCEL TOPLAM BORÇ</p>
-        <h1 id="borcMiktari" style="font-size:54px; margin:10px 0; font-weight:900; color:#fff; text-shadow: 0 0 20px rgba(255,255,255,0.1);">0 TL</h1>
+        <h3 id="daireBaslik" style="color:var(--vurgu); font-weight:900; margin-bottom:10px; text-transform: uppercase;"></h3>
+        <p style="font-size:12px; color:#94a3b8; font-weight: bold; letter-spacing: 1px;">GÜNCEL TOPLAM BORÇ</p>
+        <h1 id="borcMiktari" style="font-size:54px; margin:15px 0; font-weight:900; color:#fff; text-shadow: 0 0 20px rgba(255,255,255,0.1);">0 TL</h1>
         
         <div class="iban-kutu">
             <small style="color:#94a3b8; display:block; margin-bottom:8px;">Ziraat Bankası IBAN:</small>
@@ -106,7 +104,13 @@
             <button onclick="copyIban()" class="copy-link">IBAN'I KOPYALA</button>
         </div>
         
-        <button onclick="window.location.reload()" class="btn" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);">YENİ SORGULAMA</button>
+        <button onclick="window.location.href='anamenu.html'" class="btn" style="margin-bottom: 10px;">
+            <i class="fa fa-home"></i> ANA MENÜYE GİT
+        </button>
+        
+        <button onclick="window.location.reload()" style="background: none; border: none; color: #64748b; font-size: 11px; font-weight: bold; cursor: pointer; text-decoration: underline;">
+            Yeni Sorgulama Yap
+        </button>
     </div>
 
     <script>
