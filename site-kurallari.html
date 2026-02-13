@@ -16,114 +16,55 @@
             --text-glow: 0 0 15px rgba(243, 156, 18, 0.4);
         }
 
-        * { cursor: none !important; box-sizing: border-box; }
-        #cursor { width: 8px; height: 8px; background: var(--vurgu); border-radius: 50%; position: fixed; z-index: 99999; pointer-events: none; }
-        #cursor-ring { width: 35px; height: 35px; border: 1.5px solid var(--vurgu); border-radius: 50%; position: fixed; z-index: 99998; pointer-events: none; transition: 0.15s ease-out; }
+        * { box-sizing: border-box; } /* Mouse cursor kodları silindi */
         
         body { 
             background: var(--bg);
+            /* anamenu.html ile aynı arka plan */
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(243, 156, 18, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(243, 156, 18, 0.05) 0%, transparent 50%);
             color: #fff; 
             font-family: 'Montserrat', sans-serif; 
             margin: 0; 
             padding: 20px;
-            background-image: radial-gradient(#1e293b 1px, transparent 1px);
-            background-size: 30px 30px;
         }
 
         .container { max-width: 800px; margin: 0 auto; padding-bottom: 60px; }
 
-        /* --- ÜST HEADER (ANAMENU STİLİ) --- */
-        .ust-header { 
-            text-align: center; 
-            margin-bottom: 40px; 
-            margin-top: 20px;
-            position: relative;
-        }
-        .site-logo { 
-            font-weight: 900; 
-            font-size: 28px; 
-            letter-spacing: 1px; 
-            color: #fff; 
-            margin: 0; 
-            text-transform: uppercase;
-        }
+        .ust-header { text-align: center; margin-bottom: 40px; margin-top: 20px; position: relative; }
+        .site-logo { font-weight: 900; font-size: 28px; letter-spacing: 1px; color: #fff; margin: 0; text-transform: uppercase; }
         .site-logo span { color: var(--vurgu); text-shadow: var(--text-glow); }
-        .back-link { 
-            position: absolute; 
-            left: 0; 
-            top: 50%; 
-            transform: translateY(-50%); 
-            color: var(--vurgu); 
-            text-decoration: none;
-            transition: 0.3s;
-        }
+        .back-link { position: absolute; left: 0; top: 50%; transform: translateY(-50%); color: var(--vurgu); text-decoration: none; transition: 0.3s; }
         .back-link:hover { transform: translateY(-50%) scale(1.2); }
 
-        /* --- KURALLAR KARTLARI (GLASSMOPRHISM) --- */
         .kural-kart { 
-            background: var(--glass); 
-            backdrop-filter: blur(15px);
-            padding: 30px; 
-            border-radius: 25px; 
-            margin-bottom: 25px; 
-            border: 1px solid var(--glass-border);
-            border-left: 5px solid var(--vurgu);
-            transition: all 0.4s ease;
+            background: var(--glass); backdrop-filter: blur(15px); padding: 30px; 
+            border-radius: 25px; margin-bottom: 25px; border: 1px solid var(--glass-border);
+            border-left: 5px solid var(--vurgu); transition: all 0.4s ease;
         }
-        .kural-kart:hover { 
-            transform: translateY(-5px); 
-            background: rgba(255,255,255,0.05); 
-            border-color: var(--vurgu);
-        }
+        .kural-kart:hover { transform: translateY(-5px); background: rgba(255,255,255,0.05); border-color: var(--vurgu); }
 
-        .kural-baslik { 
-            font-weight: 900; 
-            font-size: 17px; 
-            margin-bottom: 20px; 
-            display: flex; 
-            align-items: center; 
-            gap: 12px; 
-            color: var(--vurgu);
-            letter-spacing: 1px;
-        }
-        
+        .kural-baslik { font-weight: 900; font-size: 17px; margin-bottom: 20px; display: flex; align-items: center; gap: 12px; color: var(--vurgu); letter-spacing: 1px; }
         .kural-liste { padding-left: 15px; margin: 0; font-size: 14px; color: #cbd5e1; line-height: 1.8; }
         .kural-liste li { margin-bottom: 12px; list-style-type: none; position: relative; padding-left: 10px; }
-        .kural-liste li::before { 
-            content: "•"; 
-            position: absolute; 
-            left: -10px; 
-            color: var(--vurgu); 
-            font-weight: bold; 
-        }
+        .kural-liste li::before { content: "•"; position: absolute; left: -10px; color: var(--vurgu); font-weight: bold; }
 
         .fixed-msg-btn { 
-            position: fixed; bottom: 30px; right: 30px; 
-            background: var(--vurgu); color: #000; 
-            width: 55px; height: 55px; border-radius: 50%; 
-            display: flex; align-items: center; justify-content: center; 
-            font-size: 22px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            text-decoration: none; z-index: 100;
-            transition: 0.3s;
+            position: fixed; bottom: 30px; right: 30px; background: var(--vurgu); color: #000; 
+            width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; 
+            font-size: 22px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); text-decoration: none; z-index: 100; transition: 0.3s;
         }
         .fixed-msg-btn:hover { transform: scale(1.1) rotate(15deg); }
 
-        /* Özel Renk Kenarlıkları */
-        .mor { border-left-color: #9b59b6; }
-        .turkuaz { border-left-color: #1abc9c; }
-        .mavi { border-left-color: #3498db; }
-        .yesil { border-left-color: #2ecc71; }
+        .mor { border-left-color: #9b59b6; } .turkuaz { border-left-color: #1abc9c; }
+        .mavi { border-left-color: #3498db; } .yesil { border-left-color: #2ecc71; }
         .kirmizi { border-left-color: #e74c3c; }
         
-        @media (max-width: 600px) {
-            .site-logo { font-size: 20px; }
-            .kural-kart { padding: 20px; }
-        }
+        @media (max-width: 600px) { .site-logo { font-size: 20px; } .kural-kart { padding: 20px; } }
     </style>
 </head>
 <body>
-    <div id="cursor"></div><div id="cursor-ring"></div>
-
     <div class="container">
         <div class="ust-header">
             <a href="anamenu.html" class="back-link"><i class="fa fa-arrow-left fa-lg"></i></a>
@@ -225,12 +166,5 @@
         <i class="fa fa-envelope"></i>
     </a>
 
-    <script>
-        const cur = document.getElementById('cursor'); const ring = document.getElementById('cursor-ring');
-        document.addEventListener('mousemove', e => { 
-            cur.style.left = e.clientX+'px'; cur.style.top = e.clientY+'px'; 
-            ring.animate({left:e.clientX-17.5+'px', top:e.clientY-17.5+'px'}, {duration:400, fill:"forwards"}); 
-        });
-    </script>
-</body>
+    </body>
 </html>
