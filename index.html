@@ -1,51 +1,146 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Giriş - Altıntaş Adalet Sitesi</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Borç Sorgula - Altıntaş Adalet Sitesi</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        :root { --vurgu: #f39c12; --bg: #0b0f1a; --glass: rgba(255, 255, 255, 0.02); --glass-border: rgba(255, 255, 255, 0.08); }
-        body { background: var(--bg); color: #fff; font-family: 'Montserrat', sans-serif; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }
-        .kart { background: var(--glass); backdrop-filter: blur(25px); border: 1px solid var(--glass-border); padding: 40px; border-radius: 35px; width: 90%; max-width: 400px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
-        h2 { color: var(--vurgu); font-weight: 900; margin-bottom: 25px; letter-spacing: 1px; }
-        input { width: 100%; padding: 15px; margin: 10px 0; border-radius: 15px; border: 1px solid var(--glass-border); background: rgba(255,255,255,0.05); color: #fff; text-align: center; font-family: inherit; }
-        button { width: 100%; padding: 15px; margin-top: 20px; border-radius: 15px; border: none; background: var(--vurgu); color: #fff; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        button:hover { transform: scale(1.05); box-shadow: 0 0 20px rgba(243, 156, 18, 0.4); }
-        #loader { display: none; margin: 20px auto; border: 4px solid #f3f3f3; border-top: 4px solid var(--vurgu); border-radius: 50%; width: 30px; height: 30px; animation: spin 2s linear infinite; }
+        :root { 
+            --vurgu: #f39c12; 
+            --bg: #0b0f1a; 
+            --glass: rgba(255, 255, 255, 0.02); 
+            --glass-border: rgba(255, 255, 255, 0.08); 
+            --text-glow: 0 0 15px rgba(243, 156, 18, 0.4);
+        }
+
+        * { box-sizing: border-box; transition: all 0.3s ease; cursor: none !important; }
+
+        body { 
+            background: var(--bg);
+            color: #fff; 
+            font-family: 'Montserrat', sans-serif; 
+            display: flex; flex-direction: column; align-items: center; justify-content: center; 
+            min-height: 100vh; margin: 0; overflow: hidden;
+            background-image: radial-gradient(#1e293b 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+
+        /* --- MODERN MOUSE --- */
+        #cursor { width: 8px; height: 8px; background: var(--vurgu); border-radius: 50%; position: fixed; z-index: 99999; pointer-events: none; }
+        #cursor-ring { width: 35px; height: 35px; border: 1.5px solid var(--vurgu); border-radius: 50%; position: fixed; z-index: 99998; pointer-events: none; transition: 0.15s ease-out; }
+
+        /* --- ÜST BİLGİ PANELİ --- */
+        .info-bar {
+            display: flex; gap: 15px; margin-bottom: 30px; width: 90%; max-width: 450px;
+            animation: slideDown 0.8s ease;
+        }
+        .info-card {
+            flex: 1; background: var(--glass); border: 1px solid var(--glass-border);
+            backdrop-filter: blur(15px); padding: 12px; border-radius: 20px; text-align: center;
+        }
+        .info-card .val { font-weight: 900; font-size: 18px; color: var(--vurgu); display: block; }
+        .info-card .lbl { font-size: 9px; color: #94a3b8; text-transform: uppercase; font-weight: bold; }
+
+        /* --- ANA KART --- */
+        .card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(25px);
+            padding: 40px 30px;
+            border-radius: 35px;
+            width: 90%;
+            max-width: 450px;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            animation: slideUp 0.8s ease;
+        }
+
+        h2 { font-weight: 900; font-size: 22px; letter-spacing: 1px; margin-bottom: 25px; text-transform: uppercase; }
+        h2 span { color: var(--vurgu); text-shadow: var(--text-glow); }
+
+        input {
+            width: 100%; padding: 15px; margin: 10px 0; border-radius: 15px;
+            border: 1px solid var(--glass-border); background: rgba(255,255,255,0.05);
+            color: #fff; text-align: center; font-family: inherit; font-weight: bold; font-size: 14px;
+        }
+        input:focus { border-color: var(--vurgu); background: rgba(255,255,255,0.1); outline: none; }
+
+        .btn-main {
+            width: 100%; padding: 15px; margin-top: 15px; border-radius: 15px; border: none;
+            background: var(--vurgu); color: #0b0f1a; font-weight: 900; 
+            text-transform: uppercase; letter-spacing: 1px; transition: 0.3s;
+        }
+        .btn-main:hover { transform: scale(1.03); box-shadow: var(--text-glow); }
+
+        /* --- IBAN KUTUSU --- */
+        .iban-box {
+            background: rgba(0,0,0,0.3); padding: 15px; border-radius: 15px; 
+            margin: 20px 0; border: 1px dashed var(--glass-border);
+        }
+        .iban-text { font-size: 11px; color: #fff; word-break: break-all; font-family: monospace; }
+
+        .back-link { display: block; margin-top: 25px; color: #64748b; text-decoration: none; font-size: 11px; font-weight: bold; letter-spacing: 1px; }
+        .back-link:hover { color: #fff; }
+
+        #loader { display: none; margin: 20px auto; border: 3px solid rgba(255,255,255,0.1); border-top: 3px solid var(--vurgu); border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        .back-btn { display: block; margin-top: 25px; color: #64748b; text-decoration: none; font-size: 12px; font-weight: bold; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-40px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
-    <div class="kart" id="girisEkrani">
-        <i class="fa fa-calculator" style="font-size: 45px; color: var(--vurgu); margin-bottom: 20px;"></i>
-        <h2>BORÇ SORGULA</h2>
-        <input type="text" id="blokDaire" placeholder="Blok-Daire (Örn: A-1)">
-        <input type="password" id="sifre" placeholder="Şifre">
-        <div id="loader"></div>
-        <button id="sorguBtn" onclick="sorgula()">SORGULA</button>
-        <a href="anamenu.html" class="back-btn"><i class="fa fa-arrow-left"></i> MENÜYE DÖN</a>
+
+    <div id="cursor"></div>
+    <div id="cursor-ring"></div>
+
+    <div class="info-bar">
+        <div class="info-card">
+            <span class="val" id="timeText">00:00</span>
+            <span class="lbl" id="dateText">GÜN</span>
+        </div>
+        <div class="info-card">
+            <span class="val" id="derece">--°C</span>
+            <span class="lbl" id="havaDurumMetni">HAVA DURUMU</span>
+        </div>
     </div>
 
-    <div class="kart" id="sonucEkrani" style="display:none;">
+    <div class="card" id="girisEkrani">
+        <i class="fa fa-calculator" style="font-size: 40px; color: var(--vurgu); margin-bottom: 15px;"></i>
+        <h2>BORÇ <span>SORGULA</span></h2>
+        
+        <input type="text" id="blokDaire" placeholder="BLOK-DAİRE (ÖRN: A-1)">
+        <input type="password" id="sifre" placeholder="ŞİFRE">
+        
+        <div id="loader"></div>
+        <button class="btn-main" id="sorguBtn" onclick="sorgula()">SORGULA</button>
+        <a href="anamenu.html" class="back-link"><i class="fa fa-arrow-left"></i> ANA MENÜYE DÖN</a>
+    </div>
+
+    <div class="card" id="sonucEkrani" style="display:none;">
         <h2 id="daireBaslik">DAİRE SAKİNİ</h2>
-        <p style="color:#94a3b8">Güncel Borç Bakiyeniz</p>
-        <div style="font-size: 32px; font-weight: 900; color: var(--vurgu); margin: 20px 0;" id="borcMiktari">0 TL</div>
-        <hr style="border: 0.5px solid var(--glass-border);">
-        <p style="font-size: 11px; color:#64748b;">Ödeme için IBAN: <br><b id="ibanNo" style="color:#fff">TR430014300000000026762952</b></p>
-        <button onclick="copyIban()" style="background:#2ecc71;">IBAN KOPYALA</button>
-        <button onclick="location.reload()" style="background:#64748b; margin-top:10px;">GERİ DÖN</button>
+        <p style="color:#94a3b8; font-size: 12px; margin: 0;">Güncel Borç Bakiyeniz</p>
+        <div style="font-size: 40px; font-weight: 900; color: var(--vurgu); margin: 15px 0; text-shadow: var(--text-glow);" id="borcMiktari">0 TL</div>
+        
+        <div class="iban-box">
+            <p style="font-size: 10px; color: var(--vurgu); margin-bottom: 5px; font-weight: bold;">ÖDEME İÇİN IBAN:</p>
+            <span class="iban-text" id="ibanNo">TR430014300000000026762952</span>
+        </div>
+
+        <button class="btn-main" onclick="copyIban()" style="background:#2ecc71; color:#fff; margin-bottom:10px;">
+            <i class="fa fa-copy"></i> IBAN KOPYALA
+        </button>
+        <button class="btn-main" onclick="location.reload()" style="background:#64748b; color:#fff;">GERİ DÖN</button>
     </div>
 
     <script>
-        const scriptURL = "https://script.google.com/macros/s/AKfycbzyrb8EIBMdiB4Mi3Niib_UcNiRqEsqEhie_hPzgdVD93IkKsiAa7mJl6EHluH52XVl/exec"; // Orijinal URL'ni buraya yaz
+        const scriptURL = "https://script.google.com/macros/s/AKfycbzyrb8EIBMdiB4Mi3Niib_UcNiRqEsqEhie_hPzgdVD93IkKsiAa7mJl6EHluH52XVl/exec";
 
         function sorgula() {
             const bd = document.getElementById('blokDaire').value.trim();
             const sf = document.getElementById('sifre').value.trim();
-            if(!bd || !sf) return alert("Eksik bilgi!");
+            if(!bd || !sf) return alert("Lütfen tüm alanları doldurun!");
             
             document.getElementById('sorguBtn').style.display = "none";
             document.getElementById('loader').style.display = "block";
@@ -58,11 +153,49 @@
                     document.getElementById('sonucEkrani').style.display = "block";
                     document.getElementById('daireBaslik').innerText = bd + " SAKİNİ";
                     document.getElementById('borcMiktari').innerText = data.borc + " TL";
-                } else { alert("Hatalı Giriş!"); location.reload(); }
-            }).catch(() => { alert("Hata oluştu!"); location.reload(); });
+                } else { 
+                    alert("Hatalı Blok-Daire veya Şifre!"); 
+                    location.reload(); 
+                }
+            })
+            .catch(() => { 
+                alert("Veriler çekilemedi, lütfen tekrar deneyin."); 
+                location.reload(); 
+            });
         }
-        function copyIban() { navigator.clipboard.writeText(document.getElementById('ibanNo').innerText); alert("Kopyalandı!"); }
+
+        function copyIban() {
+            const iban = document.getElementById('ibanNo').innerText;
+            navigator.clipboard.writeText(iban);
+            alert("IBAN Kopyalandı!");
+        }
+
+        // --- SAAT & HAVA DURUMU ---
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('timeText').innerText = now.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
+            document.getElementById('dateText').innerText = now.toLocaleDateString('tr-TR', { day: 'numeric', month: 'long' }).toUpperCase();
+        }
+
+        async function getHavaDurumu() {
+            try {
+                const response = await fetch('https://api.open-meteo.com/v1/forecast?latitude=36.9081&longitude=30.8304&current_weather=true');
+                const data = await response.json();
+                document.getElementById('derece').innerText = Math.round(data.current_weather.temperature) + "°C";
+                const states = { 0: "Güneşli", 1: "Açık", 2: "Parçalı", 3: "Bulutlu", 61: "Yağmurlu", 80: "Sağanak" };
+                document.getElementById('havaDurumMetni').innerText = (states[data.current_weather.weathercode] || "Antalya").toUpperCase();
+            } catch (e) { document.getElementById('havaDurumMetni').innerText = "ANTALYA"; }
+        }
+
+        const cur = document.getElementById('cursor'); const ring = document.getElementById('cursor-ring');
+        document.addEventListener('mousemove', e => { 
+            cur.style.left = e.clientX+'px'; cur.style.top = e.clientY+'px'; 
+            ring.animate({left:e.clientX-17.5+'px', top:e.clientY-17.5+'px'}, {duration:400, fill:"forwards"}); 
+        });
+
+        setInterval(updateClock, 1000);
+        updateClock();
+        getHavaDurumu();
     </script>
 </body>
 </html>
-
