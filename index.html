@@ -1,111 +1,54 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Giriş - Altıntaş Adalet Sitesi</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        :root { 
-            --vurgu: #f39c12; 
-            --bg: #0b0f1a; 
-            --glass: rgba(255, 255, 255, 0.02); 
-            --glass-border: rgba(255, 255, 255, 0.08); 
-            --text-glow: 0 0 15px rgba(243, 156, 18, 0.4);
-        }
-
-        * { box-sizing: border-box; transition: all 0.3s ease; }
-
+        :root { --vurgu: #f39c12; --bg: #0b0f1a; --glass: rgba(255, 255, 255, 0.02); --glass-border: rgba(255, 255, 255, 0.08); }
+        /* Arka plan anamenu.html ile aynı yapıldı */
         body { 
             background: var(--bg);
-            background-image: 
-                radial-gradient(circle at 20% 30%, rgba(243, 156, 18, 0.05) 0%, transparent 50%),
-                radial-gradient(circle at 80% 70%, rgba(243, 156, 18, 0.05) 0%, transparent 50%);
-            color: #fff; 
-            font-family: 'Montserrat', sans-serif; 
-            display: flex; align-items: center; justify-content: center; 
-            min-height: 100vh; margin: 0; 
+            background-image: radial-gradient(circle at 20% 30%, rgba(243, 156, 18, 0.05) 0%, transparent 50%), radial-gradient(circle at 80% 70%, rgba(243, 156, 18, 0.05) 0%, transparent 50%);
+            color: #fff; font-family: 'Montserrat', sans-serif; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; 
         }
-
-        .kart { 
-            background: var(--glass); 
-            backdrop-filter: blur(25px); 
-            border: 1px solid var(--glass-border); 
-            padding: 40px; 
-            border-radius: 35px; 
-            width: 90%; 
-            max-width: 420px; 
-            text-align: center; 
-            box-shadow: 0 20px 50px rgba(0,0,0,0.4);
-            animation: slideUp 0.8s ease;
-        }
-
-        h2 { font-weight: 900; letter-spacing: 1px; margin-bottom: 25px; font-size: 22px; }
-        h2 span { color: var(--vurgu); text-shadow: var(--text-glow); }
-
-        .inp { 
-            width: 100%; padding: 15px; margin: 10px 0; border-radius: 15px; 
-            border: 1px solid var(--glass-border); background: rgba(255,255,255,0.05); 
-            color: #fff; text-align: center; font-weight: bold; font-family: 'Montserrat'; outline: none;
-        }
-        .inp:focus { border-color: var(--vurgu); background: rgba(255,255,255,0.1); }
-
-        .btn { 
-            width: 100%; padding: 15px; border-radius: 15px; border: none; 
-            background: var(--vurgu); color: #0b0f1a; font-weight: 900; 
-            cursor: pointer; margin-top: 20px; text-transform: uppercase; letter-spacing: 1px;
-            text-decoration: none; display: inline-block;
-        }
-        .btn:hover { transform: scale(1.02); box-shadow: 0 0 20px rgba(243, 156, 18, 0.4); }
-
-        .iban-kutu { 
-            background: rgba(0,0,0,0.3); padding: 15px; border-radius: 15px; 
-            margin: 25px 0; border: 1px dashed var(--vurgu); font-size: 12px; 
-        }
-        .copy-link { 
-            background: none; border: none; color: var(--vurgu); font-weight: 900; 
-            margin-top: 10px; cursor: pointer; font-size: 11px; text-decoration: underline;
-        }
-
-        #loader { display: none; color: var(--vurgu); margin: 15px 0; font-weight: bold; }
-        
-        @keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+        .kart { background: var(--glass); backdrop-filter: blur(25px); border: 1px solid var(--glass-border); padding: 40px; border-radius: 35px; width: 90%; max-width: 400px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+        h2 { color: var(--vurgu); font-weight: 900; margin-bottom: 25px; letter-spacing: 1px; }
+        input { width: 100%; padding: 15px; margin: 10px 0; border-radius: 15px; border: 1px solid var(--glass-border); background: rgba(255,255,255,0.05); color: #fff; text-align: center; font-family: inherit; }
+        button { width: 100%; padding: 15px; margin-top: 20px; border-radius: 15px; border: none; background: var(--vurgu); color: #fff; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        button:hover { transform: scale(1.05); box-shadow: 0 0 20px rgba(243, 156, 18, 0.4); }
+        #loader { display: none; margin: 20px auto; border: 4px solid #f3f3f3; border-top: 4px solid var(--vurgu); border-radius: 50%; width: 30px; height: 30px; animation: spin 2s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .back-btn { display: block; margin-top: 25px; color: #64748b; text-decoration: none; font-size: 12px; font-weight: bold; }
     </style>
 </head>
 <body>
-
     <div class="kart" id="girisEkrani">
-        <i class="fa fa-calculator" style="font-size: 40px; color: var(--vurgu); margin-bottom: 20px;"></i>
-        <h2>BORÇ <span>SORGULA</span></h2>
-        
-        <input type="text" id="blokDaire" class="inp" placeholder="BLOK-DAİRE (ÖRN: A-1)">
-        <input type="password" id="sifre" class="inp" placeholder="ŞİFRE">
-        
-        <div id="loader"><i class="fa fa-spinner fa-spin"></i> SORGULANIYOR...</div>
-        <button onclick="sorgula()" id="sorguBtn" class="btn">SORGULA</button>
-        <a href="anamenu.html" style="display:block; margin-top:20px; color:#64748b; text-decoration:none; font-size:11px; font-weight:bold;">ANA MENÜYE DÖN</a>
+        <i class="fa fa-calculator" style="font-size: 45px; color: var(--vurgu); margin-bottom: 20px;"></i>
+        <h2>BORÇ SORGULA</h2>
+        <input type="text" id="blokDaire" placeholder="Blok-Daire (Örn: A-1)">
+        <input type="password" id="sifre" placeholder="Şifre">
+        <div id="loader"></div>
+        <button id="sorguBtn" onclick="sorgula()">SORGULA</button>
+        <a href="anamenu.html" class="back-btn"><i class="fa fa-arrow-left"></i> MENÜYE DÖN</a>
     </div>
 
     <div class="kart" id="sonucEkrani" style="display:none;">
-        <h2 id="daireBaslik" style="color:var(--vurgu);">DAİRE SAKİNİ</h2>
-        <p style="color:#94a3b8; font-size:12px; font-weight:bold;">GÜNCEL TOPLAM BORÇ</p>
-        <div id="borcMiktari" style="font-size:40px; margin:15px 0; font-weight:900; color:#fff; text-shadow: var(--text-glow);">0 TL</div>
-        
-        <div class="iban-kutu">
-            <small style="color:#94a3b8; display:block; margin-bottom:5px;">Ziraat Bankası IBAN:</small>
-            <b id="ibanNo" style="letter-spacing:1px; color:#fff;">TR430014300000000026762952</b><br>
-            <button onclick="copyIban()" class="copy-link">KOPYALA</button>
-        </div>
-        
-        <button onclick="location.reload()" class="btn" style="background:#334155; color:#fff;">ÇIKIŞ YAP</button>
+        <h2 id="daireBaslik">DAİRE SAKİNİ</h2>
+        <p style="color:#94a3b8">Güncel Borç Bakiyeniz</p>
+        <div style="font-size: 32px; font-weight: 900; color: var(--vurgu); margin: 20px 0;" id="borcMiktari">0 TL</div>
+        <hr style="border: 0.5px solid var(--glass-border);">
+        <p style="font-size: 11px; color:#64748b;">Ödeme için IBAN: <br><b id="ibanNo" style="color:#fff">TR430014300000000026762952</b></p>
+        <button onclick="copyIban()" style="background:#2ecc71;">IBAN KOPYALA</button>
+        <button onclick="location.reload()" style="background:#64748b; margin-top:10px;">GERİ DÖN</button>
     </div>
 
     <script>
-        const scriptURL = "https://script.google.com/macros/s/AKfycbzyrb8EIBMdiB4Mi3Niib_UcNiRqEsqEhie_hPzgdVD93IkKsiAa7mJl6EHluH52XVl/exec";
+        const scriptURL = "https://script.google.com/macros/s/AKfycbzyrb8EIBMdiB4Mi3Niib_UcNiRqEsqEhie_hPzgdVD93IkKsiAa7mJl6EHluH52XVl/exec"; 
 
         function sorgula() {
-            const bd = document.getElementById('blokDaire').value.trim().toUpperCase();
+            const bd = document.getElementById('blokDaire').value.trim();
             const sf = document.getElementById('sifre').value.trim();
             if(!bd || !sf) return alert("Eksik bilgi!");
             
@@ -123,11 +66,7 @@
                 } else { alert("Hatalı Giriş!"); location.reload(); }
             }).catch(() => { alert("Hata oluştu!"); location.reload(); });
         }
-
-        function copyIban() {
-            navigator.clipboard.writeText(document.getElementById('ibanNo').innerText);
-            alert("IBAN Kopyalandı!");
-        }
+        function copyIban() { navigator.clipboard.writeText(document.getElementById('ibanNo').innerText); alert("Kopyalandı!"); }
     </script>
 </body>
 </html>
