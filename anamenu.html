@@ -132,13 +132,13 @@
 <body>
 
     <div class="weather-widget">
-        <i class="fa fa-cloud"></i>
-        <div class="weather-info">
-            <span class="weather-temp">18°C</span>
-            <span class="weather-city">Antalya, Aksu</span>
-        </div>
+    <i class="fa fa-cloud"></i>
+    <div class="weather-info">
+        <span class="weather-temp" id="derece">--°C</span>
+        <span class="weather-city" id="havaDurumMetni">Yükleniyor...</span>
     </div>
-
+</div>
+    
     <div class="top-right-info">
         <div id="timeText" style="font-weight: 900; color: white; font-size: 14px;">00:00</div>
         <div id="dateText">11 ŞUBAT 2026</div>
@@ -186,6 +186,27 @@
         }
         setInterval(updateClock, 1000);
         updateClock();
+async function havaDurumuGetir() {
+    try {
+        const response = await fetch('https://api.open-meteo.com/v1/forecast?latitude=36.92&longitude=30.81&current_weather=true');
+        const data = await response.json();
+        const temp = Math.round(data.current_weather.temperature);
+        const code = data.current_weather.weathercode;
+        
+        document.getElementById('derece').innerText = temp + "°C";
+        
+        const durumlar = { 0: "Güneşli", 1: "Açık", 2: "Parçalı Bulutlu", 3: "Bulutlu", 45: "Sisli", 61: "Yağmurlu" };
+        document.getElementById('havaDurumMetni').innerText = (durumlar[code] || "Antalya, Aksu").toUpperCase();
+    } catch (e) { 
+        document.getElementById('havaDurumMetni').innerText = "Antalya, Aksu"; 
+    }
+}
+
+// Bunu updateClock() satırının altına ekle
+havaDurumuGetir();
+setInterval(havaDurumuGetir, 600000);
+        
     </script>
 </body>
 </html>
+
