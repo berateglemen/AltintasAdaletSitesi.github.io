@@ -32,20 +32,6 @@
                 radial-gradient(circle at 20% 30%, rgba(243, 156, 18, 0.05) 0%, transparent 50%),
                 radial-gradient(circle at 80% 70%, rgba(243, 156, 18, 0.05) 0%, transparent 50%);
         }
-
-        /* --- HAVA DURUMU --- */
-        .weather-widget {
-            position: absolute; top: 25px; left: 20px;
-            background: var(--glass); border: 1px solid var(--glass-border);
-            padding: 10px 15px; border-radius: 20px;
-            display: flex; align-items: center; gap: 12px;
-            backdrop-filter: blur(10px); animation: slideInLeft 1s ease;
-        }
-        .weather-widget i { color: var(--vurgu); font-size: 20px; }
-        .weather-info { display: flex; flex-direction: column; }
-        .weather-temp { font-weight: 900; font-size: 14px; }
-        .weather-city { font-size: 10px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; }
-
         /* --- SAAT & TARİH --- */
         .top-right-info {
             position: absolute; top: 25px; right: 20px;
@@ -85,13 +71,6 @@
     </style>
 </head>
 <body>
-    <div class="weather-widget">
-        <i class="fa fa-cloud"></i>
-        <div class="weather-info">
-            <span class="weather-temp" id="derece">--°C</span>
-            <span class="weather-city" id="havaDurumMetni">ANTALYA</span>
-        </div>
-    </div>
 
     <div class="top-right-info">
         <div id="timeText" style="font-weight: 900; color: white; font-size: 14px;">00:00</div>
@@ -132,3 +111,4 @@
     </script>
 </body>
 </html>
+
