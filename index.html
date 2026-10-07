@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Giriş - Altıntaş Adalet Sitesi</title>
+    <title>Bilgilendirme - Altıntaş Adalet Sitesi</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
@@ -15,7 +15,6 @@
         }
 
         body { 
-            /* Diğer sayfalarla uyumlu derin arka plan */
             background: radial-gradient(circle at center, #1a202c 0%, #0b0f1a 100%);
             color: #fff; 
             font-family: 'Montserrat', sans-serif; 
@@ -49,7 +48,7 @@
             padding: 50px 40px; 
             border-radius: 40px; 
             width: 90%; 
-            max-width: 400px; 
+            max-width: 420px; 
             text-align: center; 
             box-shadow: 0 25px 50px rgba(0,0,0,0.5);
             transition: 0.4s ease;
@@ -64,69 +63,73 @@
 
         h2 { 
             font-weight: 900; 
-            font-size: 24px;
-            margin-bottom: 30px; 
+            font-size: 22px;
+            margin-bottom: 15px; 
             letter-spacing: 2px;
+            line-height: 1.4;
         }
         
-        /* İstediğin Turuncu-Beyaz Stil */
         h2 span { color: var(--vurgu); }
 
-        .input-group { position: relative; margin-bottom: 15px; }
-
-        input { 
-            width: 100%; 
-            padding: 16px; 
-            border-radius: 18px; 
-            border: 1px solid var(--glass-border); 
-            background: rgba(255,255,255,0.05); 
-            color: #fff; 
-            text-align: center; 
-            font-family: inherit;
+        .bilgi-metni {
+            color: #94a3b8;
             font-size: 14px;
-            transition: 0.3s;
-            box-sizing: border-box;
+            line-height: 1.7;
+            margin: 20px 0 30px;
         }
 
-        input:focus {
-            background: rgba(255,255,255,0.1);
-            border-color: var(--vurgu);
-            outline: none;
-            transform: translateY(-2px);
+        .bilgi-metni b {
+            color: #fff;
         }
 
-        button { 
-            width: 100%; 
-            padding: 16px; 
-            margin-top: 20px; 
+        /* Apsiyon Logo Alanı */
+        .apsiyon-logo {
+            margin: 25px 0 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .apsiyon-logo img {
+            height: 40px;
+            width: auto;
+            object-fit: contain;
+            filter: brightness(0) invert(1);
+            opacity: 0.9;
+        }
+
+        /* Yönlendirme Butonu */
+        .apsiyon-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 18px; 
+            margin-top: 10px; 
             border-radius: 18px; 
             border: none; 
             background: var(--vurgu); 
             color: #000; 
             font-weight: 900; 
+            font-size: 15px;
             cursor: pointer; 
             transition: 0.3s;
             letter-spacing: 1px;
+            text-decoration: none;
+            box-sizing: border-box;
         }
 
-        button:hover { 
+        .apsiyon-btn:hover { 
             transform: scale(1.03); 
-            box-shadow: 0 10px 20px rgba(243, 156, 18, 0.3); 
+            box-shadow: 0 10px 25px rgba(243, 156, 18, 0.4); 
             filter: brightness(1.1);
         }
 
-        #loader { 
-            display: none; 
-            margin: 20px auto; 
-            border: 3px solid rgba(255,255,255,0.1); 
-            border-top: 3px solid var(--vurgu); 
-            border-radius: 50%; 
-            width: 30px; 
-            height: 30px; 
-            animation: spin 1s linear infinite; 
+        .apsiyon-btn i {
+            font-size: 18px;
         }
-
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
         .back-btn { 
             display: inline-block; 
@@ -140,105 +143,60 @@
         
         .back-btn:hover { color: var(--vurgu); }
 
-        /* Sonuç Ekranı Detayları */
-        .price-tag {
-            font-size: 40px; 
-            font-weight: 900; 
-            color: var(--vurgu); 
-            margin: 25px 0;
-            text-shadow: 0 0 20px rgba(243, 156, 18, 0.2);
+        .uyari-box {
+            background: rgba(243, 156, 18, 0.08);
+            border: 1px dashed rgba(243, 156, 18, 0.3);
+            border-radius: 15px;
+            padding: 15px;
+            margin-top: 25px;
+            font-size: 12px;
+            color: #cbd5e1;
+            line-height: 1.6;
         }
 
-        .iban-box {
-            background: rgba(0,0,0,0.2);
-            padding: 15px;
-            border-radius: 15px;
-            margin: 20px 0;
-            border: 1px dashed var(--glass-border);
+        .uyari-box i {
+            color: var(--vurgu);
+            margin-right: 5px;
         }
     </style>
 </head>
 <body>
 
-    <div class="kart" id="girisEkrani">
+    <div class="kart">
         <div class="logo-area">
             <i class="fa fa-shield"></i>
         </div>
-        <h2>BORÇ <span>SORGULA</span></h2>
-        
-        <div class="input-group">
-            <input type="text" id="blokDaire" placeholder="Blok-Daire (Örn: A-1)">
-        </div>
-        
-        <div class="input-group">
-            <input type="password" id="sifre" placeholder="Şifre">
+        <h2>BORÇ <span>SORGULAMA</span></h2>
+
+        <p class="bilgi-metni">
+            Güncel borç durumunuzu öğrenmek için artık <b>Apsiyon</b> uygulamasına geçilmiştir.
+        </p>
+
+        <!-- Apsiyon Logo Alanı -->
+        <div class="apsiyon-logo">
+            <!-- Apsiyon logosu (metin tabanlı fallback ile birlikte) -->
+            <img src="https://www.apsiyon.com/images/logo.svg" 
+                 alt="Apsiyon Logo" 
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <div style="display:none; font-weight:900; font-size:24px; letter-spacing:1px;">
+                <span style="color:#fff;">AP</span><span style="color:var(--vurgu);">SİYON</span>
+            </div>
         </div>
 
-        <div id="loader"></div>
-        <button id="sorguBtn" onclick="sorgula()">SORGULA</button>
-        
+        <!-- Yönlendirme Butonu -->
+        <a href="https://www.apsiyon.com/" target="_blank" rel="noopener" class="apsiyon-btn">
+            <i class="fa fa-external-link"></i> APSİYON'A GİT
+        </a>
+
+        <div class="uyari-box">
+            <i class="fa fa-info-circle"></i>
+            Borç bilgileriniz ve ödeme işlemleriniz için lütfen Apsiyon platformunu kullanınız.
+        </div>
+
         <a href="anamenu.html" class="back-btn">
             <i class="fa fa-chevron-left"></i> MENÜYE DÖN
         </a>
     </div>
 
-    <div class="kart" id="sonucEkrani" style="display:none;">
-        <h2 id="daireBaslik">DAİRE <span>SAKİNİ</span></h2>
-        <p style="color:#94a3b8; font-size: 14px;">Güncel Borç Bakiyeniz</p>
-        
-        <div class="price-tag" id="borcMiktari">0 TL</div>
-        
-        <div class="iban-box">
-            <p style="font-size: 11px; color:#94a3b8; margin-bottom: 8px;">ÖDEME İÇİN IBAN</p>
-            <b id="ibanNo" style="color:#fff; font-size: 13px; letter-spacing: 1px;">TR430014300000000026762952</b>
-        </div>
-
-        <button onclick="copyIban()" style="background:#fff; color: #000;">
-            <i class="fa fa-copy"></i> IBAN KOPYALA
-        </button>
-        
-        <button onclick="location.reload()" style="background:transparent; border: 1px solid var(--glass-border); color: #fff; margin-top:12px;">
-            GERİ DÖN
-        </button>
-    </div>
-
-    <script>
-        // SCRIPTURL Değiştirilmedi
-        const scriptURL = "https://script.google.com/macros/s/AKfycbwHvRh7MD38NmAtQzDMEawowkoDI7c5EKgRzlmO7omqLloFkHFKciJjLuCyt_xXiUo/exec"; 
-
-        function sorgula() {
-            const bd = document.getElementById('blokDaire').value.trim();
-            const sf = document.getElementById('sifre').value.trim();
-            if(!bd || !sf) return alert("Lütfen bilgileri eksiksiz giriniz!");
-            
-            document.getElementById('sorguBtn').style.display = "none";
-            document.getElementById('loader').style.display = "block";
-
-            fetch(`${scriptURL}?blokDaire=${encodeURIComponent(bd)}&sifre=${encodeURIComponent(sf)}`)
-            .then(res => res.json())
-            .then(data => {
-                if(data.status === "success") {
-                    document.getElementById('girisEkrani').style.display = "none";
-                    document.getElementById('sonucEkrani').style.display = "block";
-                    document.getElementById('daireBaslik').innerHTML = `${bd} <span>SAKİNİ</span>`;
-                    document.getElementById('borcMiktari').innerText = data.borc + " TL";
-                } else { 
-                    alert("Hatalı Giriş bilgileri!"); 
-                    location.reload(); 
-                }
-            }).catch(() => { 
-                alert("Sistemde bir hata oluştu!"); 
-                location.reload(); 
-            });
-        }
-
-        function copyIban() { 
-            const iban = document.getElementById('ibanNo').innerText;
-            navigator.clipboard.writeText(iban); 
-            alert("IBAN başarıyla kopyalandı!"); 
-        }
-    </script>
 </body>
-    </html>
-    
-
+</html>
