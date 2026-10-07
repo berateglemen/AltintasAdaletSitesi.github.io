@@ -3,187 +3,166 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bilgilendirme - Altıntaş Adalet Sitesi</title>
+    <title>Apsiyon'a Geçiş - Altıntaş Adalet Sitesi</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root { 
-            --vurgu: #f39c12; 
-            --bg: #0b0f1a; 
-            --glass: rgba(255, 255, 255, 0.03); 
-            --glass-border: rgba(255, 255, 255, 0.1); 
+            --mavi: #1e40af;
+            --mavi-acik: #3b82f6;
+            --mavi-koyu: #1e3a8a;
+            --mavi-bg: #eff6ff;
         }
 
+        * { box-sizing: border-box; }
+
         body { 
-            background: radial-gradient(circle at center, #1a202c 0%, #0b0f1a 100%);
-            color: #fff; 
+            background: linear-gradient(135deg, #eff6ff 0%, #ffffff 50%, #dbeafe 100%);
+            color: #1e293b; 
             font-family: 'Montserrat', sans-serif; 
             display: flex; 
             align-items: center; 
             justify-content: center; 
             min-height: 100vh; 
             margin: 0;
-            overflow: hidden;
-        }
-
-        /* Arka plan süslemeleri */
-        body::before {
-            content: "";
-            position: absolute;
-            width: 300px;
-            height: 300px;
-            background: var(--vurgu);
-            filter: blur(150px);
-            opacity: 0.1;
-            top: 10%;
-            left: 10%;
-            z-index: -1;
+            padding: 20px;
         }
 
         .kart { 
-            background: var(--glass); 
-            backdrop-filter: blur(20px); 
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border); 
-            padding: 50px 40px; 
-            border-radius: 40px; 
-            width: 90%; 
-            max-width: 420px; 
+            background: #ffffff;
+            border: 1px solid #dbeafe;
+            padding: 60px 40px; 
+            border-radius: 30px; 
+            width: 100%; 
+            max-width: 500px; 
             text-align: center; 
-            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
-            transition: 0.4s ease;
+            box-shadow: 0 20px 60px rgba(30, 64, 175, 0.12);
         }
 
-        .logo-area i {
-            font-size: 50px;
-            color: var(--vurgu);
-            margin-bottom: 15px;
-            filter: drop-shadow(0 0 10px rgba(243, 156, 18, 0.3));
-        }
-
-        h2 { 
-            font-weight: 900; 
-            font-size: 22px;
-            margin-bottom: 15px; 
-            letter-spacing: 2px;
-            line-height: 1.4;
-        }
-        
-        h2 span { color: var(--vurgu); }
-
-        .bilgi-metni {
-            color: #94a3b8;
-            font-size: 14px;
-            line-height: 1.7;
-            margin: 20px 0 30px;
-        }
-
-        .bilgi-metni b {
-            color: #fff;
-        }
-
-        /* Apsiyon Logo Alanı */
+        /* Büyük Apsiyon Logo Alanı */
         .apsiyon-logo {
-            margin: 25px 0 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            margin-bottom: 30px;
+            min-height: 100px;
         }
 
         .apsiyon-logo img {
-            height: 40px;
-            width: auto;
+            max-height: 90px;
+            max-width: 100%;
             object-fit: contain;
-            filter: brightness(0) invert(1);
-            opacity: 0.9;
         }
 
-        /* Yönlendirme Butonu */
+        /* Logo yüklenmezse büyük yazı fallback */
+        .apsiyon-yazi {
+            display: none;
+            font-weight: 900;
+            font-size: 56px;
+            letter-spacing: -1px;
+            line-height: 1;
+        }
+
+        .apsiyon-yazi .ap { color: var(--mavi); }
+        .apsiyon-yazi .siyon { color: var(--mavi-acik); }
+
+        h1 { 
+            font-weight: 900; 
+            font-size: 26px;
+            margin: 0 0 15px; 
+            letter-spacing: 1px;
+            color: var(--mavi-koyu);
+            line-height: 1.3;
+        }
+        
+        h1 span { color: var(--mavi-acik); }
+
+        .bilgi-metni {
+            color: #64748b;
+            font-size: 15px;
+            line-height: 1.7;
+            margin: 20px 0 35px;
+        }
+
+        .bilgi-metni b {
+            color: var(--mavi);
+        }
+
+        /* Büyük Yönlendirme Butonu */
         .apsiyon-btn {
-            display: inline-flex;
+            display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 12px;
             width: 100%;
-            padding: 18px; 
-            margin-top: 10px; 
+            padding: 22px; 
             border-radius: 18px; 
             border: none; 
-            background: var(--vurgu); 
-            color: #000; 
+            background: linear-gradient(135deg, var(--mavi) 0%, var(--mavi-acik) 100%);
+            color: #ffffff; 
             font-weight: 900; 
-            font-size: 15px;
+            font-size: 18px;
             cursor: pointer; 
             transition: 0.3s;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
             text-decoration: none;
-            box-sizing: border-box;
+            box-shadow: 0 10px 25px rgba(30, 64, 175, 0.25);
         }
 
         .apsiyon-btn:hover { 
-            transform: scale(1.03); 
-            box-shadow: 0 10px 25px rgba(243, 156, 18, 0.4); 
-            filter: brightness(1.1);
+            transform: translateY(-3px); 
+            box-shadow: 0 18px 40px rgba(30, 64, 175, 0.4); 
         }
 
         .apsiyon-btn i {
-            font-size: 18px;
+            font-size: 20px;
         }
-
-        .back-btn { 
-            display: inline-block; 
-            margin-top: 30px; 
-            color: #94a3b8; 
-            text-decoration: none; 
-            font-size: 12px; 
-            font-weight: 700;
-            transition: 0.3s;
-        }
-        
-        .back-btn:hover { color: var(--vurgu); }
 
         .uyari-box {
-            background: rgba(243, 156, 18, 0.08);
-            border: 1px dashed rgba(243, 156, 18, 0.3);
+            background: var(--mavi-bg);
+            border: 1px solid #bfdbfe;
             border-radius: 15px;
-            padding: 15px;
-            margin-top: 25px;
-            font-size: 12px;
-            color: #cbd5e1;
+            padding: 18px;
+            margin-top: 30px;
+            font-size: 13px;
+            color: var(--mavi-koyu);
             line-height: 1.6;
+            text-align: left;
         }
 
         .uyari-box i {
-            color: var(--vurgu);
-            margin-right: 5px;
+            color: var(--mavi-acik);
+            margin-right: 8px;
+        }
+
+        @media (max-width: 480px) {
+            .kart { padding: 40px 25px; }
+            h1 { font-size: 22px; }
+            .apsiyon-yazi { font-size: 44px; }
+            .apsiyon-btn { font-size: 16px; padding: 18px; }
         }
     </style>
 </head>
 <body>
 
     <div class="kart">
-        <div class="logo-area">
-            <i class="fa fa-shield"></i>
-        </div>
-        <h2>BORÇ <span>SORGULAMA</span></h2>
-
-        <p class="bilgi-metni">
-            Güncel borç durumunuzu öğrenmek için artık <b>Apsiyon</b> uygulamasına geçilmiştir.
-        </p>
-
-        <!-- Apsiyon Logo Alanı -->
+        <!-- Büyük Apsiyon Logo Alanı -->
         <div class="apsiyon-logo">
-            <!-- Apsiyon logosu (metin tabanlı fallback ile birlikte) -->
             <img src="https://www.apsiyon.com/images/logo.svg" 
-                 alt="Apsiyon Logo" 
-                 onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-            <div style="display:none; font-weight:900; font-size:24px; letter-spacing:1px;">
-                <span style="color:#fff;">AP</span><span style="color:var(--vurgu);">SİYON</span>
+                 alt="Apsiyon Logo"
+                 onerror="this.style.display='none'; document.querySelector('.apsiyon-yazi').style.display='block';">
+            <div class="apsiyon-yazi">
+                <span class="ap">AP</span><span class="siyon">SİYON</span>
             </div>
         </div>
 
-        <!-- Yönlendirme Butonu -->
+        <h1>BORÇ SORGULAMA <span>APSİYON'A</span> TAŞINDI</h1>
+
+        <p class="bilgi-metni">
+            Güncel borç durumunuzu öğrenmek ve ödeme yapmak için artık <b>Apsiyon</b> platformunu kullanmanız gerekmektedir.
+        </p>
+
+        <!-- Büyük Yönlendirme Butonu -->
         <a href="https://www.apsiyon.com/" target="_blank" rel="noopener" class="apsiyon-btn">
             <i class="fa fa-external-link"></i> APSİYON'A GİT
         </a>
@@ -192,10 +171,6 @@
             <i class="fa fa-info-circle"></i>
             Borç bilgileriniz ve ödeme işlemleriniz için lütfen Apsiyon platformunu kullanınız.
         </div>
-
-        <a href="anamenu.html" class="back-btn">
-            <i class="fa fa-chevron-left"></i> MENÜYE DÖN
-        </a>
     </div>
 
 </body>
